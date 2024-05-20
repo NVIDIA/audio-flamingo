@@ -1,0 +1,23 @@
+clap_config:
+  method: microsoft-clap
+  audio_embed_dim: 1024
+  config_root: YOUR_REPO_ROOT_DIR/inference/my_ms_clap/src/configs
+  model_name: 'clapcap'
+  checkpoint: YOUR_DATA_ROOT_DIR/audio-flamingo-data/clap/clapcap_weights_2023.pth
+  window_length: 7.0
+  window_overlap: 5.25
+  max_num_window: 16
+  max_num_fewshot: 1
+
+model_config:
+  cache_dir: YOUR_DATA_ROOT_DIR/audio-flamingo-data/LLM_pretrained/.cache
+  lang_encoder_path: facebook/opt-iml-max-1.3b
+  tokenizer_path: facebook/opt-iml-max-1.3b
+  cross_attn_every_n_layers: 1
+  audio_transformer_kwargs: {
+    n_head: 8,
+    n_layers: 3,
+    d_inner: 2048,
+    max_num_media: 128,
+    max_window_per_audio: 16,
+  }

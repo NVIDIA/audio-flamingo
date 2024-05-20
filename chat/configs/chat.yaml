@@ -1,0 +1,80 @@
+train_config:
+  expdir: YOUR_DATA_ROOT_DIR/audio-flamingo-data/checkpoint
+  run_name: chat
+  delete_previous_checkpoint: false 
+  batch_size: 4
+  gradient_accumulation_steps: 4  # global batchsize = 128
+  seed: 42
+  learning_rate: 0.00002
+  lr_scheduler: constant
+  loss_multiplier: 1.0
+  warmup_steps: 1875
+  weight_decay: 0.1
+  precision: fp32
+  gradient_checkpointing: False 
+  num_epochs: 1
+  offline: false
+  freeze_lm_embeddings: false
+  logging_steps: 10
+  dist_backend: nccl
+  dist_url: env://
+  no_set_device_rank: false 
+  fsdp: true 
+  fsdp_use_orig_params: false  # Passed into the FSDP constructor. Enables param_groups and gradient masking for weight_decay. Does not work with OPT.
+  fsdp_sharding_strategy: full  # full, hybrid
+  horovod: false
+
+# Chat SFT hparams
+sft_config:
+  pretrained_path: YOUR_DATA_ROOT_DIR/audio-flamingo-data/checkpoint/foundation_sft_4_shot/
+  pretrained_ckpt: checkpoint_99.pt
+  unfreeze_full_lm: true
+
+data_config:
+  dataset_blending_global_weight: 1.0
+
+  dataset_blending_config:
+    dialog_AudioSetSL-Dialog/train:
+      weight: 1.0
+      prefix_prob: 1.0
+    
+    dialog_MusicCaps-Dialog/train:
+      weight: 5.0
+      prefix_prob: 1.0
+    
+  dataset_file_root: YOUR_DATA_ROOT_DIR/audio-flamingo-data/dataset_files
+  data_root: YOUR_DATA_ROOT_DIR/datasets
+  dataset_blending_output: dataset_blending.json
+  max_tokens: 512
+  num_workers: 4
+  
+clap_config:
+  # method: laion-clap
+  # audio_embed_dim: 512
+  # model_name: 630k-fusion-best
+  # checkpoint: YOUR_DATA_ROOT_DIR/audio-flamingo-data/laion-clap-pretrained/laion_clap/630k-fusion-best.pt
+  
+  method: microsoft-clap
+  audio_embed_dim: 1024
+  config_root: YOUR_REPO_ROOT_DIR/chat/my_ms_clap/src/configs
+  model_name: 'clapcap'
+  checkpoint: YOUR_DATA_ROOT_DIR/audio-flamingo-data/clap/clapcap_weights_2023.pth
+
+  window_length: 7.0  # seconds
+  window_overlap: 5.25  # seconds
+  max_num_window: 16  # total = 33.25 seconds
+  max_num_fewshot: 4  # number of fewshot samples
+
+model_config:
+  cache_dir: YOUR_DATA_ROOT_DIR/audio-flamingo-data/LLM_pretrained/.cache
+
+  lang_encoder_path: facebook/opt-iml-max-1.3b
+  tokenizer_path: facebook/opt-iml-max-1.3b
+  cross_attn_every_n_layers: 1
+  audio_transformer_kwargs: {
+    n_head: 8,
+    n_layers: 3,
+    d_inner: 2048,
+    max_num_media: 128,  # must be >= max_num_window * num_fewshot_samples (4)
+    max_window_per_audio: 16,  # must = max_num_window
+  }

@@ -1,0 +1,206 @@
+train_config:
+  expdir: YOUR_DATA_ROOT_DIR/audio-flamingo-data/checkpoint
+  run_name: foundation_pretrain
+  delete_previous_checkpoint: true 
+  batch_size: 6
+  gradient_accumulation_steps: 8  # global batchsize = 384
+  seed: 42
+  learning_rate: 0.0001
+  lr_scheduler: constant
+  loss_multiplier: 1.0
+  warmup_steps: 1875
+  weight_decay: 0.1
+  precision: amp_bf16
+  gradient_checkpointing: False 
+  num_epochs: 100  # num_epochs * dataset_blending_global_weight = 1
+  offline: false
+  freeze_lm_embeddings: true
+  logging_steps: 10
+  dist_backend: nccl
+  dist_url: env://
+  no_set_device_rank: false 
+  fsdp: true 
+  fsdp_use_orig_params: false  # Passed into the FSDP constructor. Enables param_groups and gradient masking for weight_decay. Does not work with OPT.
+  fsdp_sharding_strategy: full  # full, hybrid
+  horovod: false
+
+data_config:
+  dataset_blending_global_weight: 0.01
+
+  dataset_blending_config:
+
+    # Audio QA
+    
+    OpenAQA-AQA/train:
+      weight: 1.0
+      prefix_prob: 0.0
+      augmentations:
+        do_nothing: 1.0
+
+    # Audio Captioning 
+
+    BBCSoundEffects-AudioDescription/train: 
+      weight: 5.0
+      prefix_prob: 0.5
+      augmentations:
+        do_nothing: 1.0
+
+    CLAP_freesound-AudioCaptioning/train: 
+      weight: 1.0
+      prefix_prob: 0.5
+      augmentations:
+        do_nothing: 1.0
+
+    SoundDescs-AudioDescription/train:
+      weight: 1.0
+      prefix_prob: 0.5
+      augmentations:
+        do_nothing: 1.0
+
+    WavCaps-AudioSet_SL-AudioCaptioning/train: 
+      weight: 1.0
+      prefix_prob: 0.5
+      augmentations:
+        do_nothing: 1.0
+
+    WavCaps-BBC_Sound_Effects-AudioCaptioning/train: 
+      weight: 2.0
+      prefix_prob: 0.5
+      augmentations:
+        do_nothing: 1.0
+
+    WavCaps-FreeSound-AudioCaptioning/train: 
+      weight: 2.0
+      prefix_prob: 0.5
+      augmentations:
+        do_nothing: 1.0
+    
+    WavCaps-SoundBible-AudioCaptioning/train: 
+      weight: 5.0
+      prefix_prob: 0.5
+      augmentations:
+        do_nothing: 1.0
+
+    # Audio Classification
+
+    AudioSetFullwoAudioMusicCaps-EventClassification/train:
+      weight: 1.0
+      prefix_prob: 0.5
+      augmentations:
+        num_words: 0.8
+        do_nothing: 0.2
+    
+    WavText5K-Tagging/train: 
+      weight: 3.0
+      prefix_prob: 0.5
+      augmentations:
+        num_words: 0.8
+        do_nothing: 0.2
+
+    # Speech Emotion Classification
+
+    MSP-PODCAST-Publish-1.9-EmotionClassification/train:
+      weight: 1.2
+      prefix_prob: 0.5
+      augmentations:
+        provide_all_labels: 0.9
+        do_nothing: 0.1
+    
+    MELD-EmotionClassification/train:
+      weight: 1.2
+      prefix_prob: 0.5
+      augmentations:
+        provide_all_labels: 0.9
+        do_nothing: 0.1
+
+    MELD-SentimentClassification/train:
+      weight: 1.2
+      prefix_prob: 0.5
+      augmentations:
+        provide_all_labels: 0.9
+        do_nothing: 0.1
+    
+    # Music QA
+    
+    Music-AVQA-AVQA_All/train:
+      weight: 3.0
+      prefix_prob: 0.5
+      augmentations:
+        AQA_binary_instruction: 1.0
+    
+    MU-LLAMA-AQA/train:
+      weight: 1.2
+      prefix_prob: 0.5
+      augmentations:
+        do_nothing: 1.0
+    
+    # Music Captioning
+
+    LP-MusicCaps-MSD-AudioCaptioning/train:
+      weight: 1.0
+      prefix_prob: 0.5
+      augmentations:
+        do_nothing: 1.0
+
+    # Music Understanding 
+
+    NSynth-MIR/train:
+      weight: 0.4
+      prefix_prob: 0.5
+      augmentations:
+        do_nothing: 1.0
+    
+    mtg-jamendo-MusicTagging/train:
+      weight: 1.0
+      prefix_prob: 0.5
+      augmentations:
+        do_nothing: 1.0
+    
+  dataset_file_root: YOUR_DATA_ROOT_DIR/audio-flamingo-data/dataset_files
+  data_root: YOUR_DATA_ROOT_DIR/datasets
+  dataset_blending_output: dataset_blending.json
+  max_tokens: 512
+  num_workers: 4
+
+  valid_dataset_config: 
+    CLAP_freesound-AudioCaptioning/test: true 
+    SoundDescs-AudioDescription/val: true
+    Clotho-AQA-EventClassification/val: true
+    MSP-PODCAST-Publish-1.9-EmotionClassification/val: true 
+    MELD-EmotionClassification/val: true
+    MELD-SentimentClassification/val: true
+    MU-LLAMA-AQA/test: true 
+    LP-MusicCaps-MSD-AudioCaptioning/val: true 
+    NSynth-MIR/val: true
+    mtg-jamendo-MusicTagging/val: true
+
+clap_config:
+  # method: laion-clap
+  # audio_embed_dim: 512
+  # model_name: 630k-fusion-best
+  # checkpoint: YOUR_DATA_ROOT_DIR/audio-flamingo-data/laion-clap-pretrained/laion_clap/630k-fusion-best.pt
+  
+  method: microsoft-clap
+  audio_embed_dim: 1024
+  config_root: YOUR_REPO_ROOT_DIR/foundation/my_ms_clap/src/configs
+  model_name: 'clapcap'
+  checkpoint: YOUR_DATA_ROOT_DIR/audio-flamingo-data/clap/clapcap_weights_2023.pth
+
+  window_length: 7.0  # seconds
+  window_overlap: 5.25  # seconds
+  max_num_window: 16  # total = 33.25 seconds
+  max_num_fewshot: 8  # number of fewshot samples
+
+model_config:
+  cache_dir: YOUR_DATA_ROOT_DIR/audio-flamingo-data/LLM_pretrained/.cache
+
+  lang_encoder_path: facebook/opt-iml-max-1.3b
+  tokenizer_path: facebook/opt-iml-max-1.3b
+  cross_attn_every_n_layers: 1
+  audio_transformer_kwargs: {
+    n_head: 8,
+    n_layers: 3,
+    d_inner: 2048,
+    max_num_media: 128,  # must >= max_num_window * num_fewshot_samples
+    max_window_per_audio: 16,  # must = max_num_window
+  }
