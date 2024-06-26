@@ -133,14 +133,14 @@ def compute_laionclap_text_audio_sim(audio_file, laionclap_model, outputs):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--config_file", type=str, default='configs/chat.yaml')
-    parser.add_argument("--checkpoint_path", type=str, default='audio-flamingo-data/checkpoint/chat/checkpoint_0.pt')
+    parser.add_argument("--checkpoint_path", type=str)
     args = parser.parse_args()
 
     global DATA_ROOT_DIR
     DATA_ROOT_DIR = "YOUR_DATA_ROOT_DIR"
 
     config_file = args.config_file
-    checkpoint_path = os.path.join(DATA_ROOT_DIR, args.checkpoint_path)
+    checkpoint_path = args.checkpoint_path
 
     inference_kwargs = {
         "do_sample": True,

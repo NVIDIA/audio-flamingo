@@ -152,7 +152,7 @@ if __name__ == "__main__":
     # ---------- foundation model ---------- #
 
     config_file = 'configs/foundation.yaml'
-    checkpoint_path = "YOUR_DATA_ROOT_DIR/audio-flamingo-data/checkpoint/foundation_sft_no_ICL/checkpoint_99.pt"
+    checkpoint_path = "YOUR_CHECKPOINT_ROOT_DIR/foundation.pt"
 
     inference_kwargs = {
         "do_sample": True,
@@ -185,7 +185,7 @@ if __name__ == "__main__":
     # ---------- chat model ---------- #
 
     config_file = 'configs/chat.yaml'
-    checkpoint_path = "YOUR_DATA_ROOT_DIR/audio-flamingo-data/checkpoint/chat/checkpoint_0.pt"
+    checkpoint_path = "YOUR_CHECKPOINT_ROOT_DIR/chat.pt"
     
     inference_kwargs = {
         "do_sample": True,

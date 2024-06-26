@@ -48,7 +48,7 @@ YOUR_DATA_ROOT_DIR/
     - LLM_pretrained/.cache/  # place to store HuggingFace cache instead of the default ~/.cache
 ```
 
-Replace ```YOUR_DATA_ROOT_DIR``` to your absolute path in the following places:
+Replace ```YOUR_DATA_ROOT_DIR``` and ```YOUR_CHECKPOINT_ROOT_DIR``` to your absolute path in the following places:
 - ```configs/*.yaml```
 - ```inference_examples.py --> __main__```
 - ```launch_gradio.py --> __main__```
@@ -62,7 +62,7 @@ The example inference code is in ```inference_examples.py```. Within its ```__ma
 - ```inference_kwargs``` is used to setup the inference kwargs used in the HuggingFace transformers package. [Here](https://huggingface.co/blog/how-to-generate) is a simple tutorial on inference algorithms by HuggingFace. 
 - ```items``` contains a list of samples to inference. 
 
-## Gradio code
+## Gradio demo
 
 The sample code to launch an interactive gradio interface is in ```launch_gradio.py```. It requires the gradio package. For now it only supports one round of dialogue with the chat model. Different from the ```inference_examples.py``` code, the gradio code uses additional CLAP filtering for better generation quality. 
 
