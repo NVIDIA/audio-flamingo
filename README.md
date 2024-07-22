@@ -7,7 +7,7 @@ This repo contains the PyTorch implementation of [Audio Flamingo: A Novel Audio 
 - the ability to quickly adapt to unseen tasks via in-context learning and retrieval, and 
 - strong multi-turn dialogue abilities. 
 
-We introduce a series of training techniques, architecture design, and data strategies to enhance our model with these abilities. Extensive evaluations across various audio understanding tasks confirm the efficacy of our method, setting new state-of-the-art benchmarks. Sound demos can be found in this [website](https://audioflamingo.github.io/). 
+We introduce a series of training techniques, architecture design, and data strategies to enhance our model with these abilities. Extensive evaluations across various audio understanding tasks confirm the efficacy of our method, setting new state-of-the-art benchmarks. Sound demos can be found in this [website](https://audioflamingo.github.io/). Our ICML poster can be found [here](assets/AudioFlamingo_ICML2024_poster.pdf).
 
 ![](assets/audio_flamingo_arch.png)
 
@@ -32,9 +32,11 @@ We refer to ```foundation/README.md```, ```chat/README.md```, and ```inference/R
 ## Checkpoints
 - The folder ```checkpoints/``` contains foundation and chat model checkpoints. 
 - Each model is about 17GB. Due to ```git lfs``` constraints we split each model into 5 parts. After downloading, go to ```checkpoints/``` and ```python checkpoint_utils.py``` to merge the parts. 
+- Alternatively, the model checkpoints are also on HuggingFace (which is easier to download): [https://huggingface.co/nvidia/audio-flamingo](https://huggingface.co/nvidia/audio-flamingo). One can either ```git clone``` this project or use the ```huggingface_hub.hf_hub_download``` function to download: ```checkpoint_path = hf_hub_download(repo_id="nvidia/audio-flamingo", filename="foundation(or chat).pt")```.
 - If you would like to run inference with these checkpoints, remember to modify the absolute paths in ```inference/configs/*.yaml``` and ```inference/inference_examples.py``` to properly load model checkpoints and data (see ```inference/README.md```).
 - The foundation model is pretrained with ```foundation/configs/foundation_pretrain.yaml``` and then finetuned with ```foundation/configs/foundation_sft_8_shot.yaml```. 
 - The chat model is pretrained with ```foundation/configs/foundation_pretrain.yaml```, then finetuned with ```foundation/configs/foundation_sft_4_shot.yaml```, and finally finetuned with ```chat/configs/chat.yaml```.
+
 
 ## Downstream applications
 - We use Audio Flamingo as a data labeling machine for synthetic captions. See ```labeling_machine/``` for details of the synthetic dataset and license descriptions.
