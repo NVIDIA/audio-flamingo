@@ -2,12 +2,14 @@
 
 **Zhifeng Kong, Arushi Goel, Rohan Badlani, Wei Ping, Rafael Valle, Bryan Catanzaro**
 
+[[Demo website]](https://audioflamingo.github.io/) [[Demo video]](https://www.youtube.com/watch?v=ucttuS28RVE) [[ICML poster]](assets/AudioFlamingo_ICML2024_poster.pdf)
+
 This repo contains the PyTorch implementation of [Audio Flamingo: A Novel Audio Language Model with Few-Shot Learning and Dialogue Abilities](https://arxiv.org/abs/2402.01831) (ICML 2024). Audio Flamingo is a novel audio-understanding language model with 
 - strong audio understanding abilities,
 - the ability to quickly adapt to unseen tasks via in-context learning and retrieval, and 
 - strong multi-turn dialogue abilities. 
 
-We introduce a series of training techniques, architecture design, and data strategies to enhance our model with these abilities. Extensive evaluations across various audio understanding tasks confirm the efficacy of our method, setting new state-of-the-art benchmarks. Sound demos can be found in this [website](https://audioflamingo.github.io/). Our ICML poster can be found [here](assets/AudioFlamingo_ICML2024_poster.pdf).
+We introduce a series of training techniques, architecture design, and data strategies to enhance our model with these abilities. Extensive evaluations across various audio understanding tasks confirm the efficacy of our method, setting new state-of-the-art benchmarks. 
 
 ![](assets/audio_flamingo_arch.png)
 
