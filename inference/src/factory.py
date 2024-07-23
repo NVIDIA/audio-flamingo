@@ -12,7 +12,7 @@ from copy import deepcopy
 
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from my_laion_clap.CLAP.src.laion_clap.hook import CLAP_Module
-from my_ms_clap.src.CLAPWrapper import CLAPWrapper
+from my_ms_clap.CLAP.msclap.CLAPWrapper import CLAPWrapper
 
 import torch
 from torch import nn
