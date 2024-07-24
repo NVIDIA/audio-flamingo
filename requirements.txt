@@ -33,5 +33,5 @@ torchaudio==2.0.2
 torchlibrosa==0.1.0
 torchvision==0.15.2
 tqdm
-transformers==4.27.4
+transformers==4.38.0
 webrtcvad==2.0.10
