@@ -28,7 +28,7 @@ sentencepiece==0.1.97
 soundfile
 sox==1.4.1
 tensorboard
-torch==2.0.1
+torch==2.2.0
 torchaudio==2.0.2
 torchlibrosa==0.1.0
 torchvision==0.15.2
