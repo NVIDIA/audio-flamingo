@@ -180,7 +180,7 @@ if __name__ == "__main__":
     parser.add_argument("--input", "-i", type=str, help="Path to input JSON file")
     parsed_args = parser.parse_args()
 
-    snapshot_download(repo_id="nvidia/audio-flamingo-2-3B", local_dir="./", token="YOUR_HF_TOKEN")
+    snapshot_download(repo_id="nvidia/audio-flamingo-2", local_dir="./", token="YOUR_HF_TOKEN")
 
     config = yaml.load(open("configs/inference.yaml"), Loader=yaml.FullLoader)
 
