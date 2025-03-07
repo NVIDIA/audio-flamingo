@@ -10,20 +10,20 @@
     </h2>
 </div>
 
-<div style="display: flex; justify-content: center; margin-top: 10px;">
+<div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
   <a href="https://arxiv.org/abs/2503.03983"><img src="https://img.shields.io/badge/arXiv-2503.03983-AD1C18" style="margin-right: 5px;"></a>
   <a href="https://research.nvidia.com/labs/adlr/AF2/"><img src="https://img.shields.io/badge/Demo page-228B22" style="margin-right: 5px;"></a>
   <a href="https://github.com/NVIDIA/audio-flamingo"><img src='https://img.shields.io/badge/Github-Audio Flamingo 2-9C276A' style="margin-right: 5px;"></a>
   <a href="https://github.com/NVIDIA/audio-flamingo/stargazers"><img src="https://img.shields.io/github/stars/NVIDIA/audio-flamingo.svg?style=social"></a>
 </div>
 
-<div style="display: flex; justify-content: center; margin-top: 10px;">
+<div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
 <a href="https://huggingface.co/nvidia/audio-flamingo-2"><img src="https://img.shields.io/badge/🤗-Checkpoints (3B)-ED5A22.svg" style="margin-right: 5px;"></a>
 <a href="https://huggingface.co/nvidia/audio-flamingo-2-1.5B"><img src="https://img.shields.io/badge/🤗-Checkpoints (1.5B)-ED5A22.svg" style="margin-right: 5px;"></a>
 <a href="https://huggingface.co/nvidia/audio-flamingo-2-0.5B"><img src="https://img.shields.io/badge/🤗-Checkpoints (0.5B)-ED5A22.svg" style="margin-right: 5px;"></a>
 </div>
 
-<div style="display: flex; justify-content: center; margin-top: 10px;">
+<div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
 <a href="https://huggingface.co/spaces/nvidia/audio-flamingo-2"><img src="https://img.shields.io/badge/🤗-Gradio Demo (3B)-5F9EA0.svg" style="margin-right: 5px;"></a>
 <a href="https://huggingface.co/spaces/nvidia/audio-flamingo-2-1.5B"><img src="https://img.shields.io/badge/🤗-Gradio Demo (1.5B)-5F9EA0.svg" style="margin-right: 5px;"></a>
 <a href="https://huggingface.co/spaces/nvidia/audio-flamingo-2-0.5B"><img src="https://img.shields.io/badge/🤗-Gradio Demo (0.5B)-5F9EA0.svg" style="margin-right: 5px;"></a>
