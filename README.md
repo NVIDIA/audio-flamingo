@@ -1,4 +1,11 @@
-# PyTorch Implementation of Audio Flamingo 2
+<div align="center">
+  <img class="img-full" src="assets/af_logo.png" style="width: 12%;"> 
+  <h1> Audio Flamingo 2<br/> 
+    <span style="font-size: 0.6em;">
+      An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities
+    </span>
+  </h1>
+</div>
 
 **Sreyan Ghosh, Zhifeng Kong, Sonal Kumar, S Sakshi, Jaehyeon Kim, Wei Ping, Rafael Valle, Dinesh Manocha, Bryan Catanzaro**
 
