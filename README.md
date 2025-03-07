@@ -1,11 +1,13 @@
 
 <div style="display: flex; justify-content: center; align-items: center; text-align: center;">
-  <h2>
-    <a href="https://github.com/NVIDIA/audio-flamingo" style="margin-right: 20px; text-decoration: none; display: flex; align-items: center;">
-      <img src="assets/af_logo.png" alt="Audio Flamingo 2 🔥🚀🔥" width="100">
-    </a>
+  <a href="https://github.com/NVIDIA/audio-flamingo" style="margin-right: 20px; text-decoration: none; display: flex; align-items: center;">
+    <img src="assets/af_logo.png" alt="Audio Flamingo 2 🔥🚀🔥" width="120">
+  </a>
+</div>
+<div style="display: flex; justify-content: center; align-items: center; text-align: center;">
+    <h2>
     Audio Flamingo 2: An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities
-  </h2>
+    </h2>
 </div>
 
 <div style="display: flex; justify-content: center; margin-top: 10px;">
