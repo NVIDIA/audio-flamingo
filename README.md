@@ -1,24 +1,36 @@
-<div align="center">
-  <img class="img-full" src="assets/af_logo.png" style="width: 12%;"> 
 
+<div style="display: flex; justify-content: center; align-items: center; text-align: center;">
+  <a href="https://github.com/NVIDIA/audio-flamingo" style="margin-right: 20px; text-decoration: none; display: flex; align-items: center;">
+    <img src="assets/af_logo.png" alt="Audio Flamingo 2 🔥🚀🔥" style="max-width: 120px; height: auto;">
+  </a>
+  <div>
+    <h2>Audio Flamingo 2: An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities</h2>
+  </div>
 </div>
 
-##  Audio Flamingo 2: An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities
+<div style="display: flex; justify-content: center; margin-top: 10px;">
+  <a href="https://arxiv.org/abs/2503.03983"><img src="https://img.shields.io/badge/arXiv-2503.03983-AD1C18" style="margin-right: 5px;"></a>
+  <a href="https://research.nvidia.com/labs/adlr/AF2/"><img src="https://img.shields.io/badge/Demo page-228B22" style="margin-right: 5px;"></a>
+  <a href="https://github.com/NVIDIA/audio-flamingo"><img src='https://img.shields.io/badge/Github-Audio Flamingo 2-9C276A' style="margin-right: 5px;"></a>
+  <a href="https://github.com/NVIDIA/audio-flamingo/stargazers"><img src="https://img.shields.io/github/stars/NVIDIA/audio-flamingo.svg?style=social"></a>
+</div>
 
+<div style="display: flex; justify-content: center; margin-top: 10px;">
+<a href="https://huggingface.co/nvidia/audio-flamingo-2"><img src="https://img.shields.io/badge/🤗-Checkpoints (3B)-ED5A22.svg" style="margin-right: 5px;"></a>
+<a href="https://huggingface.co/nvidia/audio-flamingo-2-1.5B"><img src="https://img.shields.io/badge/🤗-Checkpoints (1.5B)-ED5A22.svg" style="margin-right: 5px;"></a>
+<a href="https://huggingface.co/nvidia/audio-flamingo-2-0.5B"><img src="https://img.shields.io/badge/🤗-Checkpoints (0.5B)-ED5A22.svg" style="margin-right: 5px;"></a>
+</div>
 
-## Links
-
-[[paper]](https://arxiv.org/abs/2503.03983) [[Demo website]](https://research.nvidia.com/labs/adlr/AF2/)
-
-#### Audio Flamingo 2 - 0.5B: [[Gradio]](https://huggingface.co/spaces/nvidia/audio-flamingo-2-0.5B) [[Checkpoints]](https://huggingface.co/nvidia/audio-flamingo-2-0.5B)
-
-#### Audio Flamingo 2 - 1.5B: [[Gradio]](https://huggingface.co/spaces/nvidia/audio-flamingo-2-1.5B) [[Checkpoints]](https://huggingface.co/nvidia/audio-flamingo-2-1.5B)
-
-#### Audio Flamingo 2 - 3B: [[Gradio]](https://huggingface.co/spaces/nvidia/audio-flamingo-2) [[Checkpoints]](https://huggingface.co/nvidia/audio-flamingo-2)
+<div style="display: flex; justify-content: center; margin-top: 10px;">
+<a href="https://huggingface.co/nvidia/audio-flamingo-2"><img src="https://img.shields.io/badge/🤗-Gradio Demo (3B)-5F9EA0.svg" style="margin-right: 5px;"></a>
+<a href="https://huggingface.co/nvidia/audio-flamingo-2-1.5B"><img src="https://img.shields.io/badge/🤗-Gradio Demo (1.5B)-5F9EA0.svg" style="margin-right: 5px;"></a>
+<a href="https://huggingface.co/nvidia/audio-flamingo-2-0.5B"><img src="https://img.shields.io/badge/🤗-Gradio Demo (0.5B)-5F9EA0.svg" style="margin-right: 5px;"></a>
+  
+</div>
 
 ## Overview
 
-This repo contains the PyTorch implementation of [Audio Flamingo 2: An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities](). Audio Flamingo 2 achieves the state-of-the-art performance across over 20 benchmarks, with only a 3B parameter small language model. It is improved from our previous [Audio Flamingo](https://arxiv.org/abs/2402.01831). 
+This repo contains the PyTorch implementation of [Audio Flamingo 2: An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities](https://arxiv.org/abs/2503.03983). Audio Flamingo 2 achieves the state-of-the-art performance across over 20 benchmarks, with only a 3B parameter small language model. It is improved from our previous [Audio Flamingo](https://arxiv.org/abs/2402.01831). 
 
 - We introduce two datasets, AudioSkills for expert audio reasoning, and LongAudio for long audio understanding, to advance the field of audio understanding.
 
