@@ -1,9 +1,9 @@
 <div align="center">
   <img class="img-full" src="assets/af_logo.png" style="width: 12%;"> 
 
-**Audio Flamingo 2: An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities**
-
 </div>
+
+##  Audio Flamingo 2: An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities
 
 
 ## Links
