@@ -42,7 +42,7 @@ This repo contains the PyTorch implementation of [Audio Flamingo 2: An Audio-Lan
 
 ## Main Results
 
-Audio Flamingo 2 outperforms prior SOTA models including GAMA, Audio Flamingo, Qwen-Audio, Qwen2-Audio, LTU, LTU-AS, SALMONN, AudioGPT, Gemini Flash v2, Gemini Pro v1.5, and GPT-4o-audio on a number of understanding and reasoning benchmarks.
+Audio Flamingo 2 outperforms prior SOTA models including GAMA, Audio Flamingo, Qwen-Audio, Qwen2-Audio, LTU, LTU-AS, SALMONN, AudioGPT, Gemini Flash v2 and Gemini Pro v1.5 on a number of understanding and reasoning benchmarks.
 
 <div align="center">
   <img class="img-full" src="assets/af2_radar.png" width="300">
