@@ -1,7 +1,7 @@
 <div align="center">
   <img class="img-full" src="assets/af_logo.png" style="width: 12%;"> 
   <h1> Audio Flamingo 2<br/> 
-    <span style="font-size: 0.6em;">
+    <span style="font-size: 0.4em;">
       An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities
     </span>
   </h1>
@@ -17,7 +17,7 @@
 
 #### Audio Flamingo 2 - 1.5B: [[Gradio]](https://huggingface.co/spaces/nvidia/audio-flamingo-2-1.5B) [[Checkpoints]](https://huggingface.co/nvidia/audio-flamingo-2-1.5B)
 
-#### Audio Flamingo 2 - 3B: [[Gradio]](https://huggingface.co/spaces/nvidia/audio-flamingo-2) [[Checkpoints]](https://huggingface.co/nvidia/audio-flamingo-2-3B)
+#### Audio Flamingo 2 - 3B: [[Gradio]](https://huggingface.co/spaces/nvidia/audio-flamingo-2) [[Checkpoints]](https://huggingface.co/nvidia/audio-flamingo-2)
 
 ## Overview
 
