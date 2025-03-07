@@ -1,9 +1,11 @@
 
 <div style="display: flex; justify-content: center; align-items: center; text-align: center;">
-  <a href="https://github.com/NVIDIA/audio-flamingo" style="margin-right: 20px; text-decoration: none; display: flex; align-items: center;">
-    <img src="assets/af_logo.png" alt="Audio Flamingo 2 🔥🚀🔥" width="100">
-  </a>
-    <h2>Audio Flamingo 2: An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities</h2>
+  <h2>
+    <a href="https://github.com/NVIDIA/audio-flamingo" style="margin-right: 20px; text-decoration: none; display: flex; align-items: center;">
+      <img src="assets/af_logo.png" alt="Audio Flamingo 2 🔥🚀🔥" width="100">
+    </a>
+    Audio Flamingo 2: An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities
+  </h2>
 </div>
 
 <div style="display: flex; justify-content: center; margin-top: 10px;">
@@ -20,9 +22,9 @@
 </div>
 
 <div style="display: flex; justify-content: center; margin-top: 10px;">
-<a href="https://huggingface.co/nvidia/audio-flamingo-2"><img src="https://img.shields.io/badge/🤗-Gradio Demo (3B)-5F9EA0.svg" style="margin-right: 5px;"></a>
-<a href="https://huggingface.co/nvidia/audio-flamingo-2-1.5B"><img src="https://img.shields.io/badge/🤗-Gradio Demo (1.5B)-5F9EA0.svg" style="margin-right: 5px;"></a>
-<a href="https://huggingface.co/nvidia/audio-flamingo-2-0.5B"><img src="https://img.shields.io/badge/🤗-Gradio Demo (0.5B)-5F9EA0.svg" style="margin-right: 5px;"></a>
+<a href="https://huggingface.co/spaces/nvidia/audio-flamingo-2"><img src="https://img.shields.io/badge/🤗-Gradio Demo (3B)-5F9EA0.svg" style="margin-right: 5px;"></a>
+<a href="https://huggingface.co/spaces/nvidia/audio-flamingo-2-1.5B"><img src="https://img.shields.io/badge/🤗-Gradio Demo (1.5B)-5F9EA0.svg" style="margin-right: 5px;"></a>
+<a href="https://huggingface.co/spaces/nvidia/audio-flamingo-2-0.5B"><img src="https://img.shields.io/badge/🤗-Gradio Demo (0.5B)-5F9EA0.svg" style="margin-right: 5px;"></a>
   
 </div>
 
