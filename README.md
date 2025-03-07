@@ -10,7 +10,7 @@
 
 #### Audio Flamingo 2 - 1.5B: [[Gradio]](https://huggingface.co/spaces/nvidia/audio-flamingo-2-1.5B) [[Checkpoints]](https://huggingface.co/nvidia/audio-flamingo-2-1.5B)
 
-#### Audio Flamingo 2 - 3B: [[Gradio]](https://huggingface.co/spaces/nvidia/audio-flamingo-2-3B) [[Checkpoints]](https://huggingface.co/nvidia/audio-flamingo-2-3B)
+#### Audio Flamingo 2 - 3B: [[Gradio]](https://huggingface.co/spaces/nvidia/audio-flamingo-2) [[Checkpoints]](https://huggingface.co/nvidia/audio-flamingo-2-3B)
 
 ## Overview
 
