@@ -1,0 +1,16 @@
+soundfile
+librosa
+torchlibrosa
+ftfy
+braceexpand
+webdataset
+wget
+wandb
+llvmlite
+scipy
+scikit-learn
+pandas
+h5py
+tqdm
+regex
+transformers<=4.30.2
