@@ -64,6 +64,7 @@ Audio Flamingo 2 uses a cross-attention architecture similar to [Audio Flamingo]
 ## Code Structure
 
 - The folder ```inference/``` contains inference code of Audio Flamingo 2.
+- The folder ```AFClap/``` contains inference code of AF-CLAP, which is based on Laion-CLAP and the usage is also similar.
 
 The structure is highly based on the [Open Flamingo](https://github.com/mlfoundations/open_flamingo) repo (commit ```a05dcba```).
 

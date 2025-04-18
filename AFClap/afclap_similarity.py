@@ -81,10 +81,6 @@ def compute_clap_text_audio_sim(afclap_model, audio_file_list, all_texts):
 
 
 def load_afclap(ckpt_path):
-
-    assert version in ["default", "music"]
-    ckpt_name = {"default": "afclap_v5.pt", "music": "afclap_v6.pt"}
-
     method = "afclap"
     audio_embed_dim = 2048
 
