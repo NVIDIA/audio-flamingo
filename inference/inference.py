@@ -125,7 +125,7 @@ def load_audio(audio_path, clap_config):
         audio_data_tensor_this = audio_data_tensor[:, start:start+window_length]
         audio_clips.append(audio_data_tensor_this)
 
-    if len(audio_clips) < max_num_window:
+    if len(audio_clips) > max_num_window:
         audio_clips = audio_clips[:max_num_window]
         audio_embed_mask = audio_embed_mask[:max_num_window]
 
