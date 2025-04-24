@@ -63,17 +63,18 @@ Audio Flamingo 2 uses a cross-attention architecture similar to [Audio Flamingo]
 
 ## Code Structure
 
-- The folder ```inference/``` contains inference code of Audio Flamingo 2.
+- The folder ```audio_flamingo_2/``` contains the main training and inference code of Audio Flamingo 2.
+- The folder ```inference_HF_pretrained/``` contains inference code of Audio Flamingo 2 in case you would like to use our pretrained checkpoints on HuggingFace.
 - The folder ```AFClap/``` contains inference code of AF-CLAP, which is based on Laion-CLAP and the usage is also similar.
 
-The structure is highly based on the [Open Flamingo](https://github.com/mlfoundations/open_flamingo) repo (commit ```a05dcba```).
+The structures of the first two folders are based on the [Open Flamingo](https://github.com/mlfoundations/open_flamingo) repo (commit ```a05dcba```).
+The structure of the ```AFClap``` folder is highly based on the [Laion-CLAP](https://github.com/LAION-AI/CLAP) repo. 
+Each folder is self-contained and we expect no cross dependencies between these folders.
 
-<!-- Within each folder, the structure is highly based on the [Open Flamingo](https://github.com/mlfoundations/open_flamingo) repo (commit ```a05dcba```). Each folder is self-contained and we expect no cross dependencies between these folders. -->
 
 ## References
 
-<!-- The main training and inferencing code within each folder (```foundation/```, ```chat/```, ```inference/```), including ```train/```, ```src/```, ```data/```, and ```configs/```,  -->
-The code under ```src/``` and ```configs/``` are modified from [Open Flamingo](https://github.com/mlfoundations/open_flamingo) (commit ```a05dcba```) (MIT license), which borrows from [flamingo-pytorch](https://github.com/lucidrains/flamingo-pytorch) (MIT license), [flamingo-mini](https://github.com/dhansmair/flamingo-mini) (MIT license), and [open_clip](https://github.com/mlfoundations/open_clip) (MIT license). ```src/helpers.py``` also includes self-attention implementations based on [attention-is-all-you-need-pytorch](https://github.com/jadore801120/attention-is-all-you-need-pytorch) (MIT license), which borrows from [OpenNMT-py](https://github.com/OpenNMT/OpenNMT-py) (MIT license). ```my_laion_clap``` is adapted from [LAION-AI/CLAP](https://github.com/LAION-AI/CLAP) (CC0-1.0 license).
+The main training and inferencing code within each folder (```audio_flamingo_2/```, ```inference_HF_pretrained/```), including ```train/```, ```src/```, ```data/```, and ```configs/``` are modified from [Open Flamingo](https://github.com/mlfoundations/open_flamingo) (commit ```a05dcba```) (MIT license), which borrows from [flamingo-pytorch](https://github.com/lucidrains/flamingo-pytorch) (MIT license), [flamingo-mini](https://github.com/dhansmair/flamingo-mini) (MIT license), and [open_clip](https://github.com/mlfoundations/open_clip) (MIT license). ```src/helpers.py``` also includes self-attention implementations based on [attention-is-all-you-need-pytorch](https://github.com/jadore801120/attention-is-all-you-need-pytorch) (MIT license), which borrows from [OpenNMT-py](https://github.com/OpenNMT/OpenNMT-py) (MIT license). ```my_laion_clap``` and ```AFClap``` are adapted from [LAION-AI/CLAP](https://github.com/LAION-AI/CLAP) (CC0-1.0 license).
 
 ## License
 
