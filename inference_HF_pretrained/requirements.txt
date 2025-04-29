@@ -8,7 +8,7 @@ torch==2.0.1
 torchaudio==2.0.2
 torchlibrosa==0.1.0
 torchvision==0.15.2
-transformers==4.46.3
+transformers==4.50.0
 tokenizers==0.20.3
 einops
 einops_exts
