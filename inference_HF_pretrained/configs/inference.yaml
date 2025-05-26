@@ -45,7 +45,11 @@ data_config:
 clap_config:  
   method: nvclap-large
   audio_embed_dim: 2048
-  checkpoint: clap_ckpt/epoch_15.pt
+  checkpoint: "laion/clap-htsat-fused"
+  sample_rate: 16000
+  n_mels: 64
+  hop_length: 320
+  n_fft: 1024
 
   window_length: 10.0  # seconds
   window_overlap: 0.0  # seconds

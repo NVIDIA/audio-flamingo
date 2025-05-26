@@ -163,7 +163,7 @@ def predict(filepath, question, clap_config, inference_kwargs):
             eos_token_id=tokenizer.eos_token_id,
             max_new_tokens=256,
             **inference_kwargs,
-            # temperature=0.0
+            temperature=0.7
         )[0]
     
     output_decoded = tokenizer.decode(output).split(tokenizer.sep_token)[-1].replace(tokenizer.eos_token, '').replace(tokenizer.pad_token, '').replace('<|endofchunk|>', '')
@@ -180,7 +180,7 @@ if __name__ == "__main__":
     parser.add_argument("--input", "-i", type=str, help="Path to input JSON file")
     parsed_args = parser.parse_args()
 
-    snapshot_download(repo_id="nvidia/audio-flamingo-2", local_dir="./", token="YOUR_HF_TOKEN")
+    snapshot_download(repo_id="nvidia/audio-flamingo-2", local_dir="./")
 
     config = yaml.load(open("configs/inference.yaml"), Loader=yaml.FullLoader)
 
