@@ -4,7 +4,7 @@ scikit-learn
 librosa
 soundfile
 pydub
-torch==2.0.1
+torch==2.7.1
 torchaudio==2.0.2
 torchlibrosa==0.1.0
 torchvision==0.15.2
