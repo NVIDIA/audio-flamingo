@@ -93,12 +93,12 @@ class MultiHeadAttention(nn.Module):
         k = self.w_ks(k).view(sz_b, len_k, n_head, d_k)
         v = self.w_vs(v).view(sz_b, len_v, n_head, d_v)
 
+        # Transpose for attention dot product: b x n x lq x dv
+        q, k, v = q.transpose(1, 2), k.transpose(1, 2), v.transpose(1, 2)
+
         # Apply rotary positional embeddings
         q = apply_rotary_pos_emb(q, rotary_frequencies)
         k = apply_rotary_pos_emb(k, rotary_frequencies)
-
-        # Transpose for attention dot product: b x n x lq x dv
-        q, k, v = q.transpose(1, 2), k.transpose(1, 2), v.transpose(1, 2)
 
         if mask is not None:
             mask = mask.unsqueeze(1).unsqueeze(2)   # For head axis broadcasting.

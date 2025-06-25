@@ -18,17 +18,21 @@
 </div>
 
 <div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
-<a href="https://huggingface.co/nvidia/audio-flamingo-2"><img src="https://img.shields.io/badge/🤗-Checkpoints (3B)-ED5A22.svg" style="margin-right: 5px;"></a>
-<a href="https://huggingface.co/nvidia/audio-flamingo-2-1.5B"><img src="https://img.shields.io/badge/🤗-Checkpoints (1.5B)-ED5A22.svg" style="margin-right: 5px;"></a>
-<a href="https://huggingface.co/nvidia/audio-flamingo-2-0.5B"><img src="https://img.shields.io/badge/🤗-Checkpoints (0.5B)-ED5A22.svg" style="margin-right: 5px;"></a>
+<a href="https://huggingface.co/nvidia/audio-flamingo-2"><img src="https://img.shields.io/badge/🤗-Checkpoints_v20250625_(3B)-ED5A22.svg" style="margin-right: 5px;"></a>
+<a href="https://huggingface.co/nvidia/audio-flamingo-2-1.5B"><img src="https://img.shields.io/badge/🤗-Checkpoints_v20250625_(1.5B)-ED5A22.svg" style="margin-right: 5px;"></a>
+<a href="https://huggingface.co/nvidia/audio-flamingo-2-0.5B"><img src="https://img.shields.io/badge/🤗-Checkpoints_v20250625_(0.5B)-ED5A22.svg" style="margin-right: 5px;"></a>
 </div>
 
 <div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
 <a href="https://huggingface.co/spaces/nvidia/audio-flamingo-2"><img src="https://img.shields.io/badge/🤗-Gradio Demo (3B)-5F9EA0.svg" style="margin-right: 5px;"></a>
-<a href="https://huggingface.co/spaces/nvidia/audio-flamingo-2-1.5B"><img src="https://img.shields.io/badge/🤗-Gradio Demo (1.5B)-5F9EA0.svg" style="margin-right: 5px;"></a>
-<a href="https://huggingface.co/spaces/nvidia/audio-flamingo-2-0.5B"><img src="https://img.shields.io/badge/🤗-Gradio Demo (0.5B)-5F9EA0.svg" style="margin-right: 5px;"></a>
+<!-- <a href="https://huggingface.co/spaces/nvidia/audio-flamingo-2-1.5B"><img src="https://img.shields.io/badge/🤗-Gradio Demo (1.5B)-5F9EA0.svg" style="margin-right: 5px;"></a>
+<a href="https://huggingface.co/spaces/nvidia/audio-flamingo-2-0.5B"><img src="https://img.shields.io/badge/🤗-Gradio Demo (0.5B)-5F9EA0.svg" style="margin-right: 5px;"></a> -->
   
 </div>
+
+## Update
+- 🚨 New checkpoints (v20250625) are released.
+
 
 ## Overview
 
@@ -39,6 +43,7 @@ This repo contains the PyTorch implementation of [Audio Flamingo 2: An Audio-Lan
 - Audio Flamingo 2 has advanced audio understanding and reasoning capabilities. Especially, Audio Flamingo 2 has expert audio reasoning abilities, and can understand long audio up to 5 minutes.
 
 - Audio Flamingo 2 outperforms larger and proprietary LALMs across 20+ benchmarks, despite being smaller (3B) and trained exclusively on public datasets.
+
 
 ## Main Results
 
@@ -85,7 +90,7 @@ The main training and inferencing code within each folder (```audio_flamingo_2/`
 
 ## Citation
 
-- Audio Flamingo
+- Audio Flamingo (ICML 2024)
 ```
 @inproceedings{kong2024audio,
   title={Audio Flamingo: A Novel Audio Language Model with Few-Shot Learning and Dialogue Abilities},
@@ -97,7 +102,7 @@ The main training and inferencing code within each folder (```audio_flamingo_2/`
 }
 ```
 
-- Audio Flamingo 2
+- Audio Flamingo 2 (ICML 2025)
 ```
 @article{ghosh2025audio,
   title={Audio Flamingo 2: An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities},

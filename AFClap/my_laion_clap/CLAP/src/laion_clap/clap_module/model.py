@@ -414,7 +414,7 @@ class CLAPAudioCfp:
     window_size: int = 1024
     hop_size: int = 1024
     fmin: int = 50
-    fmax: int = 14000
+    fmax: int = 8000
     class_num: int = 527
     mel_bins: int = 64
     clip_samples: int = 480000

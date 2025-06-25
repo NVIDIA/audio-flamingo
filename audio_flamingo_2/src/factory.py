@@ -53,7 +53,7 @@ class CLAPAudioCfp:
     window_size: int = 1024
     hop_size: int = 160
     fmin: int = 50
-    fmax: int = 14000
+    fmax: int = 8000
     class_num: int = 527
     mel_bins: int = 64
     clip_samples: int = 160000
@@ -114,7 +114,7 @@ class CLAP(nn.Module):
             onesided=True,
             n_mels=64,
             f_min=50,
-            f_max=14000
+            f_max=8000
         ).to(audio_data.device)
         
         mel = mel_tf(audio_data)

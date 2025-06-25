@@ -45,11 +45,11 @@ data_config:
 clap_config:  
   method: nvclap-large
   audio_embed_dim: 2048
-  checkpoint: clap_ckpt/epoch_15.pt
+  checkpoint: clap_ckpt/epoch_16.pt
 
   window_length: 10.0  # seconds
   window_overlap: 0.0  # seconds
-  max_num_window: 9  # 1.5 minutes
+  max_num_window: 12  # 2 minutes
   max_num_fewshot: 1  # number of fewshot samples (including the final one)
   finetune: true
 
