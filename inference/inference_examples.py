@@ -144,6 +144,8 @@ def main(config_file, data_root, checkpoint_path, items, inference_kwargs, is_di
 
             print('Prompt:', item['prompt'])
             print('Audio Flamingo:', outputs)
+    
+    return outputs
 
 
 if __name__ == "__main__":
