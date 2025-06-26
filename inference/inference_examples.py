@@ -113,7 +113,7 @@ def main(config_file, data_root, checkpoint_path, items, inference_kwargs, is_di
                 outputs = inference(
                     model, text_tokenizer, staged_item, processed_item,
                     inference_kwargs,
-                )[0]
+                )
 
                 print('Prompt:', item['dialogue'][-1]['user'])
                 print('Audio Flamingo:', outputs)
