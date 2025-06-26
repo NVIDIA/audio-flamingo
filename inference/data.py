@@ -34,28 +34,6 @@ from transformers import AutoTokenizer
 import librosa
 import soundfile as sf
 
-EMOTION_MAP_DICT = {
-    'amused':       'amused'      , 
-    'anger':        'angry'       , 'angry':        'angry'       , 
-    'anxious':      'anxious'     , 
-    'apologetic':   'apologetic'  , 
-    'assertive':    'assertive'   ,
-    'calm':         'calm'        , 
-    'concerned':    'concerned'   , 
-    'contempt':     'contempt'    , 
-    'disgust':      'disgusted'   , 'disgusted':    'disgusted'   , 
-    'encouraging':  'encouraging' , 
-    'excited':      'excited'     , 
-    'fear':         'fearful'     , 'fearful':      'fearful'     , 
-    'frustated':    'frustated'   ,
-    'happy':        'happy'       , 'joy':          'happy'       , 
-    'neutral':      'neutral'     , 
-    'sad':          'sad'         , 'sadness':      'sad'         , 
-    'sleepy':       'sleepy'      , 
-    'surprise':     'surprised'   , 'surprised':    'surprised'   ,
-    'pleasantly surprised': 'pleasantly surprised' ,
-}
-
 
 def int16_to_float32(x):
     return (x / 32767.0).astype(np.float32)
@@ -270,57 +248,3 @@ class AudioTextDataProcessor:
 
         return (item['name'], audio_clips, audio_embed_mask, text["input_ids"], text["attention_mask"])
 
-
-def main():
-
-    config_file = 'config.yaml'
-    config = yaml.load(open(config_file), Loader=yaml.FullLoader)
-    clap_config = config['clap_config']
-    model_config = config['model_config']
-
-    tokenizer_path = model_config['tokenizer_path']
-    cache_dir = model_config['cache_dir']
-    text_tokenizer = AutoTokenizer.from_pretrained(
-        tokenizer_path,
-        local_files_only=False,
-        trust_remote_code=True,
-        cache_dir=cache_dir,
-    )
-    text_tokenizer.add_special_tokens(
-        {"additional_special_tokens": ["<audio>", "<|endofchunk|>"]}
-    )
-    if text_tokenizer.pad_token is None:
-        text_tokenizer.add_special_tokens({"pad_token": "<PAD>"})
-    if text_tokenizer.sep_token is None:
-        text_tokenizer.add_special_tokens({"sep_token": "<SEP>"})
-
-    DataProcessor = AudioTextDataProcessor(
-        data_root='/lustre/fsw/portfolios/adlr/users/zkong/datasets',
-        clap_config=clap_config,
-        tokenizer=text_tokenizer,
-        max_tokens=512,
-    )
-
-    item = {
-        'name': "audiocaps/audio/test/50207.flac",
-        'audio_start': 0.0,
-        'prefix': "The task is audio captioning.",
-        'prompt': "Describe the sound in a sentence.",
-        'ground_truth': "A woman speaking followed by another woman talking followed by a goat baaing as cloth rustles",
-    }
-
-    name, audio_clips, audio_embed_mask, input_ids, attention_mask = DataProcessor.process(item)
-    
-    print(
-        audio_clips.shape, audio_embed_mask.shape, 
-        input_ids.shape, attention_mask.shape
-    )
-
-    print('audio_embed_mask', audio_embed_mask)
-    print('input_ids', input_ids)
-    print('input_ids decoded:', text_tokenizer.decode(input_ids))
-    print('attention_mask', attention_mask)
-
-
-if __name__ == "__main__":
-    main()
