@@ -8,7 +8,7 @@
         "window_size": 1024,
         "hop_size": 480,
         "fmin": 50,
-        "fmax": 14000,
+        "fmax": 8000,
         "class_num": 527,
         "model_type": "HTSAT",
         "model_name": "large"
