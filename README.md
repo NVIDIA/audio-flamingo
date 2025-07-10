@@ -104,10 +104,12 @@ The main training and inferencing code within each folder (```audio_flamingo_2/`
 
 - Audio Flamingo 2 (ICML 2025)
 ```
-@article{ghosh2025audio,
+@inproceedings{
+  ghosh2025audio,
   title={Audio Flamingo 2: An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities},
-  author={Ghosh, Sreyan and Kong, Zhifeng and Kumar, Sonal and Sakshi, S and Kim, Jaehyeon and Ping, Wei and Valle, Rafael and Manocha, Dinesh and Catanzaro, Bryan},
-  journal={arXiv preprint arXiv:2503.03983},
-  year={2025}
+  author={Sreyan Ghosh and Zhifeng Kong and Sonal Kumar and S Sakshi and Jaehyeon Kim and Wei Ping and Rafael Valle and Dinesh Manocha and Bryan Catanzaro},
+  booktitle={Forty-second International Conference on Machine Learning},
+  year={2025},
+  url={https://openreview.net/forum?id=xWu5qpDK6U}
 }
 ```
