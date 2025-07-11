@@ -1,0 +1,97 @@
+---
+Clotho-AQA-AQA:
+  _target_: llava.data.LLaVADataset
+  data_path: Clotho-AQA-AQA/test.json
+Music-AVQA-AQA_All:
+  _target_: llava.data.LLaVADataset
+  data_path: Music-AVQA-AQA_All/test.json
+CochlScene-SceneClassification:
+  _target_: llava.data.LLaVADataset
+  data_path: CochlScene-SceneClassification/test.json
+NSynth-Source:
+  _target_: llava.data.LLaVADataset
+  data_path: NSynth-Source/test.json
+NSynth-Instrument:
+  _target_: llava.data.LLaVADataset
+  data_path: NSynth-Instrument/test.json
+FSD50k-EventClassification:
+  _target_: llava.data.LLaVADataset
+  data_path: FSD50k-EventClassification/test.json
+Clotho-v2-AudioCaptioning:
+  _target_: llava.data.LLaVADataset
+  data_path: Clotho-v2-AudioCaptioning/test.json
+audiocaps-AudioCaptioning:
+  _target_: llava.data.LLaVADataset
+  data_path: audiocaps-AudioCaptioning/test.json
+ravdess-EmotionClassification:
+  _target_: llava.data.LLaVADataset
+  data_path: ravdess-EmotionClassification/val.json
+GTZAN-GenreClassification:
+  _target_: llava.data.LLaVADataset
+  data_path: GTZAN-GenreClassification/test.json
+UrbanSound8K-EventClassification:
+  _target_: llava.data.LLaVADataset
+  data_path: UrbanSound8K-EventClassification/train.json
+Medley-solos-DB-InstrClassification:
+  _target_: llava.data.LLaVADataset
+  data_path: Medley-solos-DB-InstrClassification/test.json
+ESC50-EventClassification:
+  _target_: llava.data.LLaVADataset
+  data_path: ESC50-EventClassification/train.json
+CREMA-D-EmotionClassification:
+  _target_: llava.data.LLaVADataset
+  data_path: CREMA-D-EmotionClassification/test.json
+IEMOCAP-EmotionClassification:
+  _target_: llava.data.LLaVADataset
+  data_path: IEMOCAP-EmotionClassification/test.json
+MELD-EmotionClassification:
+  _target_: llava.data.LLaVADataset
+  data_path: MELD-EmotionClassification/test.json
+MELD-SentimentClassification:
+  _target_: llava.data.LLaVADataset
+  data_path: MELD-SentimentClassification/test.json
+MMAU:
+  _target_: llava.data.LLaVADataset
+  data_path: MMAU/test.json
+MMAU-mini:
+  _target_: llava.data.LLaVADataset
+  data_path: MMAU/test-mini.json
+AudioEntailmentQA:
+  _target_: llava.data.LLaVADataset
+  data_path: AudioEntailmentQA/test.json
+SPGI-ASR:
+  _target_: llava.data.LLaVADataset
+  data_path: SPGI-ASR/val.json
+SWBD-ASR:
+  _target_: llava.data.LLaVADataset
+  data_path: SWBD-ASR/val.json
+LibriSpeech-ASR-clean:
+  _target_: llava.data.LLaVADataset
+  data_path: LibriSpeech-ASR/test_clean.json
+LibriSpeech-ASR-other:
+  _target_: llava.data.LLaVADataset
+  data_path: LibriSpeech-ASR/test_other.json
+VoxPopuli-ASR:
+  _target_: llava.data.LLaVADataset
+  data_path: VoxPopuli-ASR/test.json
+Europarl-ASR:
+  _target_: llava.data.LLaVADataset
+  data_path: Europarl-ASR/test.json
+CV-ASR:
+  _target_: llava.data.LLaVADataset
+  data_path: CV-ASR/test.json
+GigaSpeech-ASR:
+  _target_: llava.data.LLaVADataset
+  data_path: GigaSpeech-ASR/test.json
+CompA-R-AQA:
+  _target_: llava.data.LLaVADataset
+  data_path: CompA-R-AQA/test.json
+MuschoMusicQA:
+  _target_: llava.data.LLaVADataset
+  data_path: MuschoMusicQA/test.json
+CMM:
+  _target_: llava.data.LLaVADataset
+  data_path: CMM/test.json
+AIR-Bench:
+  _target_: llava.data.LLaVADataset
+  data_path: AIR-Bench/test.json

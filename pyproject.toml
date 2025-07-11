@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "af3"
+version = "3.0.0"
+description = "Audio Flamingo 3"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+]
+dependencies = [
+    "torch==2.3.0", "torchvision==0.18.0",
+    "transformers==4.46.0", "tokenizers>=0.15.2", "sentencepiece==0.1.99", "shortuuid",
+    "accelerate==0.34.2", "peft>=0.9.0", "bitsandbytes==0.43.2",
+    "pydantic<2,>=1", "markdown2[all]", "numpy==1.26.4", "scikit-learn==1.2.2",
+    "gradio==3.35.2", "gradio_client==0.2.9",
+    "requests", "httpx", "uvicorn", "fastapi", "fire", "seaborn", "ring_flash_attn==0.1.1",
+    "einops==0.6.1", "einops-exts==0.0.4", "timm==0.9.12",
+    "openpyxl==3.1.2", "pytorchvideo==0.1.5", "decord==0.6.0",
+    "datasets==2.16.1", "openai==1.8.0", "webdataset==0.2.86",
+    "nltk==3.3", "pywsd==1.2.4", "opencv-python-headless==4.8.0.76",
+    "s2wrapper@git+https://github.com/bfshi/scaling_on_scales",
+    "tyro", "pytest", "pre-commit", "loguru", "hydra-core", "xgrammar"
+]
+
+
+[project.optional-dependencies]
+train = ["deepspeed==0.9.5", "ninja", "wandb"]
+eval = ["word2number", "Levenshtein", "nltk", "pywsd"]
+
+[tool.triton]
+triton = {version = "3.0.0.post20240610003544", file = "https://aiinfra.pkgs.visualstudio.com/2692857e-05ef-43b4-ba9c-ccf1c22c437c/_packaging/07c94329-d4c3-4ad4-9e6b-f904a60032ec/pypi/download/triton-nightly/3.post20240610003544/triton_nightly-3.0.0.post20240610003544-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", sha256 = "ac2c36a49bf9c2bb780909b38096fb718f17efd78b88a1ca1d649f6d063cdc2c"}
+
+[tool.black]
+line-length = 120
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 120
+
+[tool.setuptools.packages.find]
+exclude = ["assets*", "benchmark*", "docs", "dist*", "playground*", "scripts*", "tests*"]
+
+[tool.wheel]
+exclude = ["assets*", "benchmark*", "docs", "dist*", "playground*", "scripts*", "tests*"]
