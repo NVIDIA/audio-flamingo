@@ -60,10 +60,10 @@ def main() -> None:
     # ---------------------------------
     # SINGLE-TURN MODEL SETUP
     # ---------------------------------
-    # model_path = snapshot_download(args.model_base)
-    # model_think = os.path.join(model_path, 'stage35')
+    model_path = snapshot_download(args.model_base)
+    model_think = os.path.join(model_path, 'stage35')
 
-    model = llava.load(args.model_base)
+    model = llava.load(model_path)
     if args.think_mode:
         model = PeftModel.from_pretrained(
             model,
