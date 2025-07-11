@@ -1,0 +1,93 @@
+Clotho-AQA-AQA:
+  tags:
+  - local
+Music-AVQA-AQA_All:
+  tags:
+  - local
+CochlScene-SceneClassification:
+  tags:
+  - local
+NSynth-Source:
+  tags:
+  - local
+NSynth-Instrument:
+  tags:
+  - local
+FSD50k-EventClassification:
+  tags:
+  - local
+Clotho-v2-AudioCaptioning:
+  tags:
+  - local
+audiocaps-AudioCaptioning:
+  tags:
+  - local
+ravdess-EmotionClassification:
+  tags:
+  - local
+GTZAN-GenreClassification:
+  tags:
+  - local
+UrbanSound8K-EventClassification:
+  tags:
+  - local
+Medley-solos-DB-InstrClassification:
+  tags:
+  - local
+ESC50-EventClassification:
+  tags:
+  - local
+CREMA-D-EmotionClassification:
+  tags:
+  - local
+IEMOCAP-EmotionClassification:
+  tags:
+  - local
+MELD-EmotionClassification:
+  tags:
+  - local
+MELD-SentimentClassification:
+  tags:
+  - local
+MMAU:
+  tags:
+  - local
+AudioEntailmentQA:
+  tags:
+  - local
+SPGI-ASR:
+  tags:
+  - local
+SWBD-ASR:
+  tags:
+  - local
+LibriSpeech-ASR-clean:
+  tags:
+  - local
+LibriSpeech-ASR-other:
+  tags:
+  - local
+VoxPopuli-ASR:
+  tags:
+  - local
+Europarl-ASR:
+  tags:
+  - local
+CV-ASR:
+  tags:
+  - local
+GigaSpeech-ASR:
+  tags:
+  - local
+CompA-R-AQA:
+  tags:
+  - local
+MuschoMusicQA:
+  tags:
+  - local
+CMM:
+  tags:
+  - local
+AIR-Bench:
+  tags:
+  - local
