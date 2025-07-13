@@ -126,11 +126,11 @@ Audio Flamingo 3 can take up to 10 minutes of audio inputs, and has a streaming 
 
 
 <div align="center">
-  <img class="img-full" src="static/af3_radial-1.png" width="300">
+  <img class="img-full" src="static/af3_radial-1.png" width="400">
 </div>
 
 <div align="center">
-  <img class="img-full" src="static/af3_sota.png" width="400">
+  <img class="img-full" src="static/af3_sota.png" width="600">
 </div>
 
 
