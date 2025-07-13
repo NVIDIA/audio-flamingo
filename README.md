@@ -61,11 +61,11 @@ Extensive evaluations confirm AF3’s effectiveness, setting new benchmarks on o
 Audio Flamingo 3 outperforms prior SOTA models including GAMA, Audio Flamingo, Audio Flamingo 2, Qwen-Audio, Qwen2-Audio, Qwen2.5-Omni.LTU, LTU-AS, SALMONN, AudioGPT, Gemini Flash v2 and Gemini Pro v1.5 on a number of understanding and reasoning benchmarks.
 
 <div align="center">
-  <img class="img-full" src="static/af3_radial-1.png" width="300">
+  <img class="img-full" src="static/af3_radial-1.png" width="400">
 </div>
 
 <div align="center">
-  <img class="img-full" src="static/af3_sota.png" width="400">
+  <img class="img-full" src="static/af3_sota.png" width="600">
 </div>
 
 ## Audio Flamingo 3 Architecture
