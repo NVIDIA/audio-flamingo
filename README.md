@@ -14,7 +14,7 @@
 In this repo, we present the **Audio Flamingo** series of advanced audio understanding Language models:
 - [Audio Flamingo: A Novel Audio Language Model with Few-Shot Learning and Dialogue Abilities](https://arxiv.org/abs/2402.01831) (ICML 2024)
 - [Audio Flamingo 2: An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities](https://arxiv.org/abs/2503.03983) (ICML 2025)
-- [Audio Flamingo 3: Advancing Audio Intelligence with Fully Open Large Audio Language Models]() (arxiv coming soon)
+- [Audio Flamingo 3: Advancing Audio Intelligence with Fully Open Large Audio Language Models](https://arxiv.org/abs/2507.08128) (arxiv)
 
 ## Audio Flamingo
 
@@ -82,7 +82,7 @@ Audio Flamingo 2 significantly improves Audio Flamingo in several aspects. First
 ## Audio Flamingo 3
 
 <div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
-  <a href=""><img src="https://img.shields.io/badge/arXiv-coming_soon-AD1C18" style="margin-right: 5px;"></a>
+  <a href="https://arxiv.org/abs/2507.08128"><img src="https://img.shields.io/badge/arXiv-2507.08128-AD1C18" style="margin-right: 5px;"></a>
   <a href="https://research.nvidia.com/labs/adlr/AF3/"><img src="https://img.shields.io/badge/Demo page-228B22" style="margin-right: 5px;"></a>
   <a href="https://github.com/NVIDIA/audio-flamingo/tree/audio_flamingo_3"><img src='https://img.shields.io/badge/Github-Audio Flamingo 3-9C276A' style="margin-right: 5px;"></a>
   <a href="https://github.com/NVIDIA/audio-flamingo/stargazers"><img src="https://img.shields.io/github/stars/NVIDIA/audio-flamingo.svg?style=social"></a>
@@ -188,7 +188,7 @@ Each branch includes the individual code to train and inference Audio Flamingo.
 @article{goel2025audio,
   title={Audio Flamingo 3: Advancing Audio Intelligence with Fully Open Large Audio Language Models},
   author={Goel, Arushi and Ghosh, Sreyan and Kim, Jaehyeon and Kumar, Sonal and Kong, Zhifeng and Lee, Sang-gil and Yang, Chao-Han Huck and Duraiswami, Ramani and Manocha, Dinesh and Valle, Rafael and Catanzaro, Bryan},
-  journal={arXiv preprint arXiv},
+  journal={arXiv preprint arXiv:2507.08128},
   year={2025}
 }
 ```
