@@ -47,7 +47,7 @@ pip install ffmpeg
 pip install jiwer
 pip install wandb
 pip install kaldiio
-pip install peft=0.14.0
+pip install peft==0.14.0
 site_pkg_path=$(python -c 'import site; print(site.getsitepackages()[0])')
 
 # Downgrade protobuf to 3.20 for backward compatibility
