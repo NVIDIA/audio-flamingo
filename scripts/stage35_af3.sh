@@ -63,6 +63,7 @@ torchrun --nnodes \$NUM_NODES --nproc_per_node \$SUBMIT_GPUS --master_addr \$MAS
     --weight_decay 0. \
     --warmup_ratio 0.03 \
     --lr_scheduler_type cosine \
+    --group_by_modality_length True \
     --logging_steps 1 \
     --model_max_length 8192 \
     --gradient_checkpointing True \

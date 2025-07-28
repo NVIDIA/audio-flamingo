@@ -21,6 +21,9 @@ from llava.eval.mmmu_utils.eval_utils import parse_choice
 from llava.utils import distributed as dist
 from llava.utils import io
 from llava.utils.logging import logger
+from huggingface_hub import snapshot_download
+from peft import PeftModel
+import torch
 
 
 def load_existing_ids(output_file):
@@ -36,31 +39,45 @@ def load_existing_ids(output_file):
         print(f"Error loading existing outputs: {e}")
         return set(), []
 
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ("yes", "true", "t", "1"):
+        return True
+    elif v.lower() in ("no", "false", "f", "0"):
+        return False
+    else:
+        raise argparse.ArgumentTypeError("Boolean value expected (true/false).")
+
 
 def main() -> None:
+    
+    args = parser.parse_args()
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model-path", type=str, default=None)
-    parser.add_argument("--model-base", type=str, default=None)
+    parser.add_argument("--model-base", "-m", type=str, required=True)
     parser.add_argument("--task", type=str, default=None)
-    parser.add_argument("--conv-mode", type=str, default="auto")
+    parser.add_argument("--conv-mode", "-c", type=str, default="auto")
+    parser.add_argument("--think-mode", type=str2bool, default=False)
     parser.add_argument("--generation-config", type=json.loads)
     parser.add_argument("--output-dir", type=str, default=None)
     args = parser.parse_args()
-
     # Set up distributed environment
     dist.init()
     devices = range(dist.local_rank(), torch.cuda.device_count(), dist.local_size())
     torch.cuda.set_device(devices[0])
 
     # Load stage 3 model with line 56
-    model = llava.load(args.model_base, model_base=None, devices=devices)
-    # Uncomment line 58-63 to load stage 3.5 model on top of stage 3 for thinking mode and long audio mode
-    # model = PeftModel.from_pretrained(
-    #         model,
-    #         args.model_path,
-    #         device_map="auto",
-    #         torch_dtype=torch.float16,
-    #     )
+    model_path = snapshot_download(args.model_base)
+    model_think = os.path.join(model_path, 'stage35')
+
+    model = llava.load(model_path, devices=devices)
+    if args.think_mode:
+        model = PeftModel.from_pretrained(
+            model,
+            model_think,
+            device_map="auto",
+            torch_dtype=torch.float16,
+        )
     # Set up generation config
     generation_config = model.default_generation_config
     if args.generation_config is not None:
