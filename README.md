@@ -85,8 +85,7 @@ Audio Flamingo 3 can take up to 10 minutes of audio inputs.
 
 ## Code Structure
 
-- The folder ```audio_flamingo_3/``` contains the main training and inference code of Audio Flamingo 3.
-- The folder ```audio_flamingo_3/scripts``` contains the inference scripts of Audio Flamingo 3 in case you would like to use our pretrained checkpoints on HuggingFace.
+- The folder ```scripts``` contains the training and inference scripts of Audio Flamingo 3. 
 
 Each folder is self-contained and we expect no cross dependencies between these folders. This repo does not contain the code for Streaming-TTS pipeline which will released in the near future.
 
@@ -110,6 +109,58 @@ Launch a demo locally using the command below:
 ```bash
 python llava/eval/app.py
 ```
+
+## Training Details
+
+Scripts for different stages of training are in the `scripts/stagex_af3.sh` folder. Replace the LLM pre-trained checkpoint with `Qwen-2.5-7B-Instruct` or your previoulsy trained `stagex` checkpoint (line 9), paths to data mixture (line 12) and path to the sound tower `AF-Whisper` (line 32) in the respective bash files.
+Prepare training json data files in the format below:
+```json
+[
+  {
+    "id": "ID1",
+    "sound": "Path to the wav file.",
+    "duration": "The duration in floating point.",
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<sound>
+The Question."
+      },
+      {
+        "from": "gpt",
+        "value": "The Answer."
+      }
+    ]
+  },
+  {
+    "id": "ID2",
+    "sound": "Path to the wav file.",
+    "duration": "The duration in floating point.",
+    "conversations": [
+      {
+        "from": "human",
+        "value": "<sound>
+The Question."
+      },
+      {
+        "from": "gpt",
+        "value": "The Answer."
+      }
+    ]
+  },
+  ...
+]
+```
+Add the path to these jsons in `llava/data/datasets_mixture.py.` 
+
+## Evaluation Details
+
+To run evaluation on your target benchamrk, prepare test/val json files in the format above. Add the path to the test jsons in this file `llava/data/registry/datasets/audio_test.yaml`. 
+
+```bash
+sh scripts/eval.sh
+```
+Edit command line arguments to the above script as needed.
 
 ## References
 
