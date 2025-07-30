@@ -70,7 +70,7 @@ def main() -> None:
             model_think,
             device_map="auto",
             torch_dtype=torch.float16,
-        )
+        ).to("cuda")
     # Set conversation mode
     clib.default_conversation = clib.conv_templates[args.conv_mode].copy()
 
