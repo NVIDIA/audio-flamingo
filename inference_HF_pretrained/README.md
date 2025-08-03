@@ -8,11 +8,16 @@ This folder contains inference code of Audio Flamingo 2.
 - The inference script uses 3B model by default. If you would like to try 0.5B or 1.5B, replace the ```repo_id``` in L183 of ```inference.py``` to be ```"nvidia/audio-flamingo-2-0.5B"``` or ```"nvidia/audio-flamingo-2-1.5B"```. Also replace L81-L82 of ```configs/inference.yaml``` to be ```Qwen/Qwen2.5-0.5B``` or ```Qwen/Qwen2.5-1.5B```.
 - The inference script uses top-K and top-P sampling by default (note that we use temperature=0.0 for benchmarking). You could replace sampling parameters in L232 of ```inference.py```.
 - Prepare you audio paths and questions in ```inference.jsonl```.
+- Then, the following command will run inference on the examples in ```inference.jsonl```. 
+  - ```python inference.py --input inference.jsonl```
 
+## Steps of Inference of the CoT Model
 
-Then, the following command will run inference on the examples in ```inference.jsonl```. 
+- Replace L222 of ```inference_CoT.py``` with your HuggingFace api token. .
+- Prepare you audio paths and questions in ```inference_CoT.jsonl```. Make sure include the following prompt after the multiple choice options: ```Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.```
+- Then, the following command will run inference on the examples in ```inference_CoT.jsonl```. 
+  - ```python inference_CoT.py --input inference_CoT.jsonl```
 
-- ```python inference.py --input inference.jsonl```
 
 ## License
 

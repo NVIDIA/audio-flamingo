@@ -1,0 +1,91 @@
+train_config:
+  expdir: /dummy/
+  run_name: /dummy/
+  delete_previous_checkpoint: true 
+  batch_size: 8
+  gradient_accumulation_steps: 2
+  seed: 42
+  learning_rate: 0.00002
+  lr_scheduler: constant
+  loss_multiplier: 1.0
+  warmup_steps: 1875
+  weight_decay: 0.1
+  precision: amp_bf16  # ["amp_bf16", "amp_bfloat16", "bf16", "fp16", "fp32"]
+  gradient_checkpointing: False 
+  num_epochs: 200  # num_epochs * dataset_blending_global_weight = 1
+  offline: false
+  freeze_lm_embeddings: false
+  logging_steps: 10
+  dist_backend: nccl
+  dist_url: env:// # tcp://localhost:7000
+  no_set_device_rank: false 
+  fsdp: true 
+  fsdp_use_orig_params: false  # Passed into the FSDP constructor. Enables param_groups and gradient masking for weight_decay. Does not work with OPT.
+  fsdp_sharding_strategy: full  # full, hybrid
+  horovod: false
+
+data_config:
+  dataset_blending_global_weight: 0.005
+
+  dataset_blending_config:
+
+    dummy/dummy:
+      weight: 1.5
+
+  dataset_file_root: dummy
+  data_root: dummy
+  dataset_blending_output: dummy
+  max_tokens: 1024
+  num_workers: 4
+
+  valid_dataset_config: 
+  
+    dummy/test: true
+
+clap_config:  
+  method: nvclap-large
+  audio_embed_dim: 2048
+  checkpoint: clap_ckpt/epoch_16.pt
+
+  window_length: 10.0  # seconds
+  window_overlap: 0.0  # seconds
+  max_num_window: 12  # 2 minutes
+  max_num_fewshot: 1  # number of fewshot samples (including the final one)
+  finetune: true
+
+whisper_config:  
+  method: whisper-large-v3
+  path: openai/whisper-large-v3
+  audio_embed_dim: 1280
+  sampling_rate: 16000
+
+  window_length: 30.0  # seconds
+  window_overlap: 0.0  # seconds
+  max_num_window: 1  # 5 minutes
+  max_num_fewshot: 1  # number of fewshot samples (including the final one)
+
+mert_config:  
+  method: mert-v1
+  path: m-a-p/MERT-v1-330M
+  audio_embed_dim: 1024
+  sampling_rate: 24000
+
+  window_length: 10.0  # seconds
+  window_overlap: 0.0  # seconds
+  max_num_window: 1  # 5 minutes
+  max_num_fewshot: 1  # number of fewshot samples (including the final one)
+
+model_config:
+  cache_dir: .cache
+
+  lang_encoder_path: Qwen/Qwen2.5-3B
+  tokenizer_path: Qwen/Qwen2.5-3B
+  cross_attn_every_n_layers: 1
+  audio_transformer_kwargs: {
+    n_head: 8,
+    n_layers: 3,
+    d_inner: 2048,
+    max_num_media: 128,  # must be >= max_num_window * num_fewshot_samples (4)
+    max_window_per_audio: 1,  # must = max_num_window
+    common_encoder_embed_dim: 1024
+  }
