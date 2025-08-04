@@ -10,10 +10,29 @@
     </h2>
 </div>
 
+## AF-Reasoning-Eval
+
+The AF-Reasoning-Eval benchmark is included in ```AF_Reasoning_Eval/```. 
+
+- The ```AQA``` subset is derived from [Clotho-AQA](https://zenodo.org/records/6473207), and our filenames point to Clotho-AQA filenames. Note that the Clotho-AQA audio files follow their original license. 
+- The ```Classification``` subset is derived from [FSD50K](https://zenodo.org/records/4060432), and our filenames point to FSD50K filenames. Note that the FSD50K audio files follow their original license. 
+- Our metadata are released under ```CC-BY 4.0```.
+
+## AF-CoT-Train
+
+The ```AF-CoT-Train``` generation pipelines are included in ```AF_CoT_Train/```. It is recommended to use ```alg_6_AQA_subquestions.py``` to generate reasoning chains for AQA samples and ```alg_8_Classification_MCQ.py``` to generate reasoning chains for classification samples.
+
+The dataset is released in [this link](https://huggingface.co/datasets/nvidia/AF-Think/tree/main/af_cot_train).
+
+## Inference code
+The instruction to run inference of the CoT model is [here](https://github.com/NVIDIA/audio-flamingo/tree/audio_flamingo_2/inference_HF_pretrained#steps-of-inference-of-the-cot-model).
+
 
 ## License
 
 - The code in this repo is under MIT license.
+- ```AF-Reasoning-Eval``` is released under ```CC-BY 4.0```.
+- ```AF-CoT-Train``` is for non-commercial use only (see NVIDIA OneWay Noncommercial License).
 - The checkpoints are for non-commercial use only (see NVIDIA OneWay Noncommercial License). They are also subject to other restrictions (see ``` README``` and ```incl_licenses``` within each branch).
 - Notice: Audio Flamingo Sound-CoT models are built with Qwen-2.5. Qwen is licensed under the Qwen RESEARCH LICENSE AGREEMENT, Copyright (c) Alibaba Cloud. All Rights Reserved.
 

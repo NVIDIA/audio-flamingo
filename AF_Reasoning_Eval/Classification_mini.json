@@ -1,0 +1,1507 @@
+{
+  "dataset_path": "FSD50k/eval",
+  "flamingo_task": "AF-Reasoning-Eval-Classification-mini",
+  "total_num": 300,
+  "data": {
+    "0": {
+      "name": "333246.wav",
+      "prompt": "Classify the sound.\n(A) bass guitar. (B) harmonica. (C) electric guitar. (D) waves and surf. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) electric guitar"
+    },
+    "1": {
+      "name": "363059.wav",
+      "prompt": "Classify the sound.\n(A) acoustic guitar. (B) electric guitar. (C) bass guitar. (D) harmonica. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) electric guitar"
+    },
+    "2": {
+      "name": "104616.wav",
+      "prompt": "Classify the sound.\n(A) electric guitar. (B) camera. (C) waves and surf. (D) bass guitar. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) electric guitar"
+    },
+    "3": {
+      "name": "175154.wav",
+      "prompt": "Classify the sound.\n(A) harmonica. (B) waves and surf. (C) electric guitar. (D) camera. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) electric guitar"
+    },
+    "4": {
+      "name": "336252.wav",
+      "prompt": "Classify the sound.\n(A) bass guitar. (B) harmonica. (C) camera. (D) electric guitar. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) electric guitar"
+    },
+    "5": {
+      "name": "421667.wav",
+      "prompt": "Classify the sound.\n(A) bass guitar. (B) camera. (C) harmonica. (D) electric guitar. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) electric guitar"
+    },
+    "6": {
+      "name": "173989.wav",
+      "prompt": "Classify the sound.\n(A) writing. (B) coin (dropping). (C) water tap and faucet. (D) keys jangling. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) coin (dropping)"
+    },
+    "7": {
+      "name": "61287.wav",
+      "prompt": "Classify the sound.\n(A) microwave oven. (B) coin (dropping). (C) frying (food). (D) keys jangling. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) coin (dropping)"
+    },
+    "8": {
+      "name": "334938.wav",
+      "prompt": "Classify the sound.\n(A) drawer open or close. (B) toilet flush. (C) water tap and faucet. (D) coin (dropping). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) coin (dropping)"
+    },
+    "9": {
+      "name": "360908.wav",
+      "prompt": "Classify the sound.\n(A) door. (B) microwave oven. (C) keys jangling. (D) coin (dropping). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) coin (dropping)"
+    },
+    "10": {
+      "name": "323164.wav",
+      "prompt": "Classify the sound.\n(A) scissors. (B) coin (dropping). (C) dishes and pots and pans. (D) keys jangling. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) coin (dropping)"
+    },
+    "11": {
+      "name": "134921.wav",
+      "prompt": "Classify the sound.\n(A) coin (dropping). (B) scissors. (C) cupboard open or close. (D) water tap and faucet. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) coin (dropping)"
+    },
+    "12": {
+      "name": "66322.wav",
+      "prompt": "Classify the sound.\n(A) keys jangling. (B) water tap and faucet. (C) coin (dropping). (D) zipper (clothing). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) coin (dropping)"
+    },
+    "13": {
+      "name": "75235.wav",
+      "prompt": "Classify the sound.\n(A) scissors. (B) zipper (clothing). (C) coin (dropping). (D) water tap and faucet. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) coin (dropping)"
+    },
+    "14": {
+      "name": "72240.wav",
+      "prompt": "Classify the sound.\n(A) rail transport. (B) zipper (clothing). (C) chatter. (D) mechanical fan. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) chatter"
+    },
+    "15": {
+      "name": "369293.wav",
+      "prompt": "Classify the sound.\n(A) singing. (B) toilet flush. (C) cowbell. (D) fill (with liquid). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) fill (with liquid)"
+    },
+    "16": {
+      "name": "83521.wav",
+      "prompt": "Classify the sound.\n(A) yell. (B) male speech and man speaking. (C) female singing. (D) female speech and woman speaking. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) male speech and man speaking"
+    },
+    "17": {
+      "name": "234247.wav",
+      "prompt": "Classify the sound.\n(A) male singing. (B) chuckle and chortle. (C) male speech and man speaking. (D) female speech and woman speaking. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) male speech and man speaking"
+    },
+    "18": {
+      "name": "201914.wav",
+      "prompt": "Classify the sound.\n(A) female speech and woman speaking. (B) male speech and man speaking. (C) chuckle and chortle. (D) child speech and kid speaking. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) male speech and man speaking"
+    },
+    "19": {
+      "name": "84718.wav",
+      "prompt": "Classify the sound.\n(A) female speech and woman speaking. (B) male speech and man speaking. (C) chuckle and chortle. (D) male singing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) male speech and man speaking"
+    },
+    "20": {
+      "name": "13594.wav",
+      "prompt": "Classify the sound.\n(A) yell. (B) chuckle and chortle. (C) male speech and man speaking. (D) female singing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) male speech and man speaking"
+    },
+    "21": {
+      "name": "25293.wav",
+      "prompt": "Classify the sound.\n(A) male speech and man speaking. (B) male singing. (C) chuckle and chortle. (D) female singing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) male speech and man speaking"
+    },
+    "22": {
+      "name": "222597.wav",
+      "prompt": "Classify the sound.\n(A) female speech and woman speaking. (B) male speech and man speaking. (C) giggle. (D) yell. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) male speech and man speaking"
+    },
+    "23": {
+      "name": "339932.wav",
+      "prompt": "Classify the sound.\n(A) male singing. (B) child speech and kid speaking. (C) yell. (D) male speech and man speaking. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) male speech and man speaking"
+    },
+    "24": {
+      "name": "340048.wav",
+      "prompt": "Classify the sound.\n(A) chuckle and chortle. (B) male speech and man speaking. (C) yell. (D) female singing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) male speech and man speaking"
+    },
+    "25": {
+      "name": "320234.wav",
+      "prompt": "Classify the sound.\n(A) male speech and man speaking. (B) male singing. (C) speech synthesizer. (D) chuckle and chortle. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) male speech and man speaking"
+    },
+    "26": {
+      "name": "34202.wav",
+      "prompt": "Classify the sound.\n(A) ratchet and pawl. (B) pour. (C) shatter. (D) splash and splatter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) shatter"
+    },
+    "27": {
+      "name": "120557.wav",
+      "prompt": "Classify the sound.\n(A) sliding door. (B) bathtub (filling or washing). (C) sink (filling or washing). (D) doorbell. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) sliding door"
+    },
+    "28": {
+      "name": "82228.wav",
+      "prompt": "Classify the sound.\n(A) female speech and woman speaking. (B) yell. (C) male singing. (D) male speech and man speaking. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) female speech and woman speaking"
+    },
+    "29": {
+      "name": "380753.wav",
+      "prompt": "Classify the sound.\n(A) child speech and kid speaking. (B) chuckle and chortle. (C) female speech and woman speaking. (D) giggle. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) female speech and woman speaking"
+    },
+    "30": {
+      "name": "395629.wav",
+      "prompt": "Classify the sound.\n(A) meow. (B) clapping. (C) crash cymbal. (D) chirp and tweet. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) chirp and tweet"
+    },
+    "31": {
+      "name": "361333.wav",
+      "prompt": "Classify the sound.\n(A) boat and water vehicle. (B) siren. (C) bicycle. (D) rail transport. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) siren"
+    },
+    "32": {
+      "name": "36266.wav",
+      "prompt": "Classify the sound.\n(A) mechanical fan. (B) boiling. (C) hammer. (D) splash and splatter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) boiling"
+    },
+    "33": {
+      "name": "190463.wav",
+      "prompt": "Classify the sound.\n(A) frying (food). (B) zipper (clothing). (C) door. (D) writing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) zipper (clothing)"
+    },
+    "34": {
+      "name": "136276.wav",
+      "prompt": "Classify the sound.\n(A) female speech and woman speaking. (B) child speech and kid speaking. (C) male speech and man speaking. (D) female singing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) female speech and woman speaking"
+    },
+    "35": {
+      "name": "421690.wav",
+      "prompt": "Classify the sound.\n(A) yell. (B) giggle. (C) male singing. (D) female speech and woman speaking. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) female speech and woman speaking"
+    },
+    "36": {
+      "name": "263534.wav",
+      "prompt": "Classify the sound.\n(A) giggle. (B) male speech and man speaking. (C) female speech and woman speaking. (D) chuckle and chortle. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) female speech and woman speaking"
+    },
+    "37": {
+      "name": "196382.wav",
+      "prompt": "Classify the sound.\n(A) female singing. (B) female speech and woman speaking. (C) child speech and kid speaking. (D) speech synthesizer. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) female speech and woman speaking"
+    },
+    "38": {
+      "name": "405261.wav",
+      "prompt": "Classify the sound.\n(A) female speech and woman speaking. (B) speech synthesizer. (C) male speech and man speaking. (D) male singing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) female speech and woman speaking"
+    },
+    "39": {
+      "name": "398058.wav",
+      "prompt": "Classify the sound.\n(A) giggle. (B) child speech and kid speaking. (C) male singing. (D) female speech and woman speaking. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) female speech and woman speaking"
+    },
+    "40": {
+      "name": "434132.wav",
+      "prompt": "Classify the sound.\n(A) female speech and woman speaking. (B) child speech and kid speaking. (C) female singing. (D) yell. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) female speech and woman speaking"
+    },
+    "41": {
+      "name": "395626.wav",
+      "prompt": "Classify the sound.\n(A) chuckle and chortle. (B) speech synthesizer. (C) giggle. (D) female speech and woman speaking. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) female speech and woman speaking"
+    },
+    "42": {
+      "name": "162091.wav",
+      "prompt": "Classify the sound.\n(A) yell. (B) female speech and woman speaking. (C) speech synthesizer. (D) male singing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) female speech and woman speaking"
+    },
+    "43": {
+      "name": "154431.wav",
+      "prompt": "Classify the sound.\n(A) toilet flush. (B) typing. (C) frying (food). (D) writing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) writing"
+    },
+    "44": {
+      "name": "267501.wav",
+      "prompt": "Classify the sound.\n(A) dishes and pots and pans. (B) writing. (C) typing. (D) zipper (clothing). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) writing"
+    },
+    "45": {
+      "name": "349703.wav",
+      "prompt": "Classify the sound.\n(A) door. (B) scissors. (C) dishes and pots and pans. (D) writing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) writing"
+    },
+    "46": {
+      "name": "51204.wav",
+      "prompt": "Classify the sound.\n(A) writing. (B) coin (dropping). (C) typing. (D) toilet flush. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) writing"
+    },
+    "47": {
+      "name": "83512.wav",
+      "prompt": "Classify the sound.\n(A) idling. (B) wind chime. (C) race car and auto racing. (D) bass drum. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) wind chime"
+    },
+    "48": {
+      "name": "198863.wav",
+      "prompt": "Classify the sound.\n(A) race car and auto racing. (B) bass drum. (C) wind chime. (D) idling. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) wind chime"
+    },
+    "49": {
+      "name": "426595.wav",
+      "prompt": "Classify the sound.\n(A) wind chime. (B) idling. (C) race car and auto racing. (D) bass drum. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) wind chime"
+    },
+    "50": {
+      "name": "413194.wav",
+      "prompt": "Classify the sound.\n(A) bass drum. (B) wind chime. (C) idling. (D) race car and auto racing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) wind chime"
+    },
+    "51": {
+      "name": "414292.wav",
+      "prompt": "Classify the sound.\n(A) breathing. (B) chime. (C) applause. (D) toilet flush. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) applause"
+    },
+    "52": {
+      "name": "22682.wav",
+      "prompt": "Classify the sound.\n(A) cricket. (B) bird vocalization and bird call and bird song. (C) buzz. (D) crow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) cricket"
+    },
+    "53": {
+      "name": "62628.wav",
+      "prompt": "Classify the sound.\n(A) sliding door. (B) slam. (C) typewriter. (D) sink (filling or washing). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) slam"
+    },
+    "54": {
+      "name": "22719.wav",
+      "prompt": "Classify the sound.\n(A) motorcycle. (B) truck. (C) train. (D) bus. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) motorcycle"
+    },
+    "55": {
+      "name": "102547.wav",
+      "prompt": "Classify the sound.\n(A) bark. (B) sink (filling or washing). (C) growling. (D) yell. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) bark"
+    },
+    "56": {
+      "name": "86284.wav",
+      "prompt": "Classify the sound.\n(A) yell. (B) bark. (C) growling. (D) sink (filling or washing). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) bark"
+    },
+    "57": {
+      "name": "68389.wav",
+      "prompt": "Classify the sound.\n(A) growling. (B) purr. (C) bark. (D) sink (filling or washing). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) bark"
+    },
+    "58": {
+      "name": "54545.wav",
+      "prompt": "Classify the sound.\n(A) bark. (B) purr. (C) meow. (D) yell. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) bark"
+    },
+    "59": {
+      "name": "408807.wav",
+      "prompt": "Classify the sound.\n(A) purr. (B) bark. (C) yell. (D) meow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) bark"
+    },
+    "60": {
+      "name": "65290.wav",
+      "prompt": "Classify the sound.\n(A) frying (food). (B) cheering. (C) laughter. (D) gunshot and gunfire. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) gunshot and gunfire"
+    },
+    "61": {
+      "name": "347647.wav",
+      "prompt": "Classify the sound.\n(A) crowd. (B) gunshot and gunfire. (C) microwave oven. (D) coin (dropping). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) gunshot and gunfire"
+    },
+    "62": {
+      "name": "39065.wav",
+      "prompt": "Classify the sound.\n(A) gunshot and gunfire. (B) keys jangling. (C) rain. (D) splash and splatter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) gunshot and gunfire"
+    },
+    "63": {
+      "name": "171236.wav",
+      "prompt": "Classify the sound.\n(A) gunshot and gunfire. (B) scissors. (C) church bell. (D) boiling. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) gunshot and gunfire"
+    },
+    "64": {
+      "name": "127721.wav",
+      "prompt": "Classify the sound.\n(A) frying (food). (B) bicycle. (C) zipper (clothing). (D) chatter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) chatter"
+    },
+    "65": {
+      "name": "86346.wav",
+      "prompt": "Classify the sound.\n(A) clapping. (B) meow. (C) crash cymbal. (D) chirp and tweet. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) chirp and tweet"
+    },
+    "66": {
+      "name": "378204.wav",
+      "prompt": "Classify the sound.\n(A) sawing. (B) aircraft. (C) gunshot and gunfire. (D) musical instrument. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) gunshot and gunfire"
+    },
+    "67": {
+      "name": "68036.wav",
+      "prompt": "Classify the sound.\n(A) sawing. (B) cupboard open or close. (C) fireworks. (D) gunshot and gunfire. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) gunshot and gunfire"
+    },
+    "68": {
+      "name": "330044.wav",
+      "prompt": "Classify the sound.\n(A) hi-hat. (B) bass drum. (C) glockenspiel. (D) crash cymbal. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) bass drum"
+    },
+    "69": {
+      "name": "270655.wav",
+      "prompt": "Classify the sound.\n(A) ringtone. (B) crow. (C) gull and seagull. (D) giggle. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) ringtone"
+    },
+    "70": {
+      "name": "131771.wav",
+      "prompt": "Classify the sound.\n(A) marimba and xylophone. (B) hi-hat. (C) bass drum. (D) glockenspiel. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) hi-hat"
+    },
+    "71": {
+      "name": "170881.wav",
+      "prompt": "Classify the sound.\n(A) ringtone. (B) giggle. (C) dishes and pots and pans. (D) crow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) ringtone"
+    },
+    "72": {
+      "name": "19479.wav",
+      "prompt": "Classify the sound.\n(A) snare drum. (B) bass drum. (C) hi-hat. (D) tabla. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) bass drum"
+    },
+    "73": {
+      "name": "38074.wav",
+      "prompt": "Classify the sound.\n(A) tabla. (B) crash cymbal. (C) marimba and xylophone. (D) bass drum. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) bass drum"
+    },
+    "74": {
+      "name": "98023.wav",
+      "prompt": "Classify the sound.\n(A) gull and seagull. (B) ringtone. (C) crow. (D) giggle. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) ringtone"
+    },
+    "75": {
+      "name": "366102.wav",
+      "prompt": "Classify the sound.\n(A) crow. (B) dishes and pots and pans. (C) giggle. (D) ringtone. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) ringtone"
+    },
+    "76": {
+      "name": "399315.wav",
+      "prompt": "Classify the sound.\n(A) dishes and pots and pans. (B) ringtone. (C) giggle. (D) gull and seagull. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) ringtone"
+    },
+    "77": {
+      "name": "347956.wav",
+      "prompt": "Classify the sound.\n(A) microwave oven. (B) water tap and faucet. (C) zipper (clothing). (D) dishes and pots and pans. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) microwave oven"
+    },
+    "78": {
+      "name": "86044.wav",
+      "prompt": "Classify the sound.\n(A) train. (B) bus. (C) car. (D) motorcycle. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) bus"
+    },
+    "79": {
+      "name": "235956.wav",
+      "prompt": "Classify the sound.\n(A) train. (B) motorcycle. (C) car. (D) fixed-wing aircraft and airplane. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) fixed-wing aircraft and airplane"
+    },
+    "80": {
+      "name": "14833.wav",
+      "prompt": "Classify the sound.\n(A) mechanical fan. (B) car passing by. (C) buzz. (D) church bell. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) car passing by"
+    },
+    "81": {
+      "name": "361498.wav",
+      "prompt": "Classify the sound.\n(A) chatter. (B) bicycle. (C) musical instrument. (D) toilet flush. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) chatter"
+    },
+    "82": {
+      "name": "60609.wav",
+      "prompt": "Classify the sound.\n(A) water tap and faucet. (B) shatter. (C) idling. (D) rain. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) idling"
+    },
+    "83": {
+      "name": "187604.wav",
+      "prompt": "Classify the sound.\n(A) cricket. (B) keys jangling. (C) buzz. (D) crow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) buzz"
+    },
+    "84": {
+      "name": "327062.wav",
+      "prompt": "Classify the sound.\n(A) train. (B) fixed-wing aircraft and airplane. (C) motorcycle. (D) car. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) fixed-wing aircraft and airplane"
+    },
+    "85": {
+      "name": "148928.wav",
+      "prompt": "Classify the sound.\n(A) tabla. (B) growling. (C) toilet flush. (D) meow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) meow"
+    },
+    "86": {
+      "name": "417230.wav",
+      "prompt": "Classify the sound.\n(A) crow. (B) cricket. (C) keys jangling. (D) buzz. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) buzz"
+    },
+    "87": {
+      "name": "347960.wav",
+      "prompt": "Classify the sound.\n(A) car. (B) motorcycle. (C) train. (D) bus. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) bus"
+    },
+    "88": {
+      "name": "104277.wav",
+      "prompt": "Classify the sound.\n(A) knock. (B) bathtub (filling or washing). (C) sliding door. (D) typewriter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) sliding door"
+    },
+    "89": {
+      "name": "235365.wav",
+      "prompt": "Classify the sound.\n(A) motorcycle. (B) fixed-wing aircraft and airplane. (C) car. (D) train. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) fixed-wing aircraft and airplane"
+    },
+    "90": {
+      "name": "155513.wav",
+      "prompt": "Classify the sound.\n(A) crow. (B) buzz. (C) keys jangling. (D) cricket. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) buzz"
+    },
+    "91": {
+      "name": "180226.wav",
+      "prompt": "Classify the sound.\n(A) water tap and faucet. (B) keys jangling. (C) cupboard open or close. (D) microwave oven. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) cupboard open or close"
+    },
+    "92": {
+      "name": "78526.wav",
+      "prompt": "Classify the sound.\n(A) ratchet and pawl. (B) water tap and faucet. (C) dishes and pots and pans. (D) aircraft. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) ratchet and pawl"
+    },
+    "93": {
+      "name": "390099.wav",
+      "prompt": "Classify the sound.\n(A) acoustic guitar. (B) electric guitar. (C) bass guitar. (D) sliding door. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) bass guitar"
+    },
+    "94": {
+      "name": "135191.wav",
+      "prompt": "Classify the sound.\n(A) keys jangling. (B) wild animals. (C) chatter. (D) applause. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) applause"
+    },
+    "95": {
+      "name": "84359.wav",
+      "prompt": "Classify the sound.\n(A) clapping. (B) meow. (C) crash cymbal. (D) chirp and tweet. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) chirp and tweet"
+    },
+    "96": {
+      "name": "69155.wav",
+      "prompt": "Classify the sound.\n(A) speech. (B) crying and sobbing. (C) singing. (D) sigh. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) crying and sobbing"
+    },
+    "97": {
+      "name": "408740.wav",
+      "prompt": "Classify the sound.\n(A) crying and sobbing. (B) singing. (C) shout. (D) sigh. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) crying and sobbing"
+    },
+    "98": {
+      "name": "371602.wav",
+      "prompt": "Classify the sound.\n(A) applause. (B) boiling. (C) scissors. (D) hammer. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) applause"
+    },
+    "99": {
+      "name": "33563.wav",
+      "prompt": "Classify the sound.\n(A) sawing. (B) boiling. (C) zipper (clothing). (D) applause. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) applause"
+    },
+    "100": {
+      "name": "33562.wav",
+      "prompt": "Classify the sound.\n(A) zipper (clothing). (B) fireworks. (C) applause. (D) drip. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) applause"
+    },
+    "101": {
+      "name": "1925.wav",
+      "prompt": "Classify the sound.\n(A) cupboard open or close. (B) printer. (C) applause. (D) coin (dropping). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) applause"
+    },
+    "102": {
+      "name": "371562.wav",
+      "prompt": "Classify the sound.\n(A) drill. (B) applause. (C) microwave oven. (D) laughter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) applause"
+    },
+    "103": {
+      "name": "274499.wav",
+      "prompt": "Classify the sound.\n(A) keys jangling. (B) microwave oven. (C) frying (food). (D) cutlery and silverware. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) frying (food)"
+    },
+    "104": {
+      "name": "366586.wav",
+      "prompt": "Classify the sound.\n(A) frying (food). (B) door. (C) cupboard open or close. (D) dishes and pots and pans. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) frying (food)"
+    },
+    "105": {
+      "name": "366855.wav",
+      "prompt": "Classify the sound.\n(A) bark. (B) growling. (C) meow. (D) tabla. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) meow"
+    },
+    "106": {
+      "name": "429494.wav",
+      "prompt": "Classify the sound.\n(A) water tap and faucet. (B) coin (dropping). (C) cutlery and silverware. (D) door. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) cutlery and silverware"
+    },
+    "107": {
+      "name": "433539.wav",
+      "prompt": "Classify the sound.\n(A) microwave oven. (B) cutlery and silverware. (C) toilet flush. (D) frying (food). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) cutlery and silverware"
+    },
+    "108": {
+      "name": "418335.wav",
+      "prompt": "Classify the sound.\n(A) finger snapping. (B) writing. (C) sneeze. (D) rail transport. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) sneeze"
+    },
+    "109": {
+      "name": "366579.wav",
+      "prompt": "Classify the sound.\n(A) sneeze. (B) drill. (C) boat and water vehicle. (D) writing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) sneeze"
+    },
+    "110": {
+      "name": "143119.wav",
+      "prompt": "Classify the sound.\n(A) toilet flush. (B) finger snapping. (C) sneeze. (D) bicycle. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) sneeze"
+    },
+    "111": {
+      "name": "394162.wav",
+      "prompt": "Classify the sound.\n(A) computer keyboard. (B) knock. (C) typewriter. (D) doorbell. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) knock"
+    },
+    "112": {
+      "name": "67304.wav",
+      "prompt": "Classify the sound.\n(A) knock. (B) sink (filling or washing). (C) computer keyboard. (D) doorbell. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) knock"
+    },
+    "113": {
+      "name": "329924.wav",
+      "prompt": "Classify the sound.\n(A) computer keyboard. (B) knock. (C) slam. (D) sink (filling or washing). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) knock"
+    },
+    "114": {
+      "name": "194365.wav",
+      "prompt": "Classify the sound.\n(A) knock. (B) computer keyboard. (C) typewriter. (D) sliding door. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) knock"
+    },
+    "115": {
+      "name": "59677.wav",
+      "prompt": "Classify the sound.\n(A) accelerating and revving and vroom. (B) car passing by. (C) buzz. (D) church bell. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) car passing by"
+    },
+    "116": {
+      "name": "25590.wav",
+      "prompt": "Classify the sound.\n(A) domestic animals and pets. (B) chatter. (C) pour. (D) fill (with liquid). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) chatter"
+    },
+    "117": {
+      "name": "31505.wav",
+      "prompt": "Classify the sound.\n(A) growling. (B) bark. (C) meow. (D) purr. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) purr"
+    },
+    "118": {
+      "name": "93847.wav",
+      "prompt": "Classify the sound.\n(A) car passing by. (B) growling. (C) purr. (D) bark. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) purr"
+    },
+    "119": {
+      "name": "157156.wav",
+      "prompt": "Classify the sound.\n(A) toilet flush. (B) water tap and faucet. (C) dishes and pots and pans. (D) microwave oven. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) dishes and pots and pans"
+    },
+    "120": {
+      "name": "327668.wav",
+      "prompt": "Classify the sound.\n(A) writing. (B) zipper (clothing). (C) toilet flush. (D) dishes and pots and pans. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) dishes and pots and pans"
+    },
+    "121": {
+      "name": "402166.wav",
+      "prompt": "Classify the sound.\n(A) scissors. (B) water tap and faucet. (C) dishes and pots and pans. (D) toilet flush. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) dishes and pots and pans"
+    },
+    "122": {
+      "name": "267486.wav",
+      "prompt": "Classify the sound.\n(A) dishes and pots and pans. (B) coin (dropping). (C) writing. (D) toilet flush. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) dishes and pots and pans"
+    },
+    "123": {
+      "name": "41308.wav",
+      "prompt": "Classify the sound.\n(A) water tap and faucet. (B) dishes and pots and pans. (C) keys jangling. (D) toilet flush. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) dishes and pots and pans"
+    },
+    "124": {
+      "name": "157770.wav",
+      "prompt": "Classify the sound.\n(A) yell. (B) chuckle and chortle. (C) male singing. (D) speech synthesizer. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) speech synthesizer"
+    },
+    "125": {
+      "name": "115239.wav",
+      "prompt": "Classify the sound.\n(A) chatter. (B) bicycle. (C) sawing. (D) clock. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) chatter"
+    },
+    "126": {
+      "name": "117574.wav",
+      "prompt": "Classify the sound.\n(A) ratchet and pawl. (B) clock. (C) shatter. (D) church bell. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) ratchet and pawl"
+    },
+    "127": {
+      "name": "85720.wav",
+      "prompt": "Classify the sound.\n(A) ratchet and pawl. (B) church bell. (C) fireworks. (D) applause. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) ratchet and pawl"
+    },
+    "128": {
+      "name": "94133.wav",
+      "prompt": "Classify the sound.\n(A) cough. (B) shatter. (C) ratchet and pawl. (D) frying (food). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) ratchet and pawl"
+    },
+    "129": {
+      "name": "400163.wav",
+      "prompt": "Classify the sound.\n(A) trumpet. (B) cymbal. (C) organ. (D) gong. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) trumpet"
+    },
+    "130": {
+      "name": "91354.wav",
+      "prompt": "Classify the sound.\n(A) piano. (B) gong. (C) mallet percussion. (D) trumpet. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) trumpet"
+    },
+    "131": {
+      "name": "95085.wav",
+      "prompt": "Classify the sound.\n(A) car passing by. (B) crowd. (C) raindrop. (D) chatter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) raindrop"
+    },
+    "132": {
+      "name": "47050.wav",
+      "prompt": "Classify the sound.\n(A) chatter. (B) crowd. (C) raindrop. (D) car passing by. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) raindrop"
+    },
+    "133": {
+      "name": "366246.wav",
+      "prompt": "Classify the sound.\n(A) car passing by. (B) crowd. (C) chatter. (D) raindrop. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) raindrop"
+    },
+    "134": {
+      "name": "238012.wav",
+      "prompt": "Classify the sound.\n(A) crowd. (B) raindrop. (C) car passing by. (D) chatter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) raindrop"
+    },
+    "135": {
+      "name": "393513.wav",
+      "prompt": "Classify the sound.\n(A) rain. (B) door. (C) packing tape and duct tape. (D) frying (food). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) rain"
+    },
+    "136": {
+      "name": "268148.wav",
+      "prompt": "Classify the sound.\n(A) packing tape and duct tape. (B) thunder. (C) musical instrument. (D) dishes and pots and pans. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) thunder"
+    },
+    "137": {
+      "name": "337791.wav",
+      "prompt": "Classify the sound.\n(A) door. (B) rain. (C) engine starting. (D) cupboard open or close. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) rain"
+    },
+    "138": {
+      "name": "104210.wav",
+      "prompt": "Classify the sound.\n(A) hi-hat. (B) crash cymbal. (C) marimba and xylophone. (D) drum kit. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) crash cymbal"
+    },
+    "139": {
+      "name": "87724.wav",
+      "prompt": "Classify the sound.\n(A) crash cymbal. (B) hi-hat. (C) snare drum. (D) tabla. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) crash cymbal"
+    },
+    "140": {
+      "name": "117972.wav",
+      "prompt": "Classify the sound.\n(A) drum kit. (B) hi-hat. (C) crash cymbal. (D) tabla. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) crash cymbal"
+    },
+    "141": {
+      "name": "19475.wav",
+      "prompt": "Classify the sound.\n(A) bass drum. (B) crash cymbal. (C) tabla. (D) marimba and xylophone. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) crash cymbal"
+    },
+    "142": {
+      "name": "345073.wav",
+      "prompt": "Classify the sound.\n(A) hammer. (B) telephone. (C) clapping. (D) drill. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) drill"
+    },
+    "143": {
+      "name": "28755.wav",
+      "prompt": "Classify the sound.\n(A) snare drum. (B) marimba and xylophone. (C) bass drum. (D) glockenspiel. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) snare drum"
+    },
+    "144": {
+      "name": "416203.wav",
+      "prompt": "Classify the sound.\n(A) bass drum. (B) tabla. (C) snare drum. (D) crash cymbal. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) snare drum"
+    },
+    "145": {
+      "name": "328830.wav",
+      "prompt": "Classify the sound.\n(A) plucked string instrument. (B) bowed string instrument. (C) harp. (D) harmonica. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) harmonica"
+    },
+    "146": {
+      "name": "214300.wav",
+      "prompt": "Classify the sound.\n(A) keyboard (musical). (B) brass instrument. (C) harmonica. (D) plucked string instrument. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) harmonica"
+    },
+    "147": {
+      "name": "348311.wav",
+      "prompt": "Classify the sound.\n(A) harmonica. (B) bowed string instrument. (C) brass instrument. (D) percussion. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) harmonica"
+    },
+    "148": {
+      "name": "25943.wav",
+      "prompt": "Classify the sound.\n(A) bowed string instrument. (B) harmonica. (C) plucked string instrument. (D) keyboard (musical). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) harmonica"
+    },
+    "149": {
+      "name": "197338.wav",
+      "prompt": "Classify the sound.\n(A) chatter. (B) sawing. (C) bicycle. (D) bicycle bell. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) chatter"
+    },
+    "150": {
+      "name": "326672.wav",
+      "prompt": "Classify the sound.\n(A) whispering. (B) church bell. (C) mechanical fan. (D) telephone. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) mechanical fan"
+    },
+    "151": {
+      "name": "370162.wav",
+      "prompt": "Classify the sound.\n(A) mechanical fan. (B) stream. (C) clock. (D) dishes and pots and pans. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) mechanical fan"
+    },
+    "152": {
+      "name": "321230.wav",
+      "prompt": "Classify the sound.\n(A) speech. (B) laughter. (C) crying and sobbing. (D) screaming. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) screaming"
+    },
+    "153": {
+      "name": "32983.wav",
+      "prompt": "Classify the sound.\n(A) speech. (B) screaming. (C) crying and sobbing. (D) shout. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) screaming"
+    },
+    "154": {
+      "name": "90790.wav",
+      "prompt": "Classify the sound.\n(A) screaming. (B) singing. (C) shout. (D) whispering. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) screaming"
+    },
+    "155": {
+      "name": "222674.wav",
+      "prompt": "Classify the sound.\n(A) screaming. (B) sigh. (C) whispering. (D) shout. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) screaming"
+    },
+    "156": {
+      "name": "102789.wav",
+      "prompt": "Classify the sound.\n(A) hi-hat. (B) crash cymbal. (C) bass drum. (D) tabla. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) hi-hat"
+    },
+    "157": {
+      "name": "58589.wav",
+      "prompt": "Classify the sound.\n(A) marimba and xylophone. (B) snare drum. (C) drum kit. (D) hi-hat. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) hi-hat"
+    },
+    "158": {
+      "name": "13248.wav",
+      "prompt": "Classify the sound.\n(A) hi-hat. (B) glockenspiel. (C) tabla. (D) crash cymbal. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) hi-hat"
+    },
+    "159": {
+      "name": "317094.wav",
+      "prompt": "Classify the sound.\n(A) glockenspiel. (B) hi-hat. (C) tabla. (D) marimba and xylophone. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) hi-hat"
+    },
+    "160": {
+      "name": "317091.wav",
+      "prompt": "Classify the sound.\n(A) crash cymbal. (B) hi-hat. (C) drum kit. (D) glockenspiel. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) hi-hat"
+    },
+    "161": {
+      "name": "317090.wav",
+      "prompt": "Classify the sound.\n(A) hi-hat. (B) tabla. (C) glockenspiel. (D) crash cymbal. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) hi-hat"
+    },
+    "162": {
+      "name": "78223.wav",
+      "prompt": "Classify the sound.\n(A) glockenspiel. (B) hi-hat. (C) marimba and xylophone. (D) tabla. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) hi-hat"
+    },
+    "163": {
+      "name": "156640.wav",
+      "prompt": "Classify the sound.\n(A) cutlery and silverware. (B) clapping. (C) writing. (D) chatter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) chatter"
+    },
+    "164": {
+      "name": "60155.wav",
+      "prompt": "Classify the sound.\n(A) siren. (B) chatter. (C) cheering. (D) hammer. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) chatter"
+    },
+    "165": {
+      "name": "419119.wav",
+      "prompt": "Classify the sound.\n(A) splash and splatter. (B) shout. (C) stream. (D) chatter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) stream"
+    },
+    "166": {
+      "name": "48716.wav",
+      "prompt": "Classify the sound.\n(A) whispering. (B) shout. (C) singing. (D) laughter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) whispering"
+    },
+    "167": {
+      "name": "194942.wav",
+      "prompt": "Classify the sound.\n(A) bus. (B) gull and seagull. (C) cricket. (D) crow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) gull and seagull"
+    },
+    "168": {
+      "name": "58359.wav",
+      "prompt": "Classify the sound.\n(A) bus. (B) gull and seagull. (C) cricket. (D) crow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) gull and seagull"
+    },
+    "169": {
+      "name": "75195.wav",
+      "prompt": "Classify the sound.\n(A) bus. (B) gull and seagull. (C) cricket. (D) crow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) gull and seagull"
+    },
+    "170": {
+      "name": "381293.wav",
+      "prompt": "Classify the sound.\n(A) cymbal. (B) drum. (C) mallet percussion. (D) piano. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) piano"
+    },
+    "171": {
+      "name": "119081.wav",
+      "prompt": "Classify the sound.\n(A) toilet flush. (B) keys jangling. (C) water tap and faucet. (D) packing tape and duct tape. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) packing tape and duct tape"
+    },
+    "172": {
+      "name": "395596.wav",
+      "prompt": "Classify the sound.\n(A) microwave oven. (B) packing tape and duct tape. (C) water tap and faucet. (D) keys jangling. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) packing tape and duct tape"
+    },
+    "173": {
+      "name": "157311.wav",
+      "prompt": "Classify the sound.\n(A) crow. (B) bird vocalization and bird call and bird song. (C) boat and water vehicle. (D) cricket. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) cricket"
+    },
+    "174": {
+      "name": "169185.wav",
+      "prompt": "Classify the sound.\n(A) crash cymbal. (B) chirp and tweet. (C) clapping. (D) meow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) chirp and tweet"
+    },
+    "175": {
+      "name": "372595.wav",
+      "prompt": "Classify the sound.\n(A) crow. (B) cricket. (C) keys jangling. (D) buzz. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) buzz"
+    },
+    "176": {
+      "name": "114582.wav",
+      "prompt": "Classify the sound.\n(A) church bell. (B) fireworks. (C) door. (D) laughter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) fireworks"
+    },
+    "177": {
+      "name": "341043.wav",
+      "prompt": "Classify the sound.\n(A) microwave oven. (B) whispering. (C) gurgling. (D) fireworks. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) fireworks"
+    },
+    "178": {
+      "name": "126565.wav",
+      "prompt": "Classify the sound.\n(A) sawing. (B) fireworks. (C) skateboard. (D) crying and sobbing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) fireworks"
+    },
+    "179": {
+      "name": "60902.wav",
+      "prompt": "Classify the sound.\n(A) gunshot and gunfire. (B) church bell. (C) boiling. (D) fireworks. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) fireworks"
+    },
+    "180": {
+      "name": "223273.wav",
+      "prompt": "Classify the sound.\n(A) acoustic guitar. (B) gunshot and gunfire. (C) electric guitar. (D) bass guitar. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) acoustic guitar"
+    },
+    "181": {
+      "name": "326662.wav",
+      "prompt": "Classify the sound.\n(A) crash cymbal. (B) clapping. (C) chirp and tweet. (D) meow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) chirp and tweet"
+    },
+    "182": {
+      "name": "346898.wav",
+      "prompt": "Classify the sound.\n(A) cheering. (B) bicycle. (C) typing. (D) rail transport. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) cheering"
+    },
+    "183": {
+      "name": "58969.wav",
+      "prompt": "Classify the sound.\n(A) bass guitar. (B) electric guitar. (C) acoustic guitar. (D) boiling. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) acoustic guitar"
+    },
+    "184": {
+      "name": "59507.wav",
+      "prompt": "Classify the sound.\n(A) electric guitar. (B) sawing. (C) gunshot and gunfire. (D) acoustic guitar. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) acoustic guitar"
+    },
+    "185": {
+      "name": "331035.wav",
+      "prompt": "Classify the sound.\n(A) boiling. (B) bass guitar. (C) acoustic guitar. (D) gunshot and gunfire. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) acoustic guitar"
+    },
+    "186": {
+      "name": "74201.wav",
+      "prompt": "Classify the sound.\n(A) acoustic guitar. (B) sawing. (C) electric guitar. (D) bass guitar. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) acoustic guitar"
+    },
+    "187": {
+      "name": "257620.wav",
+      "prompt": "Classify the sound.\n(A) plucked string instrument. (B) accordion. (C) percussion. (D) keyboard (musical). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) accordion"
+    },
+    "188": {
+      "name": "345866.wav",
+      "prompt": "Classify the sound.\n(A) male singing. (B) giggle. (C) child speech and kid speaking. (D) yell. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) male singing"
+    },
+    "189": {
+      "name": "272410.wav",
+      "prompt": "Classify the sound.\n(A) yell. (B) male singing. (C) male speech and man speaking. (D) giggle. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yell"
+    },
+    "190": {
+      "name": "58573.wav",
+      "prompt": "Classify the sound.\n(A) clapping. (B) crash cymbal. (C) meow. (D) chirp and tweet. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) chirp and tweet"
+    },
+    "191": {
+      "name": "424031.wav",
+      "prompt": "Classify the sound.\n(A) computer keyboard. (B) doorbell. (C) sink (filling or washing). (D) slam. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) slam"
+    },
+    "192": {
+      "name": "38683.wav",
+      "prompt": "Classify the sound.\n(A) ratchet and pawl. (B) pour. (C) idling. (D) gurgling. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) idling"
+    },
+    "193": {
+      "name": "396311.wav",
+      "prompt": "Classify the sound.\n(A) clapping. (B) meow. (C) chirp and tweet. (D) crash cymbal. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) chirp and tweet"
+    },
+    "194": {
+      "name": "350759.wav",
+      "prompt": "Classify the sound.\n(A) zipper (clothing). (B) gong. (C) ringtone. (D) waves and surf. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) waves and surf"
+    },
+    "195": {
+      "name": "179337.wav",
+      "prompt": "Classify the sound.\n(A) splash and splatter. (B) microwave oven. (C) bicycle bell. (D) sneeze. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) splash and splatter"
+    },
+    "196": {
+      "name": "320263.wav",
+      "prompt": "Classify the sound.\n(A) water tap and faucet. (B) splash and splatter. (C) boom. (D) shout. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) splash and splatter"
+    },
+    "197": {
+      "name": "203604.wav",
+      "prompt": "Classify the sound.\n(A) bass drum. (B) crash cymbal. (C) snare drum. (D) marimba and xylophone. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) bass drum"
+    },
+    "198": {
+      "name": "219610.wav",
+      "prompt": "Classify the sound.\n(A) drum kit. (B) tabla. (C) bass drum. (D) glockenspiel. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) bass drum"
+    },
+    "199": {
+      "name": "196559.wav",
+      "prompt": "Classify the sound.\n(A) splash and splatter. (B) musical instrument. (C) clapping. (D) zipper (clothing). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) clapping"
+    },
+    "200": {
+      "name": "203785.wav",
+      "prompt": "Classify the sound.\n(A) wind instrument and woodwind instrument. (B) harp. (C) bowed string instrument. (D) harmonica. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) bowed string instrument"
+    },
+    "201": {
+      "name": "223370.wav",
+      "prompt": "Classify the sound.\n(A) keyboard (musical). (B) accordion. (C) bowed string instrument. (D) harp. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) bowed string instrument"
+    },
+    "202": {
+      "name": "257996.wav",
+      "prompt": "Classify the sound.\n(A) keyboard (musical). (B) bowed string instrument. (C) accordion. (D) brass instrument. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) bowed string instrument"
+    },
+    "203": {
+      "name": "203755.wav",
+      "prompt": "Classify the sound.\n(A) bowed string instrument. (B) plucked string instrument. (C) accordion. (D) harmonica. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) bowed string instrument"
+    },
+    "204": {
+      "name": "203756.wav",
+      "prompt": "Classify the sound.\n(A) harp. (B) plucked string instrument. (C) bowed string instrument. (D) brass instrument. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) bowed string instrument"
+    },
+    "205": {
+      "name": "325682.wav",
+      "prompt": "Classify the sound.\n(A) toilet flush. (B) keys jangling. (C) zipper (clothing). (D) scissors. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) keys jangling"
+    },
+    "206": {
+      "name": "30545.wav",
+      "prompt": "Classify the sound.\n(A) toilet flush. (B) scissors. (C) keys jangling. (D) zipper (clothing). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) keys jangling"
+    },
+    "207": {
+      "name": "383264.wav",
+      "prompt": "Classify the sound.\n(A) hammer. (B) chime. (C) fill (with liquid). (D) water tap and faucet. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) fill (with liquid)"
+    },
+    "208": {
+      "name": "366383.wav",
+      "prompt": "Classify the sound.\n(A) skateboard. (B) boom. (C) fill (with liquid). (D) finger snapping. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) fill (with liquid)"
+    },
+    "209": {
+      "name": "394891.wav",
+      "prompt": "Classify the sound.\n(A) clock. (B) musical instrument. (C) hammer. (D) wild animals. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) hammer"
+    },
+    "210": {
+      "name": "367039.wav",
+      "prompt": "Classify the sound.\n(A) boiling. (B) hammer. (C) breathing. (D) cough. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) hammer"
+    },
+    "211": {
+      "name": "324345.wav",
+      "prompt": "Classify the sound.\n(A) cymbal. (B) drum. (C) tambourine. (D) rattle (instrument). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) rattle (instrument)"
+    },
+    "212": {
+      "name": "416907.wav",
+      "prompt": "Classify the sound.\n(A) drum. (B) tambourine. (C) rattle (instrument). (D) mallet percussion. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) rattle (instrument)"
+    },
+    "213": {
+      "name": "108248.wav",
+      "prompt": "Classify the sound.\n(A) rattle (instrument). (B) tambourine. (C) gong. (D) cymbal. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) gong"
+    },
+    "214": {
+      "name": "324343.wav",
+      "prompt": "Classify the sound.\n(A) gong. (B) cymbal. (C) tambourine. (D) rattle (instrument). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) rattle (instrument)"
+    },
+    "215": {
+      "name": "35623.wav",
+      "prompt": "Classify the sound.\n(A) trickle and dribble. (B) finger snapping. (C) buzz. (D) typewriter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) trickle and dribble"
+    },
+    "216": {
+      "name": "395393.wav",
+      "prompt": "Classify the sound.\n(A) finger snapping. (B) buzz. (C) crash cymbal. (D) trickle and dribble. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) trickle and dribble"
+    },
+    "217": {
+      "name": "90796.wav",
+      "prompt": "Classify the sound.\n(A) crash cymbal. (B) buzz. (C) trickle and dribble. (D) finger snapping. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) trickle and dribble"
+    },
+    "218": {
+      "name": "388765.wav",
+      "prompt": "Classify the sound.\n(A) trickle and dribble. (B) finger snapping. (C) crash cymbal. (D) typewriter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) trickle and dribble"
+    },
+    "219": {
+      "name": "173401.wav",
+      "prompt": "Classify the sound.\n(A) giggle. (B) yell. (C) chuckle and chortle. (D) male singing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) male singing"
+    },
+    "220": {
+      "name": "345022.wav",
+      "prompt": "Classify the sound.\n(A) giggle. (B) female speech and woman speaking. (C) speech synthesizer. (D) female singing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) giggle"
+    },
+    "221": {
+      "name": "410572.wav",
+      "prompt": "Classify the sound.\n(A) giggle. (B) chuckle and chortle. (C) male speech and man speaking. (D) female speech and woman speaking. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) giggle"
+    },
+    "222": {
+      "name": "120493.wav",
+      "prompt": "Classify the sound.\n(A) bicycle bell. (B) chink and clink. (C) toilet flush. (D) ocean. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) bicycle bell"
+    },
+    "223": {
+      "name": "134688.wav",
+      "prompt": "Classify the sound.\n(A) idling. (B) crying and sobbing. (C) bicycle bell. (D) clock. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) bicycle bell"
+    },
+    "224": {
+      "name": "172560.wav",
+      "prompt": "Classify the sound.\n(A) harp. (B) brass instrument. (C) bowed string instrument. (D) accordion. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) accordion"
+    },
+    "225": {
+      "name": "119542.wav",
+      "prompt": "Classify the sound.\n(A) harmonica. (B) brass instrument. (C) harp. (D) accordion. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) accordion"
+    },
+    "226": {
+      "name": "385882.wav",
+      "prompt": "Classify the sound.\n(A) accordion. (B) harmonica. (C) harp. (D) plucked string instrument. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) accordion"
+    },
+    "227": {
+      "name": "71168.wav",
+      "prompt": "Classify the sound.\n(A) chirp and tweet. (B) clapping. (C) crash cymbal. (D) meow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) chirp and tweet"
+    },
+    "228": {
+      "name": "207120.wav",
+      "prompt": "Classify the sound.\n(A) meow. (B) clapping. (C) crash cymbal. (D) chirp and tweet. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) chirp and tweet"
+    },
+    "229": {
+      "name": "338677.wav",
+      "prompt": "Classify the sound.\n(A) crash cymbal. (B) meow. (C) clapping. (D) chirp and tweet. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) chirp and tweet"
+    },
+    "230": {
+      "name": "418181.wav",
+      "prompt": "Classify the sound.\n(A) clapping. (B) chirp and tweet. (C) crash cymbal. (D) meow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) chirp and tweet"
+    },
+    "231": {
+      "name": "268729.wav",
+      "prompt": "Classify the sound.\n(A) clapping. (B) crash cymbal. (C) meow. (D) chirp and tweet. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) chirp and tweet"
+    },
+    "232": {
+      "name": "254081.wav",
+      "prompt": "Classify the sound.\n(A) crash cymbal. (B) clapping. (C) chirp and tweet. (D) meow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) chirp and tweet"
+    },
+    "233": {
+      "name": "152722.wav",
+      "prompt": "Classify the sound.\n(A) chirp and tweet. (B) meow. (C) crash cymbal. (D) clapping. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) chirp and tweet"
+    },
+    "234": {
+      "name": "244458.wav",
+      "prompt": "Classify the sound.\n(A) clapping. (B) crash cymbal. (C) chirp and tweet. (D) meow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) chirp and tweet"
+    },
+    "235": {
+      "name": "237686.wav",
+      "prompt": "Classify the sound.\n(A) crash cymbal. (B) meow. (C) chirp and tweet. (D) clapping. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) chirp and tweet"
+    },
+    "236": {
+      "name": "426237.wav",
+      "prompt": "Classify the sound.\n(A) crash cymbal. (B) chirp and tweet. (C) clapping. (D) meow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) chirp and tweet"
+    },
+    "237": {
+      "name": "427893.wav",
+      "prompt": "Classify the sound.\n(A) chirp and tweet. (B) crash cymbal. (C) meow. (D) clapping. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) chirp and tweet"
+    },
+    "238": {
+      "name": "338197.wav",
+      "prompt": "Classify the sound.\n(A) cough. (B) crash cymbal. (C) female singing. (D) gasp. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) gasp"
+    },
+    "239": {
+      "name": "233501.wav",
+      "prompt": "Classify the sound.\n(A) slam. (B) sliding door. (C) bathtub (filling or washing). (D) doorbell. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) sliding door"
+    },
+    "240": {
+      "name": "348608.wav",
+      "prompt": "Classify the sound.\n(A) engine starting. (B) shatter. (C) cowbell. (D) aircraft. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) cowbell"
+    },
+    "241": {
+      "name": "159763.wav",
+      "prompt": "Classify the sound.\n(A) stream. (B) coin (dropping). (C) cowbell. (D) toilet flush. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) cowbell"
+    },
+    "242": {
+      "name": "337915.wav",
+      "prompt": "Classify the sound.\n(A) toilet flush. (B) water tap and faucet. (C) cowbell. (D) cupboard open or close. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) cowbell"
+    },
+    "243": {
+      "name": "407616.wav",
+      "prompt": "Classify the sound.\n(A) wild animals. (B) hammer. (C) mechanical fan. (D) cough. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) cough"
+    },
+    "244": {
+      "name": "159455.wav",
+      "prompt": "Classify the sound.\n(A) cough. (B) chink and clink. (C) wild animals. (D) boat and water vehicle. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) cough"
+    },
+    "245": {
+      "name": "407509.wav",
+      "prompt": "Classify the sound.\n(A) cough. (B) pour. (C) chink and clink. (D) boom. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) cough"
+    },
+    "246": {
+      "name": "325012.wav",
+      "prompt": "Classify the sound.\n(A) drum kit. (B) snare drum. (C) glockenspiel. (D) hi-hat. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) glockenspiel"
+    },
+    "247": {
+      "name": "166363.wav",
+      "prompt": "Classify the sound.\n(A) glockenspiel. (B) snare drum. (C) bass drum. (D) drum kit. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) glockenspiel"
+    },
+    "248": {
+      "name": "396283.wav",
+      "prompt": "Classify the sound.\n(A) bass drum. (B) hi-hat. (C) snare drum. (D) glockenspiel. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) glockenspiel"
+    },
+    "249": {
+      "name": "336761.wav",
+      "prompt": "Classify the sound.\n(A) mechanical fan. (B) accelerating and revving and vroom. (C) buzz. (D) car passing by. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) car passing by"
+    },
+    "250": {
+      "name": "137164.wav",
+      "prompt": "Classify the sound.\n(A) dishes and pots and pans. (B) door. (C) typing. (D) scissors. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) scissors"
+    },
+    "251": {
+      "name": "365670.wav",
+      "prompt": "Classify the sound.\n(A) scissors. (B) typing. (C) coin (dropping). (D) dishes and pots and pans. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) scissors"
+    },
+    "252": {
+      "name": "167699.wav",
+      "prompt": "Classify the sound.\n(A) microwave oven. (B) cupboard open or close. (C) scissors. (D) keys jangling. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) scissors"
+    },
+    "253": {
+      "name": "346589.wav",
+      "prompt": "Classify the sound.\n(A) computer keyboard. (B) knock. (C) sliding door. (D) slam. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) computer keyboard"
+    },
+    "254": {
+      "name": "337623.wav",
+      "prompt": "Classify the sound.\n(A) bathtub (filling or washing). (B) sink (filling or washing). (C) knock. (D) computer keyboard. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) computer keyboard"
+    },
+    "255": {
+      "name": "145449.wav",
+      "prompt": "Classify the sound.\n(A) percussion. (B) harmonica. (C) keyboard (musical). (D) harp. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) harp"
+    },
+    "256": {
+      "name": "178206.wav",
+      "prompt": "Classify the sound.\n(A) harmonica. (B) brass instrument. (C) harp. (D) accordion. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) harp"
+    },
+    "257": {
+      "name": "320264.wav",
+      "prompt": "Classify the sound.\n(A) cymbal. (B) mallet percussion. (C) gong. (D) tambourine. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) tambourine"
+    },
+    "258": {
+      "name": "423631.wav",
+      "prompt": "Classify the sound.\n(A) tambourine. (B) cymbal. (C) gong. (D) drum. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) tambourine"
+    },
+    "259": {
+      "name": "352507.wav",
+      "prompt": "Classify the sound.\n(A) mallet percussion. (B) cymbal. (C) tambourine. (D) drum. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) tambourine"
+    },
+    "260": {
+      "name": "245215.wav",
+      "prompt": "Classify the sound.\n(A) cymbal. (B) drum. (C) tambourine. (D) rattle (instrument). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) tambourine"
+    },
+    "261": {
+      "name": "257373.wav",
+      "prompt": "Classify the sound.\n(A) doorbell. (B) slam. (C) sink (filling or washing). (D) computer keyboard. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) slam"
+    },
+    "262": {
+      "name": "403294.wav",
+      "prompt": "Classify the sound.\n(A) buzz. (B) boat and water vehicle. (C) cricket. (D) gull and seagull. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) cricket"
+    },
+    "263": {
+      "name": "337435.wav",
+      "prompt": "Classify the sound.\n(A) cricket. (B) gull and seagull. (C) boat and water vehicle. (D) crow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) cricket"
+    },
+    "264": {
+      "name": "164295.wav",
+      "prompt": "Classify the sound.\n(A) motorcycle. (B) church bell. (C) electric guitar. (D) chicken and rooster. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) chicken and rooster"
+    },
+    "265": {
+      "name": "353252.wav",
+      "prompt": "Classify the sound.\n(A) chicken and rooster. (B) motorcycle. (C) electric guitar. (D) boiling. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) chicken and rooster"
+    },
+    "266": {
+      "name": "232728.wav",
+      "prompt": "Classify the sound.\n(A) telephone. (B) rail transport. (C) printer. (D) skateboard. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) printer"
+    },
+    "267": {
+      "name": "31987.wav",
+      "prompt": "Classify the sound.\n(A) skateboard. (B) printer. (C) scissors. (D) crying and sobbing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) printer"
+    },
+    "268": {
+      "name": "330312.wav",
+      "prompt": "Classify the sound.\n(A) pour. (B) siren. (C) printer. (D) splash and splatter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) printer"
+    },
+    "269": {
+      "name": "278985.wav",
+      "prompt": "Classify the sound.\n(A) crow. (B) cricket. (C) buzz. (D) keys jangling. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) buzz"
+    },
+    "270": {
+      "name": "140055.wav",
+      "prompt": "Classify the sound.\n(A) rail transport. (B) finger snapping. (C) laughter. (D) idling. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) finger snapping"
+    },
+    "271": {
+      "name": "117648.wav",
+      "prompt": "Classify the sound.\n(A) ratchet and pawl. (B) shout. (C) finger snapping. (D) wild animals. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) finger snapping"
+    },
+    "272": {
+      "name": "108677.wav",
+      "prompt": "Classify the sound.\n(A) dishes and pots and pans. (B) toilet flush. (C) frying (food). (D) writing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) toilet flush"
+    },
+    "273": {
+      "name": "268132.wav",
+      "prompt": "Classify the sound.\n(A) toilet flush. (B) scissors. (C) microwave oven. (D) water tap and faucet. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) toilet flush"
+    },
+    "274": {
+      "name": "209524.wav",
+      "prompt": "Classify the sound.\n(A) zipper (clothing). (B) toilet flush. (C) packing tape and duct tape. (D) water tap and faucet. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) toilet flush"
+    },
+    "275": {
+      "name": "339853.wav",
+      "prompt": "Classify the sound.\n(A) gunshot and gunfire. (B) camera. (C) drip. (D) crying and sobbing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) camera"
+    },
+    "276": {
+      "name": "154401.wav",
+      "prompt": "Classify the sound.\n(A) finger snapping. (B) cutlery and silverware. (C) camera. (D) gunshot and gunfire. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) camera"
+    },
+    "277": {
+      "name": "188627.wav",
+      "prompt": "Classify the sound.\n(A) camera. (B) chime. (C) crowd. (D) shout. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) camera"
+    },
+    "278": {
+      "name": "188628.wav",
+      "prompt": "Classify the sound.\n(A) coin (dropping). (B) splash and splatter. (C) camera. (D) hammer. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) camera"
+    },
+    "279": {
+      "name": "210028.wav",
+      "prompt": "Classify the sound.\n(A) typewriter. (B) sink (filling or washing). (C) doorbell. (D) slam. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) sink (filling or washing)"
+    },
+    "280": {
+      "name": "403204.wav",
+      "prompt": "Classify the sound.\n(A) sink (filling or washing). (B) typewriter. (C) doorbell. (D) computer keyboard. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) sink (filling or washing)"
+    },
+    "281": {
+      "name": "52152.wav",
+      "prompt": "Classify the sound.\n(A) sliding door. (B) knock. (C) computer keyboard. (D) sink (filling or washing). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) sink (filling or washing)"
+    },
+    "282": {
+      "name": "62118.wav",
+      "prompt": "Classify the sound.\n(A) slam. (B) typewriter. (C) computer keyboard. (D) sink (filling or washing). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) sink (filling or washing)"
+    },
+    "283": {
+      "name": "388288.wav",
+      "prompt": "Classify the sound.\n(A) sink (filling or washing). (B) sliding door. (C) slam. (D) computer keyboard. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) sink (filling or washing)"
+    },
+    "284": {
+      "name": "238222.wav",
+      "prompt": "Classify the sound.\n(A) computer keyboard. (B) bathtub (filling or washing). (C) typewriter. (D) sink (filling or washing). Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) sink (filling or washing)"
+    },
+    "285": {
+      "name": "377736.wav",
+      "prompt": "Classify the sound.\n(A) speech. (B) singing. (C) shout. (D) sigh. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) sigh"
+    },
+    "286": {
+      "name": "391917.wav",
+      "prompt": "Classify the sound.\n(A) crying and sobbing. (B) sigh. (C) screaming. (D) whispering. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) sigh"
+    },
+    "287": {
+      "name": "94774.wav",
+      "prompt": "Classify the sound.\n(A) screaming. (B) laughter. (C) crying and sobbing. (D) sigh. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) sigh"
+    },
+    "288": {
+      "name": "407709.wav",
+      "prompt": "Classify the sound.\n(A) sink (filling or washing). (B) slam. (C) typewriter. (D) computer keyboard. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) typewriter"
+    },
+    "289": {
+      "name": "433598.wav",
+      "prompt": "Classify the sound.\n(A) typewriter. (B) slam. (C) computer keyboard. (D) sliding door. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) typewriter"
+    },
+    "290": {
+      "name": "353421.wav",
+      "prompt": "Classify the sound.\n(A) keys jangling. (B) laughter. (C) boom. (D) gurgling. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) boom"
+    },
+    "291": {
+      "name": "29545.wav",
+      "prompt": "Classify the sound.\n(A) marimba and xylophone. (B) gong. (C) zipper (clothing). (D) waves and surf. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) waves and surf"
+    },
+    "292": {
+      "name": "330845.wav",
+      "prompt": "Classify the sound.\n(A) child speech and kid speaking. (B) yell. (C) giggle. (D) chuckle and chortle. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) child speech and kid speaking"
+    },
+    "293": {
+      "name": "213566.wav",
+      "prompt": "Classify the sound.\n(A) water tap and faucet. (B) typing. (C) gurgling. (D) shatter. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) gurgling"
+    },
+    "294": {
+      "name": "221488.wav",
+      "prompt": "Classify the sound.\n(A) gurgling. (B) whispering. (C) boiling. (D) dishes and pots and pans. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) gurgling"
+    },
+    "295": {
+      "name": "168822.wav",
+      "prompt": "Classify the sound.\n(A) keys jangling. (B) coin (dropping). (C) bicycle bell. (D) chink and clink. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) chink and clink"
+    },
+    "296": {
+      "name": "145424.wav",
+      "prompt": "Classify the sound.\n(A) organ. (B) mallet percussion. (C) drum. (D) tambourine. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) organ"
+    },
+    "297": {
+      "name": "164764.wav",
+      "prompt": "Classify the sound.\n(A) marimba and xylophone. (B) waves and surf. (C) zipper (clothing). (D) ringtone. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) waves and surf"
+    },
+    "298": {
+      "name": "205015.wav",
+      "prompt": "Classify the sound.\n(A) zipper (clothing). (B) marimba and xylophone. (C) waves and surf. (D) ringtone. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) waves and surf"
+    },
+    "299": {
+      "name": "416226.wav",
+      "prompt": "Classify the sound.\n(A) gong. (B) zipper (clothing). (C) marimba and xylophone. (D) waves and surf. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) waves and surf"
+    }
+  }
+}

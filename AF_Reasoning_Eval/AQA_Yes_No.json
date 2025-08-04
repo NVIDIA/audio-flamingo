@@ -1,0 +1,377 @@
+{
+  "dataset_path": "Clotho-AQA/audio_files",
+  "flamingo_task": "AF-Reasoning-Eval-AQA-Yes_No",
+  "total_num": 74,
+  "data": {
+    "0": {
+      "name": "Paris to Germany Train Announcement.wav",
+      "prompt": "Is this a public space?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "1": {
+      "name": "rain2.wav",
+      "prompt": "Is rain the only thing that can be heard?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "2": {
+      "name": "walkingondirtpath.wav",
+      "prompt": "Is the person walking outside?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "3": {
+      "name": "Lluvia 1.wav",
+      "prompt": "Is this a naturally occurring phenomenon?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "4": {
+      "name": "20061124ParadeCHS.wav",
+      "prompt": "Is this a triumphant tune?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "5": {
+      "name": "campanas.wav",
+      "prompt": "does a bell break?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "6": {
+      "name": "PauseConference_youngerPeople.wav",
+      "prompt": "Are there more than three people in the place?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "7": {
+      "name": "bar crowd.wav",
+      "prompt": "Is this a child care center?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "8": {
+      "name": "Muddy_steps_bush_birds_singing.wav",
+      "prompt": "Is this person inside of a house?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "9": {
+      "name": "forest_ambience_chepachet_spring_1.wav",
+      "prompt": "Is this a desert?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "10": {
+      "name": "walking indoors footsteps tap tap tapping foley.wav",
+      "prompt": "Does the person walking have shoes on?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "11": {
+      "name": "bierfest_atmosphere.wav",
+      "prompt": "are the people talking in church?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "12": {
+      "name": "Stream # 2.wav",
+      "prompt": "Does the water flow without hindrances and obstructions?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "13": {
+      "name": "MISC_Int_Cat_Purring_002.wav",
+      "prompt": "Is the cat in a good mood?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "14": {
+      "name": "md1trk33-34.wav",
+      "prompt": "Is an engineer able to fix and remedy this sound?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "15": {
+      "name": "FP_Refrigerator_Door_Squeak.wav",
+      "prompt": "Is the door old?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "16": {
+      "name": "Bicin_Diputacion_Day_22-03-2009.wav",
+      "prompt": "does the clicking increase in speed?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "17": {
+      "name": "tornado day 1.wav",
+      "prompt": "Is the machine heard starting up and shutting down?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "18": {
+      "name": "California morning birds singing.wav",
+      "prompt": "Are they in a rainforest?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "19": {
+      "name": "20130405_wooden.stairs.floor.01.wav",
+      "prompt": "Is there more than one individual walking?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "20": {
+      "name": "atmo_kenting_national_park.wav",
+      "prompt": "Are the animals heard here fighting?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "21": {
+      "name": "river_mouth3.wav",
+      "prompt": "Is the area dry?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "22": {
+      "name": "PauseConference_youngerPeople.wav",
+      "prompt": "Is there only one person in the area?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "23": {
+      "name": "obresAranyo_trepant2.wav",
+      "prompt": "Is a person working?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "24": {
+      "name": "WeddingClap.wav",
+      "prompt": "Is the crowd angry?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "25": {
+      "name": "Erny vs Deadman4.wav",
+      "prompt": "Are dogs barking at the people talking?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "26": {
+      "name": "quick walk.wav",
+      "prompt": "does the pace of walking remain steady?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "27": {
+      "name": "Brushing teeth.wav",
+      "prompt": "Is the person taking a bath?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "28": {
+      "name": "carkeys.wav",
+      "prompt": "Is the object made of wood?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "29": {
+      "name": "car alarm 130603.wav",
+      "prompt": "Is the alarm constant the whole time?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "30": {
+      "name": "squeaky metal swing.wav",
+      "prompt": "Is this sound happening at a funeral?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "31": {
+      "name": "STE-008.wav",
+      "prompt": "Does the train stop to pick people up?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "32": {
+      "name": "Steps Indoor medium soft Shoe Sole accompanying wooden Floor hollow Big Room 5mx10mx6m.wav",
+      "prompt": "Is the person playing baseball?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "33": {
+      "name": "Fowl - Chatter 1 - 96kHz.wav",
+      "prompt": "Are the animals making noise because of human approaching?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "34": {
+      "name": "Quill pen writing on hard paper various speed.wav",
+      "prompt": "Does this sound like an artistic endeavor?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "35": {
+      "name": "Thunder Rain Cars Driving By.wav",
+      "prompt": "Is the ground dry?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "36": {
+      "name": "morning breeze and birds.wav",
+      "prompt": "Is this area outside?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "37": {
+      "name": "FOOTSTEPS_005.wav",
+      "prompt": "Is the person moving?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "38": {
+      "name": "Beach_SaintJeanDeLuz_France_Waves_Kids_People_xystereo.wav",
+      "prompt": "Are they in class?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "39": {
+      "name": "Creaking pier.wav",
+      "prompt": "Is the sample taking place inside a wood building?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "40": {
+      "name": "Cualquiera.wav",
+      "prompt": "Does the machine background noise intensify after the door opens?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "41": {
+      "name": "obresAranyo_trepant2.wav",
+      "prompt": "Is this object likely safe for children?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "42": {
+      "name": "moving glass pieces.wav",
+      "prompt": "are there many pieces?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "43": {
+      "name": "THE_RATT23_1.wav",
+      "prompt": "Is the person inside of a house?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "44": {
+      "name": "Balloon Game at Arlington Heights Carnival.wav",
+      "prompt": "Are people having fun?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "45": {
+      "name": "dragged-glass-object.wav",
+      "prompt": "Is the thing doing the scratching moving in different directions?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "46": {
+      "name": "dragged-glass-object.wav",
+      "prompt": "Is the thing doing the scratching continuously in connection with the surface for the entire clip?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "47": {
+      "name": "Atmosphere on road in London.wav",
+      "prompt": "Are all of the sounds heard coming from something close?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "48": {
+      "name": "California morning birds singing.wav",
+      "prompt": "Does the sound take place outside?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "49": {
+      "name": "RKeaton_EMF366_12_Tearing Thick Paper.wav",
+      "prompt": "Is the paper being changed physically?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "50": {
+      "name": "rain in tent.wav",
+      "prompt": "Is it a good day to hike?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "51": {
+      "name": "Wind_Whistling_Dorm_Window.wav",
+      "prompt": "Is there a silent break of the humming lasting more than 10 seconds?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "52": {
+      "name": "Lluvia 1.wav",
+      "prompt": "Would a person need to wear sunscreen on a day like this?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "53": {
+      "name": "bathroom drain 1.wav",
+      "prompt": "does the water sound remain steady in the same rhythm?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "54": {
+      "name": "Iceland2013_Stokkur.wav",
+      "prompt": "Are the people having a good time?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "55": {
+      "name": "atmo_kenting_national_park.wav",
+      "prompt": "Is the main tweeting bird seemingly answered by a more distant call?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "56": {
+      "name": "Balloon Game at Arlington Heights Carnival.wav",
+      "prompt": "Are the people playing a game?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "57": {
+      "name": "AMB_swamp_summer_night_fish_insects_00.wav",
+      "prompt": "Are people dancing at a pool party?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "58": {
+      "name": "Morning Birds 001.wav",
+      "prompt": "Is more than one animal making noise?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "59": {
+      "name": "Air raid siren_rising.wav",
+      "prompt": "Is a storm coming in?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "60": {
+      "name": "Anti Air Gun (3 Sounds).wav",
+      "prompt": "Are any animals injured?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "61": {
+      "name": "Fryers Forest - Powerful Owl (Ninox Stenua).wav",
+      "prompt": "is this likely in the daytime?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "62": {
+      "name": "bagpipe_on_street_BA.wav",
+      "prompt": "Is the musician skilled?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "63": {
+      "name": "rain2.wav",
+      "prompt": "Can someone do outdoor sports in this environment?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "64": {
+      "name": "Pan Pot Wok Metal Glass Dish Lift Cupboard.wav",
+      "prompt": "Is the thing made out of wood?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "65": {
+      "name": "Shower Running 02.wav",
+      "prompt": "Is the water flow turbulent?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "66": {
+      "name": "cricket chirp.wav",
+      "prompt": "Is it night time?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "67": {
+      "name": "basement-stairs.wav",
+      "prompt": "Is the person resting?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "68": {
+      "name": "London Overground train (interior) approaches Victoria Station.wav",
+      "prompt": "Are the people currently in transit?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "69": {
+      "name": "Jumping onto a hard floor with shoes and some walking sounds.wav",
+      "prompt": "Is this a sound that comes from a non-deliberate action?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "70": {
+      "name": "By ther blacksmith-002.wav",
+      "prompt": "Is the room full of people?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    },
+    "71": {
+      "name": "Machetes sliding 2.wav",
+      "prompt": "Is the person sometimes striking an object and occasionally sliding an object across another?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "72": {
+      "name": "Boiling a cup of water.wav",
+      "prompt": "Is the liquid hot?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) yes"
+    },
+    "73": {
+      "name": "Thunder Rain Cars Driving By.wav",
+      "prompt": "Is it safe to stay under a tree in this environment?\n(A) yes. (B) no. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) no"
+    }
+  }
+}

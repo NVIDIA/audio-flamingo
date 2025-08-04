@@ -1,0 +1,387 @@
+{
+  "dataset_path": "Clotho-AQA/audio_files",
+  "flamingo_task": "AF-Reasoning-Eval-AQA-MCQ",
+  "total_num": 76,
+  "data": {
+    "0": {
+      "name": "IKEA_Cafeteria.wav",
+      "prompt": "In what location are the people?\n(A) swimming pool. (B) restaurant. (C) church. (D) conference. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) restaurant"
+    },
+    "1": {
+      "name": "footsteps on beach.wav",
+      "prompt": "How is the person travelling?\n(A) riding. (B) running. (C) walking. (D) driving. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) walking"
+    },
+    "2": {
+      "name": "Brushing teeth.wav",
+      "prompt": "What was the person cleaning?\n(A) floor. (B) hair. (C) teeth. (D) sink. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) teeth"
+    },
+    "3": {
+      "name": "20081130_walking_in_snow_with_snowshoes.wav",
+      "prompt": "What is the person walking through?\n(A) hallway. (B) track. (C) creek. (D) snow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) snow"
+    },
+    "4": {
+      "name": "microphonecontact_stereo.wav",
+      "prompt": "What action is being done to one of the objects in this clip?\n(A) grinding. (B) chopping. (C) kicking. (D) smashing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) grinding"
+    },
+    "5": {
+      "name": "walking indoors footsteps tap tap tapping foley.wav",
+      "prompt": "What material are they stepping on?\n(A) carpet. (B) track. (C) wood. (D) concrete. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) wood"
+    },
+    "6": {
+      "name": "Machetes sliding 2.wav",
+      "prompt": "How many times does the person make the object sound off?\n(A) nine. (B) ten. (C) eight. (D) seven. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) ten"
+    },
+    "7": {
+      "name": "Waiting at a Montreal Subway Station.wav",
+      "prompt": "Where is this sound made?\n(A) raceway. (B) forest. (C) desert. (D) tunnel. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) tunnel"
+    },
+    "8": {
+      "name": "md3trk2.wav",
+      "prompt": "How many times does the noise repeat?\n(A) seven. (B) eight. (C) five. (D) six. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) six"
+    },
+    "9": {
+      "name": "quick walk.wav",
+      "prompt": "what activity is the person doing?\n(A) walking. (B) jumping. (C) climbing. (D) running. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) walking"
+    },
+    "10": {
+      "name": "Thunder Rain Cars Driving By.wav",
+      "prompt": "What kind of sport can one play in this situation?\n(A) football. (B) skiing. (C) badminton. (D) tennis. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) badminton"
+    },
+    "11": {
+      "name": "THE_RATT23_1.wav",
+      "prompt": "Where is the person most likely around?\n(A) country road. (B) parking lot. (C) shopping mall. (D) highway. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) country road"
+    },
+    "12": {
+      "name": "WalkingGravelTrailAugust2015.wav",
+      "prompt": "Where is the person most likely around?\n(A) grocery store. (B) zoo. (C) trail. (D) glacier. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) trail"
+    },
+    "13": {
+      "name": "Lluvia 1.wav",
+      "prompt": "If there is too much of this, what disaster can it cause?\n(A) flood. (B) global warming. (C) pollution. (D) volcanic eruption. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) flood"
+    },
+    "14": {
+      "name": "rain_on_tin_roof.wav",
+      "prompt": "Which activity is usually not affected by this weather?\n(A) soccer. (B) table tennis. (C) tennis. (D) baseball. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) table tennis"
+    },
+    "15": {
+      "name": "Rain recording.wav",
+      "prompt": "Which kind of plant can survive in this weather?\n(A) lavender. (B) ferns. (C) succulents. (D) tomatoes. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) ferns"
+    },
+    "16": {
+      "name": "UrbanHerringGulls.wav",
+      "prompt": "Which could be the natural enemy of these animals?\n(A) eagle. (B) tiger. (C) octopus. (D) shark. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) eagle"
+    },
+    "17": {
+      "name": "paper_cut.wav",
+      "prompt": "What is likely the person making with this activity?\n(A) food. (B) machine. (C) bottle. (D) decoration. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) decoration"
+    },
+    "18": {
+      "name": "Steps Indoor medium soft Shoe Sole accompanying wooden Floor hollow Big Room 5mx10mx6m.wav",
+      "prompt": "What is likely the environment of this sound?\n(A) track. (B) street. (C) trainhead. (D) church. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) church"
+    },
+    "19": {
+      "name": "Large Splashes.wav",
+      "prompt": "How many times does the sound occur?\n(A) two. (B) five. (C) three. (D) four. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) five"
+    },
+    "20": {
+      "name": "vending machine action.wav",
+      "prompt": "What is most likely this machine?\n(A) arcade. (B) laundry machine. (C) telescope. (D) vending machine. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) vending machine"
+    },
+    "21": {
+      "name": "walkingondirtpath.wav",
+      "prompt": "What is the person likely carrying in this activity?\n(A) backpack. (B) notebook. (C) mug. (D) laptop. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) backpack"
+    },
+    "22": {
+      "name": "Iceland2013_Stokkur.wav",
+      "prompt": "What do people usually wear in this activity?\n(A) swimsuits. (B) ties. (C) hoodies. (D) blouses. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) swimsuits"
+    },
+    "23": {
+      "name": "WalkingGravelTrailAugust2015.wav",
+      "prompt": "What type of trail is this?\n(A) woodland trail. (B) apline trail. (C) beach trail. (D) desert trail. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) woodland trail"
+    },
+    "24": {
+      "name": "fountains-Udaipur-Saheliyon-Ki-Bari-4.wav",
+      "prompt": "Where could this sound happen?\n(A) beach. (B) museum. (C) street. (D) alpine. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) street"
+    },
+    "25": {
+      "name": "Muddy_steps_bush_birds_singing.wav",
+      "prompt": "What kind of shoes is most suitable for this situation?\n(A) flip flops. (B) hiking boots. (C) high heels. (D) sneakers. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) hiking boots"
+    },
+    "26": {
+      "name": "Small Falling Water Onto Stones.wav",
+      "prompt": "What natural scene can produce this sound?\n(A) creek. (B) volcano. (C) ocean. (D) rain. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) creek"
+    },
+    "27": {
+      "name": "OrchestraTuning2.wav",
+      "prompt": "When does this activity usually occur in a concert?\n(A) beginning. (B) end. (C) break. (D) middle. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) beginning"
+    },
+    "28": {
+      "name": "Rain recording.wav",
+      "prompt": "Which could not be a source of this?\n(A) glacier. (B) snow. (C) cloud. (D) wind. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) wind"
+    },
+    "29": {
+      "name": "California morning birds singing.wav",
+      "prompt": "What animals are making the most sounds?\n(A) bees. (B) gooses. (C) cicada. (D) birds. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) birds"
+    },
+    "30": {
+      "name": "river + waterfall 2 .wav",
+      "prompt": "What does it not usually occur with?\n(A) sun. (B) storm. (C) cloud. (D) wind. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) sun"
+    },
+    "31": {
+      "name": "steps_snow.wav",
+      "prompt": "What part of body supports this activity the most?\n(A) mouth. (B) legs. (C) arms. (D) fingers. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) legs"
+    },
+    "32": {
+      "name": "rain in tent.wav",
+      "prompt": "What mood does it usually associate with in films?\n(A) sadness. (B) anxiety. (C) happiness. (D) anger. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) sadness"
+    },
+    "33": {
+      "name": "Anti Air Gun (3 Sounds).wav",
+      "prompt": "Where does this activity likely happen?\n(A) in the wild. (B) urban. (C) beach. (D) playground. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) in the wild"
+    },
+    "34": {
+      "name": "slupia river.wav",
+      "prompt": "Which has a similar texture of it? \n(A) air. (B) stone. (C) fire. (D) water. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) water"
+    },
+    "35": {
+      "name": "radio tuning 2.wav",
+      "prompt": "What is likely the media of this recording?\n(A) CD. (B) youtube. (C) radio. (D) smart phone. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) radio"
+    },
+    "36": {
+      "name": "drip rhythm1.wav",
+      "prompt": "Where does this sound usually occur in home?\n(A) bedroom. (B) storage. (C) bathroom. (D) living room. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) bathroom"
+    },
+    "37": {
+      "name": "steps_snow.wav",
+      "prompt": "What cold substance is someone walking through?\n(A) snow. (B) glacier. (C) frozen mud. (D) ice. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) snow"
+    },
+    "38": {
+      "name": "Chicharra1.wav",
+      "prompt": "What would not present in this environment?\n(A) butterflies. (B) frogs. (C) cactus. (D) trees. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) cactus"
+    },
+    "39": {
+      "name": "md1trk33-34.wav",
+      "prompt": "What would you lubricate?\n(A) machine. (B) hinges. (C) handle. (D) floor. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) hinges"
+    },
+    "40": {
+      "name": "20130326_caged.birds.01.wav",
+      "prompt": "what is not a reason of the produced sounds?\n(A) communication. (B) echolocating. (C) attraction. (D) defense. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) echolocating"
+    },
+    "41": {
+      "name": "California morning birds singing.wav",
+      "prompt": "What breed of bird is chirping?\n(A) crow. (B) parrot. (C) owl. (D) sparrow. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) sparrow"
+    },
+    "42": {
+      "name": "RG Large Old Dog Snoring.wav",
+      "prompt": "What is the person doing?\n(A) running. (B) talking. (C) sleeping. (D) washing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) sleeping"
+    },
+    "43": {
+      "name": "squeaky metal swing.wav",
+      "prompt": "What playground feature makes this sound when in use?\n(A) pool. (B) slide. (C) seesaw. (D) ground. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) seesaw"
+    },
+    "44": {
+      "name": "Blackbird sounds.wav",
+      "prompt": "In what alive thing does this creature usually build a nest?\n(A) water. (B) tree. (C) underground. (D) ground. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) tree"
+    },
+    "45": {
+      "name": "RemoteControl.Antique.Zenith.wav",
+      "prompt": "What is the function of this object?\n(A) switch. (B) container. (C) pot. (D) cleaner. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) switch"
+    },
+    "46": {
+      "name": "20080918.boots.door.wav",
+      "prompt": "How many times does the person clearly approach the recorder?\n(A) one. (B) three. (C) four. (D) two. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) two"
+    },
+    "47": {
+      "name": "Paper_Parchment_Rustling.wav",
+      "prompt": "What material is the rustled bag made from?\n(A) wood. (B) cotton. (C) nylon. (D) polyethylene. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) wood"
+    },
+    "48": {
+      "name": "STE-017 traffic bus stop.wav",
+      "prompt": "How many cars have passed?\n(A) one. (B) two. (C) three. (D) four. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) three"
+    },
+    "49": {
+      "name": "police_car_siren-esp.wav",
+      "prompt": "What type of situation does this sound indicate?\n(A) excitment. (B) peacefulness. (C) crowd. (D) emergency. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) emergency"
+    },
+    "50": {
+      "name": "F907 Church prayer f.wav",
+      "prompt": "Where can this sound happen?\n(A) concert hall. (B) classroom. (C) amphitheatre. (D) church. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) church"
+    },
+    "51": {
+      "name": "WalkingInSnowCrunchingIce.wav",
+      "prompt": "How thick is the snow on the ground?\n(A) inches. (B) meters. (C) none. (D) millimeters. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) inches"
+    },
+    "52": {
+      "name": "water dripping 2.wav",
+      "prompt": "What is dropping?\n(A) plastic. (B) water. (C) metal. (D) glass. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) water"
+    },
+    "53": {
+      "name": "20130326_caged.birds.01.wav",
+      "prompt": "what is the most likely environment of this sound?\n(A) forest. (B) bar. (C) classroom. (D) park. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) park"
+    },
+    "54": {
+      "name": "Boiling a cup of water.wav",
+      "prompt": "What is the container of the water?\n(A) electric kettle. (B) tea pot. (C) bottle. (D) whistling kettle. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) electric kettle"
+    },
+    "55": {
+      "name": "md4trk10.wav",
+      "prompt": "What manual action creates this sound?\n(A) hammering. (B) shaking. (C) throwing. (D) tearing. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) shaking"
+    },
+    "56": {
+      "name": "car alarm 130603.wav",
+      "prompt": "What kind of people cannot cause this sound?\n(A) kids. (B) mechanics. (C) patients. (D) thefts. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) patients"
+    },
+    "57": {
+      "name": "ambient text.wav",
+      "prompt": "What genre of movie could this sound be played in?\n(A) romance. (B) horror. (C) comedy. (D) action. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) horror"
+    },
+    "58": {
+      "name": "knocking on a window or glass.wav",
+      "prompt": "Which mood is the person unlikely to have in this situation? \n(A) impatience. (B) frustration. (C) disgust. (D) disappointment. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) disgust"
+    },
+    "59": {
+      "name": "upstairs.wav",
+      "prompt": "Which option is this sound more likely to be recorded?\n(A) museum. (B) factory. (C) concert. (D) restaurant. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) factory"
+    },
+    "60": {
+      "name": "Chainsaw Crosscutting  3.wav",
+      "prompt": "Which item do people usually not cut with this tool?\n(A) paper. (B) ice. (C) furniture. (D) trees. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) paper"
+    },
+    "61": {
+      "name": "ambience winter fountain birds .wav",
+      "prompt": "What kind of transportation is the most suitable one in this situation?\n(A) kayak. (B) sailboats. (C) motorboats. (D) jet boats. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) kayak"
+    },
+    "62": {
+      "name": "RKeaton_EMF366_12_Tearing Thick Paper.wav",
+      "prompt": "If there is only one piece of paper in the beginning, what is the maximum possible number of pieces in the end?\n(A) thirty two. (B) eight. (C) sixteen. (D) four. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) sixteen"
+    },
+    "63": {
+      "name": "20091211.barking.stairs.wav",
+      "prompt": "What is a less likely reason for this sound? \n(A) excitement. (B) pain. (C) embarrassment. (D) hunger. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) embarrassment"
+    },
+    "64": {
+      "name": "Tub Draining.wav",
+      "prompt": "What is moved to trigger the change of sound in the middle? \n(A) strainer. (B) pot. (C) cup. (D) tap. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) strainer"
+    },
+    "65": {
+      "name": "Footsteps on Wet Pavement_1-2.wav",
+      "prompt": "What is the person stepping on?\n(A) ice. (B) snow. (C) track. (D) leaves. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) leaves"
+    },
+    "66": {
+      "name": "AMB_EXT_PARK_SUMMER_DAY_LOOP.wav",
+      "prompt": "What other type of insect can make this sound?\n(A) bees. (B) crickets. (C) flies. (D) butterflies. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) crickets"
+    },
+    "67": {
+      "name": "Horse_Hooves_Hard_Floor_Interior.wav",
+      "prompt": "Which part of their body is used to make the sound?\n(A) head. (B) toes. (C) fingers. (D) belly. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(C) fingers"
+    },
+    "68": {
+      "name": "Birds in the city 1.wav",
+      "prompt": "How do the animals that are audible usually get around?\n(A) fly. (B) walk. (C) crawl. (D) swim. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) fly"
+    },
+    "69": {
+      "name": "walking indoors footsteps tap tap tapping foley.wav",
+      "prompt": "What kind of shoes does the person wear?\n(A) high heels. (B) flip flops. (C) sneakers. (D) canvas shoes. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) high heels"
+    },
+    "70": {
+      "name": "Garden Birds 3.wav",
+      "prompt": "What plants usually not occur in this environment?\n(A) cactus. (B) shrubs. (C) trees. (D) flowers. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) cactus"
+    },
+    "71": {
+      "name": "campanas.wav",
+      "prompt": "Where can you hear this sound?\n(A) temple. (B) concert. (C) bar. (D) restaurant. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(A) temple"
+    },
+    "72": {
+      "name": "Pigeon Temple.wav",
+      "prompt": "When does the person laugh?\n(A) beginning. (B) end. (C) middle. (D) never. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(B) end"
+    },
+    "73": {
+      "name": "WM_switch_fill_to_wash_cycle_24_96_mono.wav",
+      "prompt": "What machine is making the sound?\n(A) oven. (B) stove. (C) dryer. (D) washer. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) washer"
+    },
+    "74": {
+      "name": "plastic-straw-whistles.wav",
+      "prompt": "Where can one hear this music performance?\n(A) television. (B) bar. (C) concert. (D) home. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) home"
+    },
+    "75": {
+      "name": "London Overground train (interior) approaches Victoria Station.wav",
+      "prompt": "What is the main function of this train? \n(A) government. (B) military. (C) cargo. (D) tourism. Output the answer with <SUMMARY>, <CAPTION>, <REASONING>, and <CONCLUSION> tags.",
+      "output": "(D) tourism"
+    }
+  }
+}
