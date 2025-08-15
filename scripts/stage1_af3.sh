@@ -29,7 +29,7 @@ torchrun --nnodes \$NUM_NODES --nproc_per_node \$SUBMIT_GPUS --master_addr \$MAS
     --s2_max_split_size 448 \
     --s2_resize_output_to_scale_idx -1 \
     --speech_tower openai/whisper-large-v2 \
-    --sound_tower /path/to/AF-Whisper \
+    --sound_tower openai/whisper-large-v3 \
     --mm_vision_select_feature cls_patch \
     --mm_projector mlp_downsample \
     --speech_mm_projector mlp \

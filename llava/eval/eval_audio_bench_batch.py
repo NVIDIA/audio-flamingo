@@ -91,27 +91,59 @@ def main() -> None:
 
     output_path = os.path.join(args.output_dir, f"outputs_{args.task}.jsonl")
     processed_ids, outputs = load_existing_ids(output_path)
-
+    BATCH_SIZE = 8
     count = len(outputs)
     # Run inference
     new_outputs = []
-    for instance in tqdm(instances, disable=not dist.is_main()):
-        uuid = instance["id"]
-        sound_path = instance["sound"]
 
-        if sound_path in processed_ids:
-            continue  # Skip if already processed
-        sound = llava.Sound(sound_path)
-        conversations = instance["conversations"]
-        question = conversations[0]["value"]
+    for i in tqdm(range(0, len(instances), BATCH_SIZE), disable=not dist.is_main()):
+        batch_keys = instances[i:i + BATCH_SIZE]
 
-        response = model.generate_content([sound, question], generation_config=generation_config)
-       
-        print("response", response)
+        batch_sounds = []
+        batch_prompts = []
+        batch_ids = []
+        batch_gt_answers = []
+        for key in batch_keys:
+            sound_path = instances[key]["sound"]
+            if sound_path in processed_ids:
+                continue
 
-        output = {"id": sound_path, "question": question, "gt_answer": conversations[1]["value"],  "pred": response}
-        new_outputs.append(output)
-        count = count +1
+            try:
+                sound = llava.Sound(sound_path)
+            except Exception as e:
+                logger.warning(f"Failed to load sound for {sound_path}: {e}")
+                continue
+            conversations = instances[key]["conversations"]
+            question = conversations[0]["value"]
+            prompt = '<sound>\n' + question
+            batch_sounds.append(sound)
+            batch_prompts.append(prompt)
+            batch_ids.append(sound_path)
+            batch_gt_answers.append(conversations[1]["value"])
+
+        if not batch_sounds:
+            continue
+
+        # try:
+        responses = model.generate_content_batch(
+            [[s, p] for s, p in zip(batch_sounds, batch_prompts)],
+            generation_config=generation_config
+        )
+        
+        if isinstance(responses, str):
+            responses = [responses]
+
+        for idx, response in enumerate(responses):
+            key = batch_keys[idx]
+            output = {
+                "id": batch_ids[idx],
+                "question": batch_prompts[idx],
+                "gt_answer": batch_gt_answers[idx],
+                "pred": response
+            }
+            new_outputs.append(output)
+            count += 1
+
         if count % 20 == 0:
             # Gather and save outputs
             if dist.size() > 1:
