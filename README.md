@@ -22,7 +22,7 @@ The AF-Reasoning-Eval benchmark is included in ```AF_Reasoning_Eval/```.
 
 The ```AF-CoT-Train``` generation pipelines are included in ```AF_CoT_Train/```. It is recommended to use ```alg_6_AQA_subquestions.py``` to generate reasoning chains for AQA samples and ```alg_8_Classification_MCQ.py``` to generate reasoning chains for classification samples.
 
-The dataset is released in [this link](https://huggingface.co/datasets/nvidia/AF-Think/tree/main/af_cot_train).
+The dataset is released in [this link](https://huggingface.co/datasets/nvidia/AF-Think/tree/main/afcot).
 
 ## Inference code
 The instruction to run inference of the CoT model is [here](https://github.com/NVIDIA/audio-flamingo/tree/audio_flamingo_2/inference_HF_pretrained#steps-of-inference-of-the-cot-model).
