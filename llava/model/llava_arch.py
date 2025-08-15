@@ -845,6 +845,81 @@ class LlavaMetaForCausalLM(ABC):
         response = self.tokenizer.decode(output_ids[0], skip_special_tokens=True).strip()
         return response
 
+    @torch.inference_mode()
+    def generate_content_batch(
+        self,
+        prompt: Union[str, List[str]],
+        generation_config: Optional[GenerationConfig] = None,
+        response_format: Optional[ResponseFormat] = None,
+    ) -> Union[str, List[str]]:
+        # Normalize input to list
+        is_single_input = False
+        if isinstance(prompt, str):
+            prompt = [prompt]
+            is_single_input = True
+
+        # Convert response format to logits processor
+        xgr_logits_processor = (
+            self.get_xgr_logits_processor(response_format) if response_format else None
+        )
+
+        # Prepare conversations
+        conversations = [[{"from": "human", "value": p}] for p in prompt]
+
+        # Extract and process media for each conversation (if needed)
+     
+        responses= []
+        for conv in conversations:
+            print(conv)
+            media, media_meta = extract_media(conv, self.config)
+            media_config = defaultdict(dict)
+            for name in media:
+                if name == "sound":
+                    sounds = process_sounds(media["sound"]).half()
+                    media[name] = [sound for sound in sounds]
+                    sound_feature_masks = process_sound_masks(media_meta["sound_feature_masks"]).half()
+                    media_meta["sound_feature_masks"] = [sound_mask for sound_mask in sound_feature_masks]
+                    sound_embed_masks = process_sound_masks(media_meta["sound_embed_masks"]).half()
+                    media_meta["sound_embed_masks"] = [sound_mask for sound_mask in sound_embed_masks]
+                else:
+                    raise ValueError(f"Unsupported media type: {name}")
+                # Tokenize the conversation
+            input_ids = tokenize_conversation(conv, self.tokenizer, add_generation_prompt=True).cuda().unsqueeze(0)
+
+            # Set up the generation config
+            generation_config = generation_config or self.default_generation_config
+
+            # Generate the response
+            try:
+                output_ids = self.generate(
+                    input_ids=input_ids,
+                    media=media,
+                    media_config=media_config,
+                    media_meta=media_meta,
+                    generation_config=generation_config,
+                    logits_processor=xgr_logits_processor,  # structured generation
+                )
+            except ValueError:
+                if not generation_config.do_sample:
+                    raise
+                # FIXME(zhijianl): This is a temporary workaround for the sampling issue
+                logging.warning("Generation failed with sampling, retrying with greedy decoding.")
+                generation_config.do_sample = False
+                output_ids = self.generate(
+                    input_ids=input_ids,
+                    media=media,
+                    media_config=media_config,
+                    media_meta=media_meta,
+                    generation_config=generation_config,
+                    logits_processor=xgr_logits_processor,
+                )
+
+            # Decode the response
+            response = self.tokenizer.decode(output_ids[0], skip_special_tokens=True).strip()
+            responses.append(response)
+        
+        return responses[0] if is_single_input else responses
+
     @property
     def default_generation_config(self) -> GenerationConfig:
         generation_config = copy.deepcopy(self.generation_config or GenerationConfig())
