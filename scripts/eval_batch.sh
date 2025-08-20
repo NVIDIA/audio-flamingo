@@ -20,5 +20,5 @@ get_tasks_from_yaml() {
 # Loop through each task and submit a job
 for TASK in $(get_tasks_from_yaml); do
     echo "Submitting job for task: $TASK"
-    sh scripts/eval/eval_audio.sh nvidia/audio-flamingo-3 auto "$TASK" "$THINK_MODE"
+    sh scripts/eval/eval_audio_batch.sh nvidia/audio-flamingo-3 auto "$TASK" "$THINK_MODE"
 done

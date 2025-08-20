@@ -5,7 +5,7 @@ export CUDA_DEVICE_MAX_CONNECTIONS=1
 export TORCH_NCCL_ASYNC_ERROR_HANDLING=1
 export OMP_NUM_THREADS=1
 
-DEFAULT_RUN_NAME="stage3_af3"
+DEFAULT_RUN_NAME="stage35_af3"
 
 STAGE_PATH=${1:-"runs/train/stage3_af3/checkpoint-xxxx"}
 
