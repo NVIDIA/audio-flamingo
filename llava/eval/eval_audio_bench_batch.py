@@ -61,6 +61,8 @@ def main() -> None:
     parser.add_argument("--generation-config", type=json.loads)
     parser.add_argument("--output-dir", type=str, default=None)
     args = parser.parse_args()
+
+    BATCH_SIZE = 8
     # Set up distributed environment
     dist.init()
     devices = range(dist.local_rank(), torch.cuda.device_count(), dist.local_size())
@@ -91,7 +93,7 @@ def main() -> None:
 
     output_path = os.path.join(args.output_dir, f"outputs_{args.task}.jsonl")
     processed_ids, outputs = load_existing_ids(output_path)
-    BATCH_SIZE = 8
+    
     count = len(outputs)
     # Run inference
     new_outputs = []
