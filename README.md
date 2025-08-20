@@ -155,12 +155,19 @@ Add the path to these jsons in `llava/data/datasets_mixture.py.`
 
 ## Evaluation Details
 
-To run evaluation on your target benchamrk, prepare test/val json files in the format above. Add the path to the test jsons in this file `llava/data/registry/datasets/audio_test.yaml`. 
+To run evaluation on your target benchmark, prepare test/val json files in the format above. Add the path to the test jsons in this file `llava/data/registry/datasets/audio_test.yaml`. 
 
 ```bash
 sh scripts/eval.sh
 ```
-Edit command line arguments to the above script as needed.
+
+For running `batch evaluation`, follow the script below:
+
+```bash
+sh scripts/eval_batch.sh
+```
+
+Edit command line arguments to the above scripts as needed.
 
 ## References
 
