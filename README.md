@@ -10,6 +10,25 @@
     </h2>
 </div>
 
+<div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
+  <a href="https://arxiv.org/abs/2508.11818"><img src="https://img.shields.io/badge/arXiv-2508.11818-AD1C18" style="margin-right: 5px;"></a>
+  <a href="https://research.nvidia.com/labs/adlr/AF3/"><img src="https://img.shields.io/badge/Demo page-228B22" style="margin-right: 5px;"></a>
+  <a href="https://github.com/NVIDIA/audio-flamingo/tree/soundCoT"><img src='https://img.shields.io/badge/Github-Audio Flamingo SoundCoT-9C276A' style="margin-right: 5px;"></a>
+  <a href="https://github.com/NVIDIA/audio-flamingo/stargazers"><img src="https://img.shields.io/github/stars/NVIDIA/audio-flamingo.svg?style=social"></a>
+</div>
+
+<div align="center" style="display: flex; justify-content: center; margin-top: 10px; flex-wrap: wrap; gap: 5px;">
+  <a href="https://huggingface.co/nvidia/audio-flamingo-2-SoundCoT">
+    <img src="https://img.shields.io/badge/🤗-Audio_Flamingo_2_SoundCoT_(3B)-ED5A22.svg">
+  </a>
+  <a href="https://huggingface.co/datasets/nvidia/AF-Think/tree/main/afcot">
+    <img src="https://img.shields.io/badge/🤗-Dataset: AF--CoT--Train-ED5A22.svg">
+  </a>
+  <a href="https://github.com/NVIDIA/audio-flamingo/tree/soundCoT/AF_Reasoning_Eval">
+    <img src="https://img.shields.io/badge/Dataset: AF--Reasoning--Eval-ED5A22.svg">
+  </a>
+</div>
+
 ## AF-Reasoning-Eval
 
 The AF-Reasoning-Eval benchmark is included in ```AF_Reasoning_Eval/```. 
@@ -29,6 +48,7 @@ The instruction to run inference of the CoT model is [here](https://github.com/N
 
 ## Sound Demos
 
+[▶️ Sample 1](https://github.com/NVIDIA/audio-flamingo/tree/soundCoT/static/audio/UrbanHerringGulls.wav)
 <div>
   <table>
     <tr>
@@ -65,6 +85,7 @@ The instruction to run inference of the CoT model is [here](https://github.com/N
 
 <br>
 
+[▶️ Sample 2](https://github.com/NVIDIA/audio-flamingo/tree/soundCoT/static/audio/ambient text.wav)
 <div>
   <table>
     <tr>
@@ -101,6 +122,7 @@ The instruction to run inference of the CoT model is [here](https://github.com/N
 
 <br>
 
+[▶️ Sample 3](https://github.com/NVIDIA/audio-flamingo/tree/soundCoT/static/audio/58969.wav)
 <div>
   <table>
     <tr>
@@ -137,6 +159,7 @@ The instruction to run inference of the CoT model is [here](https://github.com/N
 
 <br>
 
+[▶️ Sample 4](https://github.com/NVIDIA/audio-flamingo/tree/soundCoT/static/audio/KYGj2xHDQAg_00-00-00_00-00-17.wav)
 <div>
   <table>
     <tr>
@@ -173,6 +196,7 @@ The instruction to run inference of the CoT model is [here](https://github.com/N
 
 <br>
 
+[▶️ Sample 5](https://github.com/NVIDIA/audio-flamingo/tree/soundCoT/static/audio/NePo2M4Ckjg_00-00-07_00-00-37.wav)
 <div>
   <table>
     <tr>
