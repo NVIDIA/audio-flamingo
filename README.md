@@ -84,7 +84,7 @@ The instruction to run inference of the CoT model is [here](https://github.com/N
 
 <br>
 
-[▶️ Sample 2](https://github.com/NVIDIA/audio-flamingo/tree/soundCoT/static/audio/ambient text.wav)
+[▶️ Sample 2](https://github.com/NVIDIA/audio-flamingo/tree/soundCoT/static/audio/ambient%20text.wav)
 <div>
   <table>
     <tr>
