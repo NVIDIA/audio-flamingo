@@ -192,3 +192,13 @@ Each branch includes the individual code to train and inference Audio Flamingo.
   year={2025}
 }
 ```
+
+- Audio Flamingo Sound-CoT
+```
+@article{kong2025audio,
+  title={Audio Flamingo Sound-CoT Technical Report: Improving Chain-of-Thought Reasoning in Sound Understanding},
+  author={Kong, Zhifeng and Goel, Arushi and Santos, Joao Felipe and Ghosh, Sreyan and Valle, Rafael and Ping, Wei and Catanzaro, Bryan},
+  journal={arXiv preprint arXiv:2508.11818},
+  year={2025}
+}
+```
