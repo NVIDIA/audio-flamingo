@@ -138,6 +138,31 @@ Audio Flamingo 3 can take up to 10 minutes of audio inputs, and has a streaming 
   <img class="img-full" src="static/af3_main_diagram-1.png" width="800">
 </div>
 
+## Audio Flamingo Sound-CoT
+
+<div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
+  <a href="https://arxiv.org/abs/2508.11818"><img src="https://img.shields.io/badge/arXiv-2508.11818-AD1C18" style="margin-right: 5px;"></a>
+  <a href="https://github.com/NVIDIA/audio-flamingo/tree/soundCoT"><img src='https://img.shields.io/badge/Github-Audio Flamingo SoundCoT-9C276A' style="margin-right: 5px;"></a>
+  <a href="https://github.com/NVIDIA/audio-flamingo/stargazers"><img src="https://img.shields.io/github/stars/NVIDIA/audio-flamingo.svg?style=social"></a>
+</div>
+
+<div align="center" style="display: flex; justify-content: center; margin-top: 10px; flex-wrap: wrap; gap: 5px;">
+  <a href="https://huggingface.co/nvidia/audio-flamingo-2-SoundCoT">
+    <img src="https://img.shields.io/badge/🤗-Audio_Flamingo_2_SoundCoT_(3B)-ED5A22.svg">
+  </a>
+  <a href="https://huggingface.co/datasets/nvidia/AF-Think/tree/main/afcot">
+    <img src="https://img.shields.io/badge/🤗-Dataset: AF--CoT--Train-ED5A22.svg">
+  </a>
+  <a href="https://github.com/NVIDIA/audio-flamingo/tree/soundCoT/AF_Reasoning_Eval">
+    <img src="https://img.shields.io/badge/Dataset: AF--Reasoning--Eval-ED5A22.svg">
+  </a>
+</div>
+
+Audio Flamingo Sound-CoT has significant improvements on the chain-of-thought (CoT) reasoning abilities. Our 3B finetuned model based on Audio Flamingo 2 is comparable to several 7B reasoning baselines on reasoning benchmarks. 
+
+We introduce AF-Reasoning-Eval, a sound reasoning benchmark targeting common-sense reasoning and the ability to discriminate among closely related choices. We also introduce AF-CoT-Train that contains about 1M CoT reasoning traces to advance the field of audio understanding.
+
+
 ## Code Structure
 
 Each branch includes the individual code to train and inference Audio Flamingo.
@@ -146,6 +171,7 @@ Each branch includes the individual code to train and inference Audio Flamingo.
 <a href="https://github.com/NVIDIA/audio-flamingo/tree/legacy_audio_flamingo_1"><img src='https://img.shields.io/badge/Github-Audio Flamingo 1-9C276A' style="margin-right: 5px;"></a>
 <a href="https://github.com/NVIDIA/audio-flamingo/tree/audio_flamingo_2"><img src='https://img.shields.io/badge/Github-Audio Flamingo 2-9C276A' style="margin-right: 5px;"></a>
 <a href="https://github.com/NVIDIA/audio-flamingo/tree/audio_flamingo_3"><img src='https://img.shields.io/badge/Github-Audio Flamingo 3-9C276A' style="margin-right: 5px;"></a>
+<a href="https://github.com/NVIDIA/audio-flamingo/tree/soundCoT"><img src='https://img.shields.io/badge/Github-Audio Flamingo SoundCoT-9C276A' style="margin-right: 5px;"></a>
 </div>
 
 
