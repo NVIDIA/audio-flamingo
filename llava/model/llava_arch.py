@@ -308,7 +308,13 @@ class LlavaMetaForCausalLM(ABC):
             media_tokens[token_id] = name
 
         # -------------------------------- #
-        num_audio_tokens = torch.stack(media_meta["sound_embed_masks"], dim=0).sum(-1)
+        if isinstance(media_meta["sound_embed_masks"], (list, tuple)) and all(isinstance(x, torch.Tensor) for x in media_meta["sound_embed_masks"]):
+            if all(x.shape == media_meta["sound_embed_masks"][0].shape for x in media_meta["sound_embed_masks"]):
+                num_audio_tokens = torch.stack(media_meta["sound_embed_masks"], dim=0).sum(-1)
+            else:
+                raise ValueError("All tensors in sound_embed_masks must have the same shape to be stacked.")
+        else:
+            num_audio_tokens = media_meta["sound_embed_masks"].sum(-1)
         num_audio_tokens = torch.tensor([round(int(x) / 10) * 10 for x in num_audio_tokens])            
         num_audios = len(media_embeds['sound']) # length of queue is the number of audios we have in total
         max_audio_tokens, embed_dim = media_embeds['sound'][0].shape
@@ -870,7 +876,6 @@ class LlavaMetaForCausalLM(ABC):
      
         responses= []
         for conv in conversations:
-            print(conv)
             media, media_meta = extract_media(conv, self.config)
             media_config = defaultdict(dict)
             for name in media:
@@ -918,6 +923,106 @@ class LlavaMetaForCausalLM(ABC):
             response = self.tokenizer.decode(output_ids[0], skip_special_tokens=True).strip()
             responses.append(response)
         
+        return responses[0] if is_single_input else responses
+
+    @torch.inference_mode()
+    def generate_content_batch_decode(
+        self,
+        prompt: Union[str, List[str]],
+        generation_config: Optional[GenerationConfig] = None,
+        response_format: Optional[ResponseFormat] = None,
+    ) -> Union[str, List[str]]:
+        # Normalize input to list
+        is_single_input = False
+        if isinstance(prompt, str):
+            prompt = [prompt]
+            is_single_input = True
+
+        # Convert response format to logits processor
+        xgr_logits_processor = (
+            self.get_xgr_logits_processor(response_format) if response_format else None
+        )
+
+        # Prepare conversations
+        conversations = [[{"from": "human", "value": p}] for p in prompt]
+
+        # === Extract media for ALL conversations ===
+        all_media = {}
+        all_media['sound'] = []
+        all_media_meta = {}
+        all_media_meta['sound_feature_masks'] = []
+        all_media_meta['sound_embed_masks'] = []
+
+        for conv in conversations:
+            media, media_meta = extract_media(conv, self.config)
+            media_config = defaultdict(dict)
+            for name in media:
+                if name == "sound":
+                    sounds = process_sounds(media["sound"]).half()
+                    media[name] = [sound for sound in sounds]
+
+                    sound_feature_masks = process_sound_masks(media_meta["sound_feature_masks"]).half()
+                    media_meta["sound_feature_masks"] = [m for m in sound_feature_masks]
+
+                    sound_embed_masks = process_sound_masks(media_meta["sound_embed_masks"]).half()
+                    media_meta["sound_embed_masks"] = [m.unsqueeze(0) for m in sound_embed_masks]
+                else:
+                    raise ValueError(f"Unsupported media type: {name}")
+            all_media['sound'].append(media['sound'])
+            all_media_meta['sound_feature_masks'].append(media_meta["sound_feature_masks"])
+            all_media_meta['sound_embed_masks'].append(media_meta["sound_embed_masks"])
+        # === Tokenize all conversations at once (pad to same length) ===
+        tokenized = [
+            tokenize_conversation(conv, self.tokenizer, add_generation_prompt=True)
+            for conv in conversations
+        ]
+        input_ids = torch.nn.utils.rnn.pad_sequence(
+            [t.cuda() for t in tokenized],
+            batch_first=True,
+            padding_value=self.tokenizer.pad_token_id,
+        )
+        attention_mask = input_ids.ne(self.tokenizer.pad_token_id)
+        flattened = [s for group in all_media['sound'] for s in group]
+        all_media['sound'] = torch.cat(flattened, dim=0).squeeze(1).squeeze(2)
+        flattened = [s for group in all_media_meta['sound_feature_masks'] for s in group]
+        all_media_meta['sound_feature_masks'] = torch.cat(flattened, dim=0).squeeze(1)
+        all_sound_embed = [s for sublist in all_media_meta['sound_embed_masks'] for s in sublist]  # flatten nested list
+        all_media_meta['sound_embed_masks'] = torch.stack(all_sound_embed, dim=0).squeeze(1)
+        # Set up the generation config
+        generation_config = generation_config or self.default_generation_config
+
+        # === Run batched generation ===
+        try:
+            output_ids = self.generate(
+                input_ids=input_ids,
+                media=all_media,
+                media_config=media_config,
+                attention_mask=attention_mask,
+                media_meta=all_media_meta,
+                generation_config=generation_config,
+                logits_processor=xgr_logits_processor,
+            )
+        except ValueError:
+            if not generation_config.do_sample:
+                raise
+            logging.warning("Generation failed with sampling, retrying with greedy decoding.")
+            generation_config.do_sample = False
+            output_ids = self.generate(
+                input_ids=input_ids,
+                media=all_media,
+                media_config=media_config,
+                attention_mask=attention_mask,
+                media_meta=all_media_meta,
+                generation_config=generation_config,
+                logits_processor=xgr_logits_processor,
+            )
+
+        # === Decode each response ===
+        responses = [
+            self.tokenizer.decode(out, skip_special_tokens=True).strip()
+            for out in output_ids
+        ]
+
         return responses[0] if is_single_input else responses
 
     @property

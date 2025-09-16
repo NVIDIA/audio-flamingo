@@ -435,45 +435,6 @@ def train():
     else:
         training_args.run_name = training_args.output_dir.split("/")[-1]
 
-    if training_args.use_one_logger:
-        try:
-            from one_logger_utils.huggingface import TimeEventCallback, hook_trainer_cls
-        except ImportError as e:
-            logging.warning(
-                f"""one_logger_utils is not installed. Please install it to use one_logger.
-                            Please install via `pip install --index-url=https://sc-hw-artf.nvidia.com/artifactory/api/pypi/hwinf-mlwfo-pypi/simple --upgrade one-logger-utils
-`"""
-            )
-            raise e
-        batch_size = os.environ.get("GLOBAL_TRAIN_BATCH_SIZE", 16)
-        app_tag = f"{training_args.run_name}_{training_args.model_max_length}_{batch_size}"
-        one_logger_callback_config = {
-            "enable_for_current_rank": os.environ.get("RANK") == "0",
-            "one_logger_async": True,
-            "one_logger_project": "vila",
-            "log_every_n_train_iterations": 10,
-            "app_tag_run_version": "0.0.0",
-            "summary_data_schema_version": "1.0.0",
-            "app_run_type": "training",
-            "app_tag": app_tag,
-            "app_tag_run_name": training_args.run_name,
-            "world_size": os.environ.get("WORLD_SIZE", -1),
-            "global_batch_size": batch_size,
-            "batch_size": batch_size,
-            "train_iterations_target": int(data_args.num_video_frames / batch_size),
-            "train_samples_target": data_args.num_video_frames,
-            "is_train_iterations_enabled": True,
-            "is_baseline_run": False,
-            "is_test_iterations_enabled": False,
-            "is_validation_iterations_enabled": False,
-            "is_save_checkpoint_enabled": True,
-            "is_log_throughput_enabled": False,
-            "micro_batch_size": os.environ.get("PER_DEVICE_TRAIN_BATCH_SIZE", 16),
-            "seq_length": training_args.model_max_length,
-            "save_checkpoint_strategy": "sync",
-        }
-        one_logger_callback_utils = TimeEventCallback(one_logger_callback_config)
-
     local_rank = training_args.local_rank
     compute_dtype = torch.float16 if training_args.fp16 else (torch.bfloat16 if training_args.bf16 else torch.float32)
 
