@@ -89,6 +89,16 @@ Audio Flamingo 3 can take up to 10 minutes of audio inputs.
 
 Each folder is self-contained and we expect no cross dependencies between these folders. This repo does not contain the code for Streaming-TTS pipeline which will released in the near future.
 
+## Minimal Inference Script
+
+To infer stage 3 model on a json file (for example, `static/mmar.json`), run the command below:
+
+```bash
+torchrun --nproc-per-node=$NGPU  llava/cli/infer_batch.py --model-base nvidia/audio-flamingo-3 
+```
+where `$NGPU` is 1 if you want to use a single GPU or 8 if you want to use multiple GPUs for inference. Add the argument `-think-mode` to run in thinking mode. You can also adjust the batch size by adding `--batch-size 1` to the command above. 
+
+
 ## Single Line Inference
 
 To infer stage 3 model directly, run the command below:
