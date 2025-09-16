@@ -34,11 +34,10 @@ from torch import nn
 from torch.utils.data import ConcatDataset, Dataset, DistributedSampler, RandomSampler, Sampler
 from transformers import PreTrainedModel, Trainer
 from transformers.modeling_utils import unwrap_model
-from transformers.trainer import ALL_LAYERNORM_LAYERS  # ShardedDDPOption,
+from transformers.trainer import ALL_LAYERNORM_LAYERS  
 from transformers.trainer import get_parameter_names, has_length, is_sagemaker_mp_enabled, logger
 
 from llava.train.sequence_parallel import get_pg_manager
-from llava.trl.trainer import DPOTrainer
 import numpy as np
 
 def maybe_zero_3(param, ignore_status=False, name=None):
@@ -700,156 +699,6 @@ class LengthGroupedSampler(Sampler):
                 self.lengths, self.batch_size, self.world_size, generator=self.generator
             )
         return iter(indices)
-
-
-class VILADPOTrainer(DPOTrainer):
-    def _get_train_sampler(self) -> Optional[torch.utils.data.Sampler]:
-        if self.train_dataset is None or not has_length(self.train_dataset):
-            return None
-
-        # Always using Jason's sampler.
-        sample_len_list = self.args.sample_lens
-        seed = self.args.data_seed if self.args.data_seed is not None else self.args.seed
-        num_replicas = self.args.world_size
-        rank = self.args.process_index
-        return VILADistributedSampler(
-            self.train_dataset,
-            num_replicas=num_replicas,
-            rank=rank,
-            seed=seed,
-            batch_size=self.args.train_batch_size,
-            sample_len_list=sample_len_list,
-            sp_degree=self.args.seq_parallel_size,
-            gradient_accumulation_steps=self.args.gradient_accumulation_steps,
-        )
-
-    def _get_eval_sampler(self, eval_dataset: Dataset) -> Optional[torch.utils.data.Sampler]:
-        if self.eval_dataset is None or not has_length(self.eval_dataset):
-            return None
-
-        # Always using Jason's sampler.
-        sample_len_list = self.args.eval_sample_lens
-        seed = self.args.data_seed if self.args.data_seed is not None else self.args.seed
-        return VILADistributedSampler(
-            eval_dataset,
-            num_replicas=self.args.world_size,
-            rank=self.args.process_index,
-            seed=seed,
-            batch_size=self.args.eval_batch_size,
-            sample_len_list=sample_len_list,
-            gradient_accumulation_steps=self.args.gradient_accumulation_steps,
-        )
-
-    def create_optimizer(self):
-        """
-        Setup the optimizer.
-
-        We provide a reasonable default that works well. If you want to use something else, you can pass a tuple in the
-        Trainer's init through `optimizers`, or subclass and override this method in a subclass.
-        """
-        if is_sagemaker_mp_enabled():
-            return super().create_optimizer()
-        # if self.sharded_ddp == ShardedDDPOption.SIMPLE:
-        #     return super().create_optimizer()
-
-        opt_model = self.model
-
-        if self.optimizer is None:
-            decay_parameters = get_parameter_names(opt_model, ALL_LAYERNORM_LAYERS)
-            decay_parameters = [name for name in decay_parameters if "bias" not in name]
-            if self.args.mm_projector_lr is not None:
-                projector_parameters = [name for name, _ in opt_model.named_parameters() if "mm_projector" in name]
-                optimizer_grouped_parameters = [
-                    {
-                        "params": [
-                            p
-                            for n, p in opt_model.named_parameters()
-                            if (n in decay_parameters and n not in projector_parameters and p.requires_grad)
-                        ],
-                        "weight_decay": self.args.weight_decay,
-                    },
-                    {
-                        "params": [
-                            p
-                            for n, p in opt_model.named_parameters()
-                            if (n not in decay_parameters and n not in projector_parameters and p.requires_grad)
-                        ],
-                        "weight_decay": 0.0,
-                    },
-                    {
-                        "params": [
-                            p
-                            for n, p in opt_model.named_parameters()
-                            if (n in decay_parameters and n in projector_parameters and p.requires_grad)
-                        ],
-                        "weight_decay": self.args.weight_decay,
-                        "lr": self.args.mm_projector_lr,
-                    },
-                    {
-                        "params": [
-                            p
-                            for n, p in opt_model.named_parameters()
-                            if (n not in decay_parameters and n in projector_parameters and p.requires_grad)
-                        ],
-                        "weight_decay": 0.0,
-                        "lr": self.args.mm_projector_lr,
-                    },
-                ]
-            else:
-                optimizer_grouped_parameters = [
-                    {
-                        "params": [
-                            p for n, p in opt_model.named_parameters() if (n in decay_parameters and p.requires_grad)
-                        ],
-                        "weight_decay": self.args.weight_decay,
-                    },
-                    {
-                        "params": [
-                            p
-                            for n, p in opt_model.named_parameters()
-                            if (n not in decay_parameters and p.requires_grad)
-                        ],
-                        "weight_decay": 0.0,
-                    },
-                ]
-
-            optimizer_cls, optimizer_kwargs = Trainer.get_optimizer_cls_and_kwargs(self.args)
-
-            if 0:  # self.sharded_ddp == ShardedDDPOption.SIMPLE:
-                self.optimizer = OSS(
-                    params=optimizer_grouped_parameters,
-                    optim=optimizer_cls,
-                    **optimizer_kwargs,
-                )
-            else:
-                self.optimizer = optimizer_cls(optimizer_grouped_parameters, **optimizer_kwargs)
-                if optimizer_cls.__name__ == "Adam8bit":
-                    import bitsandbytes
-
-                    manager = bitsandbytes.optim.GlobalOptimManager.get_instance()
-
-                    skipped = 0
-                    for module in opt_model.modules():
-                        if isinstance(module, nn.Embedding):
-                            skipped += sum({p.data_ptr(): p.numel() for p in module.parameters()}.values())
-                            logger.info(f"skipped {module}: {skipped/2**20}M params")
-                            manager.register_module_override(module, "weight", {"optim_bits": 32})
-                            logger.debug(f"bitsandbytes: will optimize {module} in fp32")
-                    logger.info(f"skipped: {skipped/2**20}M params")
-
-        return self.optimizer
-
-    def save_model(self, output_dir: Optional[str], _internal_call: bool):
-        ## save tuned model separately
-        if self.is_deepspeed_enabled:
-            state_dict = self.accelerator.get_state_dict(self.deepspeed)
-        else:
-            # TODO(ligeng): fix save_model for multi-node training on large models (e.g., Llama-70b)
-            state_dict = self.model.state_dict()
-
-        if self.args.should_save:
-            return self.model.save_pretrained(output_dir, state_dict=state_dict)
-
 
 class LLaVATrainer(Trainer):
     def __init__(self, *args, **kwargs):

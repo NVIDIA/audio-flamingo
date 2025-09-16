@@ -63,7 +63,7 @@ def main() -> None:
     model_path = snapshot_download(args.model_base)
     model_think = os.path.join(model_path, 'stage35')
 
-    model = llava.load(model_path)
+    model = llava.load(model_path, device_map=None)
     if args.think_mode:
         model = PeftModel.from_pretrained(
             model,

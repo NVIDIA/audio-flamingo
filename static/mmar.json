@@ -1,0 +1,53 @@
+{
+    "dataset_path": "static/MMAR",
+    "split": "test",
+    "split_path": "static/MMAR",
+    "flamingo_task": "MMAR",
+    "data": {
+        "0": {
+            "name": "audio/f0VchKwpMAk_00-11-10_00-11-30.wav",
+            "prompt": "Determine what is producing the sound in the audio Choose the correct option from the following options:\n(A) Owl\n(B) Robot\n(C) Rooster\n(D) Parrot",
+            "output": "Parrot"
+        },
+        "1": {
+            "name": "audio/BV1o64y1G7p2_00-00-12_00-00-31.wav",
+            "prompt": "In what scenario does this sound occur Choose the correct option from the following options:\n(A) On a plane\n(B) On a ship\n(C) In a car\n(D) On a train",
+            "output": "On a plane"
+        },
+        "2": {
+            "name": "audio/BV1j1ABeqEyp_00-06-02_00-06-16.wav",
+            "prompt": "Why does the man in this say wait Choose the correct option from the following options:\n(A) To find the keys\n(B) To answer the phone\n(C) To open the door\n(D) To close the window",
+            "output": "To open the door"
+        },
+        "3": {
+            "name": "audio/BV1Q8KHeWEDE_00-00-35_00-00-55.wav",
+            "prompt": "What did the woman do in the conversation Choose the correct option from the following options:\n(A) Gave candies to the children\n(B) Scared the children away\n(C) Told the children a story",
+            "output": "Scared the children away"
+        },
+        "4": {
+            "name": "audio/BV1gt4y1e7U5_00-00-52_00-01-16.wav",
+            "prompt": "How many gunshots were heard in total Choose the correct option from the following options:\n(A) 1\n(B) 2\n(C) 4\n(D) 3",
+            "output": "2"
+        },
+        "5": {
+            "name": "audio/joOir3O27rs_00-03-26_00-03-41.wav",
+            "prompt": "Determine what sport is being described in the audio Choose the correct option from the following options:\n(A) Golf\n(B) Tennis\n(C) Baseball\n(D) Bowling",
+            "output": "Golf"
+        },
+        "6": {
+            "name": "audio/3Rz18q3p-zY_00-00-00_00-00-21.wav",
+            "prompt": "What is the problem with the person's way of speaking? Choose the correct option from the following options:\n(A) Speech is too fast\n(B) Speaking volume is too low\n(C) Stuttering\n(D) Unclear pronunciation",
+            "output": "Stuttering"
+        },
+        "7": {
+            "name": "audio/FktR_jf0EyU_00-00-00_00-00-25.wav",
+            "prompt": "This is a video of cutting a watermelon, how many cuts were made in total? Choose the correct option from the following options:\n(A) 12\n(B) 10\n(C) 18\n(D) 15",
+            "output": "15"
+        },
+        "8": {
+            "name": "audio/BV1vc411S7ro_00-00-00_00-00-30.wav",
+            "prompt": "In the video, the woman is singing. Is the location indoors or outdoors? Choose the correct option from the following options:\n(A) Indoors\n(B) Outdoors",
+            "output": "Outdoors"
+        }
+    }
+}

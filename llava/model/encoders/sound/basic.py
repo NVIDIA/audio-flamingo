@@ -46,8 +46,9 @@ class BasicSoundEncoder(BaseEncoder):
         return features
 
     def forward(self, sounds: List[torch.Tensor], config: Dict[str, Any], masks: Dict[str, Any]) -> List[torch.Tensor]:
-        sounds = torch.stack(sounds, dim=0)
-        masks = torch.stack(masks, dim=0)
+        if isinstance(sounds, (list, tuple)) and all(isinstance(x, torch.Tensor) for x in sounds):
+            sounds = torch.stack(sounds, dim=0)
+            masks = torch.stack(masks, dim=0)
         features = self.parent.encode_sound(sounds, masks)
         process_features = partial(
             self._process_features,
