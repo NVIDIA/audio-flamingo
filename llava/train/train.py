@@ -20,10 +20,11 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-import copy
-import logging
-import math
 import os
+import copy
+import math
+import json
+import logging
 import warnings
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Sequence
@@ -39,12 +40,11 @@ import llava.data.datasets_mixture as datasets_mixture
 from llava import conversation as conversation_lib
 from llava.constants import IGNORE_INDEX
 from llava.data import make_supervised_data_module
-from llava.mm_utils import process_image
 from llava.model import LlavaLlamaConfig, LlavaLlamaModel
 from llava.model.language_model.fp8linearqwen2 import Qwen2ForCausalLM  # We need this line to register AutoConfig
 from llava.train.args import DataArguments, ModelArguments, TrainingArguments
 from llava.train.callbacks.autoresume_callback import AutoResumeCallback
-from llava.train.llava_trainer import LLaVATrainer, VILADPOTrainer
+from llava.train.llava_trainer import LLaVATrainer
 from llava.train.sequence_parallel import set_pg_manager
 from llava.train.slurm_utils import TimeoutTerminateCallback
 from llava.train.utils import (
@@ -53,7 +53,6 @@ from llava.train.utils import (
     prepare_config_for_training,
     unit_test_rope_scaling,
 )
-from llava.trl.trainer.utils import DPODataCollatorWithPadding
 
 local_rank = None
 
@@ -149,18 +148,14 @@ def get_mm_adapter_state_maybe_zero_3(named_params, keys_to_match):
     return to_return
 
 
-def find_all_linear_names(model, lora_llm, lora_vt, lora_st, lora_sot):
+def find_all_linear_names(model, lora_llm, lora_st):
     cls = torch.nn.Linear
     lora_module_names = set()
-    multimodal_keywords = ["mm_projector","speech_mm_projector","sound_mm_projector", "vision_resampler"]
+    multimodal_keywords = ["sound_mm_projector"]
     assert lora_llm or lora_vt, "Not applying LoRA to any of the modules..."
 
     if not lora_llm:
         multimodal_keywords += ["llm"]
-    if not lora_vt:
-        multimodal_keywords += ["vision_tower"]
-    if not lora_st:
-        multimodal_keywords += ["speech_tower"]
     if not lora_sot:
         multimodal_keywords += ["sound_tower"]
     for name, module in model.named_modules():
@@ -227,112 +222,6 @@ def make_conv(prompt, answer):
     ]
 
 
-@dataclass
-class DPODataCollator(DPODataCollatorWithPadding):
-    tokenizer: Any = None
-
-    def collate(self, batch):
-        # first, pad everything to the same length
-        # input_ids, labels = tuple([instance[key] for instance in instances]
-        #                           for key in ("input_ids", "labels"))
-        # input_ids = torch.nn.utils.rnn.pad_sequence(
-        #     input_ids,
-        #     batch_first=True,
-        #     padding_value=self.tokenizer.pad_token_id)
-        # labels = torch.nn.utils.rnn.pad_sequence(labels,
-        #                                          batch_first=True,
-        #                                          padding_value=IGNORE_INDEX)
-        # input_ids = input_ids[:, :self.tokenizer.model_max_length]
-        # labels = labels[:, :self.tokenizer.model_max_length]
-        # batch = dict(
-        #     input_ids=input_ids,
-        #     labels=labels,
-        #     attention_mask=input_ids.ne(self.tokenizer.pad_token_id),
-        # )
-        padded_batch = {}
-        for k in batch[0].keys():
-            if k.endswith("_input_ids") or k.endswith("_attention_mask") or k.endswith("_labels"):
-                # if "prompt" in k:
-                #     to_pad = [torch.LongTensor(ex[k][::-1]) for ex in batch]
-                # else:
-                to_pad = [torch.LongTensor(ex[k]) for ex in batch]
-                if k.endswith("_input_ids"):
-                    padding_value = self.pad_token_id
-                elif k.endswith("_labels"):
-                    padding_value = self.label_pad_token_id
-                else:
-                    continue
-                # elif k.endswith("_attention_mask"):
-                #     padding_value = self.padding_value
-                # else:
-                #     raise ValueError(f"Unexpected key in batch '{k}'")
-
-                padded_batch[k] = torch.nn.utils.rnn.pad_sequence(to_pad, batch_first=True, padding_value=padding_value)
-                # for the prompt, flip back so padding is on left side
-                # if "prompt" in k:
-                #     padded_batch[k] = padded_batch[k].flip(dims=[1])
-            else:
-                padded_batch[k] = [ex[k] for ex in batch]
-        for k in ["chosen_input_ids", "rejected_input_ids"]:
-            attn_k = k.replace("input_ids", "attention_mask")
-            padded_batch[attn_k] = padded_batch[k].ne(self.pad_token_id)
-        return padded_batch
-
-    def tokenize_batch_element(self, prompt: str, chosen: str, rejected: str) -> Dict:
-        """Tokenize a single batch element.
-
-        At this stage, we don't convert to PyTorch tensors yet; we just handle the truncation
-            in case the prompt + chosen or prompt + rejected responses is/are too long. First
-            we truncate the prompt; if we're still too long, we truncate the chosen/rejected.
-
-        We also create the labels for the chosen/rejected responses, which are of length equal to
-            the sum of the length of the prompt and the chosen/rejected response, with
-            label_pad_token_id  for the prompt tokens.
-        """
-        # import pdb; pdb.set_trace()
-        batch = {}
-
-        chosen_sources = make_conv(prompt, chosen)
-        rejected_sources = make_conv(prompt, rejected)
-        chosen_data_dict = dataset.preprocess([chosen_sources], self.tokenizer, has_image=True)
-        # chosen_data_dict['attention_mask'] = chosen_data_dict["input_ids"].ne(self.tokenizer.pad_token_id)
-
-        rejected_data_dict = dataset.preprocess([rejected_sources], self.tokenizer, has_image=True)
-        # rejected_data_dict['attention_mask'] = rejected_data_dict["input_ids"].ne(self.tokenizer.pad_token_id)
-
-        chosen_data_dict = {k: v[0] for k, v in chosen_data_dict.items()}
-        rejected_data_dict = {k: v[0] for k, v in rejected_data_dict.items()}
-
-        for k, toks in {
-            "chosen": chosen_data_dict,
-            "rejected": rejected_data_dict,
-        }.items():
-            for type_key, tokens in toks.items():
-                if type_key == "token_type_ids":
-                    continue
-                batch[f"{k}_{type_key}"] = tokens
-        return batch
-
-    def __call__(self, features: List[Dict[str, Any]]) -> Dict[str, Any]:
-        tokenized_batch = []
-        Xs, keys = [], []
-        for feature in features:
-            prompt = feature["prompt"]
-            chosen = feature["chosen"]
-            rejected = feature["rejected"]
-
-            batch_element = self.tokenize_batch_element(prompt, chosen, rejected)
-            batch_element["images"] = feature["images"]
-            tokenized_batch.append(batch_element)
-
-        # return collated batch
-        padded_batch = self.collate(tokenized_batch)
-        return padded_batch
-
-
-import json
-
-
 def load_jsonl(save_path):
     with open(save_path) as f:
         data = [json.loads(line) for line in f.readlines()]
@@ -351,76 +240,6 @@ def load_data(data_path):
     else:
         data_list = load_json(data_path)
     return data_list
-
-
-class DPODataset(Dataset):
-    """Dataset for supervised fine-tuning."""
-
-    def __init__(self, data_mixture: str, tokenizer: transformers.PreTrainedTokenizer, data_args: DataArguments):
-        super(Dataset, self).__init__()
-        data_path = datasets_mixture.DATASETS_LEGACY[data_mixture].data_path
-        list_data_dict = load_data(data_path)
-        # if data_args.num_sample is not None:
-        #     list_data_dict = list_data_dict[:data_args.num_sample]
-
-        print("Formatting inputs...Skip in lazy mode")
-        self.tokenizer = tokenizer
-        self.list_data_dict = list_data_dict
-        self.data_args = data_args
-        self.image_folder = datasets_mixture.DATASETS_LEGACY[data_mixture].image_path
-
-    def __len__(self):
-        # return 20
-        return len(self.list_data_dict)
-
-    @property
-    def lengths(self):
-        length_list = []
-        for sample in self.list_data_dict:
-            img_tokens = 128 if "image" in sample else 0
-            length_list.append(sum(len(conv["value"].split()) for conv in sample["conversations"]) + img_tokens)
-        return length_list
-
-    def __getitem__(self, i) -> Dict[str, torch.Tensor]:
-        """
-        {
-            'prompt': 'Is there a snowman wearing a green scarf and hat in the background?',
-            'chosen': 'No, there is no snowman wearing a green scarf and hat in the background of the image. The image features a person ...',
-            'rejected': 'No, there is no snowman in the background.',
-            'image_path': '/mnt/bn/liangkeg/data/ruohongz/dpo_data/dpo_images/LRVInstruction-000000009569.jpg',
-            'image_name': 'LRVInstruction-000000009569.jpg'
-        }
-        """
-        # sources = self.list_data_dict[i]
-        # if isinstance(i, int):
-        #     sources = [sources]
-        # assert len(sources) == 1, "Don't know why it is wrapped to a list"  # FIXME
-        data_dict = copy.deepcopy(self.list_data_dict[i])  # inplace modification following
-
-        video_file = data_dict["video"] + ".mp4"
-        video_folder = self.image_folder
-        video_path = os.path.join(video_folder, video_file)
-        num_video_frames = self.data_args.num_video_frames if hasattr(self.data_args, "num_video_frames") else 8
-        loader_fps = self.data_args.fps if hasattr(self.data_args, "fps") else 0.0
-
-        fps = None
-        frame_count = None
-
-        images, frames_loaded = dataset.LazySupervisedDataset._load_video(
-            video_path, num_video_frames, loader_fps, self.data_args, fps=fps, frame_count=frame_count
-        )
-
-        image_tensor = torch.stack([process_image(image, self.data_args, None) for image in images])
-        image_tensor = torch.stack([process_image(image, self.data_args, None) for image in images])
-
-        data_dict["images"] = image_tensor
-
-        prompt = data_dict["prompt"]
-        prompt = prompt.replace("<video>", "").strip()
-        prompt = "<image>\n" * frames_loaded + prompt
-        data_dict["prompt"] = prompt
-
-        return data_dict
 
 
 def train():
@@ -510,16 +329,6 @@ def train():
     if training_args.use_one_logger:
         one_logger_callback_utils.on_model_init_start()
 
-    # if model_args.quantize_model in quantize_args_to_model_class.keys():
-    #     model = model_cls(
-    #         config=config,
-    #         model_args=model_args,
-    #         attn_implementation="flash_attention_2",
-    #         model_max_length=training_args.model_max_length,
-    #         cache_dir=training_args.cache_dir,
-    #         **bnb_model_from_pretrained_args,
-    #     )
-    # else:
     model = model_cls(
         config=config,
         attn_implementation="flash_attention_2",
@@ -559,11 +368,6 @@ def train():
     mprint(model)
 
     model.llm.config.use_cache = False
-
-    ## set tunnable parameters
-    # logging.warning(
-    #     "You are setting tunable parameters for the model. Previous args include 'freeze_backbone' and 'tune_mm_mlp_adapter' are deprecated.\n Notice: default value of tune_xxx is False, which means you would not tune this part."
-    # )
 
     def need_to_modify_do_sample(generation_config):
         if generation_config is None:
@@ -674,7 +478,7 @@ def train():
         )
 
         if not any(
-            [training_args.tune_language_model, training_args.tune_vision_tower,  training_args.tune_speech_tower, training_args.tune_sound_tower, training_args.tune_mm_projector, training_args.tune_speech_mm_projector, training_args.tune_sound_mm_projector]
+            [training_args.tune_language_model, training_args.tune_sound_tower, training_args.tune_sound_mm_projector]
         ):
             logging.warning("You are not tuning any part of the model. Please check if this is intended.")
 

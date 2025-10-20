@@ -1,6 +1,7 @@
 #!/bin/bash
+set -e
 
-# Environment variables
+# ------------------- Environment -------------------
 export NCCL_DEBUG=WARN
 export NCCL_IB_SL=1
 export CUDA_DEVICE_MAX_CONNECTIONS=1
@@ -8,17 +9,26 @@ export TORCH_NCCL_ASYNC_ERROR_HANDLING=1
 export OMP_NUM_THREADS=1
 export VILA_DATASETS=audio_test
 
-# Configs
+# ------------------- Configs -------------------
+MODEL_PATH=$1
+INFER_JSON=$2
 YAML_FILE="llava/eval/registry_audio.yaml"
-THINK_MODE=false  # or true if you want to enable it
+THINK_MODE=false  # set to true if you want to enable think mode
 
-# Function to parse task names from YAML
+# ------------------- Helper -------------------
 get_tasks_from_yaml() {
     grep '^[^[:space:]]' "$YAML_FILE" | sed 's/://'
 }
 
-# Loop through each task and submit a job
-for TASK in $(get_tasks_from_yaml); do
-    echo "Submitting job for task: $TASK"
-    sh scripts/eval/eval_audio_batch.sh nvidia/audio-flamingo-3 auto "$TASK" "$THINK_MODE"
-done
+# ------------------- Main -------------------
+if [[ -n "$INFER_JSON" && -f "$INFER_JSON" ]]; then
+    echo "Running single evaluation with infer_json: $INFER_JSON"
+    TASK=$(basename "$INFER_JSON" .json)
+    sh scripts/eval/eval_audio_batch.sh "$MODEL_PATH" auto "$TASK" "$THINK_MODE" "$INFER_JSON"
+else
+    echo "No infer_json provided. Running all tasks from: $YAML_FILE"
+    for TASK in $(get_tasks_from_yaml); do
+        echo "Submitting job for task: $TASK"
+        sh scripts/eval/eval_audio_batch.sh "$MODEL_PATH" auto "$TASK" "$THINK_MODE"
+    done
+fi

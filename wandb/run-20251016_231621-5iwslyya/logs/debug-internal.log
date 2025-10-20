@@ -1,0 +1,20 @@
+{"time":"2025-10-16T23:16:21.402083958Z","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2025-10-16T23:16:21.402367825Z","level":"INFO","msg":"created symlink","path":"/lustre/fs12/portfolios/adlr/projects/adlr_audio_music/users/sreyang/avlm/audio-flamingo/wandb/run-20251016_231621-5iwslyya/logs/debug-core.log"}
+{"time":"2025-10-16T23:16:21.512481654Z","level":"INFO","msg":"created new stream","id":"5iwslyya"}
+{"time":"2025-10-16T23:16:21.512564136Z","level":"INFO","msg":"stream: started","id":"5iwslyya"}
+{"time":"2025-10-16T23:16:21.512587137Z","level":"INFO","msg":"writer: Do: started","stream_id":"5iwslyya"}
+{"time":"2025-10-16T23:16:21.512588917Z","level":"INFO","msg":"sender: started","stream_id":"5iwslyya"}
+{"time":"2025-10-16T23:16:21.512627667Z","level":"INFO","msg":"handler: started","stream_id":"5iwslyya"}
+{"time":"2025-10-16T23:16:21.863848458Z","level":"ERROR","msg":"HTTP error","status":401,"method":"POST","url":"https://adobesensei.wandb.io/graphql"}
+{"time":"2025-10-16T23:16:21.863996812Z","level":"ERROR","msg":"sender: upsertRun:","error":"failed to upsert bucket: returned error 401 Unauthorized: {\"errors\":[{\"message\":\"user is not logged in\",\"path\":[\"upsertBucket\"],\"extensions\":{\"code\":\"PERMISSION_ERROR\"}}],\"data\":{\"upsertBucket\":null}}"}
+{"time":"2025-10-16T23:16:21.876709618Z","level":"INFO","msg":"stream: closing","id":"5iwslyya"}
+{"time":"2025-10-16T23:16:21.877108067Z","level":"ERROR","msg":"sender: upsertConfig: RunRecord is nil"}
+{"time":"2025-10-16T23:16:21.877624029Z","level":"WARN","msg":"No requirements.txt found, not creating job artifact. See https://docs.wandb.ai/guides/launch/create-job"}
+{"time":"2025-10-16T23:16:21.87764502Z","level":"INFO","msg":"sender: sendDefer: no job artifact to save"}
+{"time":"2025-10-16T23:16:21.994631505Z","level":"ERROR","msg":"HTTP error","status":404,"method":"POST","url":"https://adobesensei.wandb.io/graphql"}
+{"time":"2025-10-16T23:16:21.994680176Z","level":"ERROR","msg":"runfiles: CreateRunFiles returned error: returned error 404 Not Found: {\"errors\":[{\"message\":\"entity  not found during createRunFiles\",\"path\":[\"createRunFiles\"]}],\"data\":{\"createRunFiles\":null}}"}
+{"time":"2025-10-16T23:16:21.995891675Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-10-16T23:16:21.995956767Z","level":"INFO","msg":"handler: closed","stream_id":"5iwslyya"}
+{"time":"2025-10-16T23:16:21.995970747Z","level":"INFO","msg":"writer: Close: closed","stream_id":"5iwslyya"}
+{"time":"2025-10-16T23:16:21.996009918Z","level":"INFO","msg":"sender: closed","stream_id":"5iwslyya"}
+{"time":"2025-10-16T23:16:21.996530341Z","level":"INFO","msg":"stream: closed","id":"5iwslyya"}

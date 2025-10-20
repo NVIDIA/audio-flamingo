@@ -89,22 +89,12 @@ def prepare_config_for_training(
     config: PretrainedConfig, model_args: dataclass, training_args: dataclass, data_args: dataclass
 ) -> None:
     config.chat_template = model_args.chat_template
-    assert model_args.vision_tower is not None, "requires vision tower"
-    assert model_args.speech_tower is not None, "requires speech tower"
     assert model_args.sound_tower is not None, "requires sound tower"
     # set module configurations
     if getattr(config, "llm_cfg", None) is None:
         config.llm_cfg = model_args.model_name_or_path
-    if getattr(config, "vision_tower_cfg", None) is None:
-        config.vision_tower_cfg = model_args.vision_tower
-    if getattr(config, "speech_tower_cfg", None) is None:
-        config.speech_tower_cfg = model_args.speech_tower
     if getattr(config, "sound_tower_cfg", None) is None:
         config.sound_tower_cfg = model_args.sound_tower
-    if getattr(config, "mm_projector_cfg", None) is None:
-        config.mm_projector_cfg = model_args.mm_projector
-    if getattr(config, "speech_mm_projector_cfg", None) is None:
-        config.speech_mm_projector_cfg = model_args.speech_mm_projector
     if getattr(config, "sound_mm_projector_cfg", None) is None:
         config.sound_mm_projector_cfg = model_args.sound_mm_projector
     # set default dtype
@@ -112,23 +102,12 @@ def prepare_config_for_training(
     config.model_dtype = config.model_dtype.__str__()
     # set tuning modules
     config.tune_language_model = training_args.tune_language_model
-    config.tune_vision_tower = training_args.tune_vision_tower
-    config.tune_speech_tower = training_args.tune_speech_tower
     config.tune_sound_tower = training_args.tune_sound_tower
-    config.tune_mm_projector = training_args.tune_mm_projector
-    config.tune_speech_mm_projector = training_args.tune_speech_mm_projector
     config.tune_sound_mm_projector = training_args.tune_sound_mm_projector
     # set data args
     # Get the image_aspect_ratio from the config if is defined there
     # (case of resuming from a checkpoint) or from the data_args
     # (i.e. from the command line when starting a new training).
-    if getattr(data_args, "image_aspect_ratio", None) is not None:
-        if getattr(config, "image_aspect_ratio", None) is None:
-            config.image_aspect_ratio = data_args.image_aspect_ratio
-    elif getattr(config, "image_aspect_ratio", None) is not None:
-        data_args.image_aspect_ratio = config.image_aspect_ratio
-    else:
-        raise ValueError("image_aspect_ratio must be set either in data_args or in the pretrained config")
 
     if (
         hasattr(training_args, "deepspeed")
@@ -143,17 +122,6 @@ def prepare_config_for_training(
         except:
             pass
         setattr(config, key, value)
-
-
-def vision_resolution_elevation(model: PreTrainedModel, config: PretrainedConfig):
-    vision_tower = model.get_vision_tower()
-    if vision_tower is not None and "radio" not in vision_tower.__class__.__name__.lower():
-        vision_tower._maybe_resize_pos_embeds(
-            model=vision_tower.vision_tower,
-            image_processor=vision_tower.image_processor,
-            resolution=getattr(config, "vision_resolution", -1),
-            interpolate_mode=getattr(config, "interpolate_mode", "linear"),
-        )
 
 
 def unit_test_rope_scaling(model: PreTrainedModel, config: PretrainedConfig, training_args: dataclass):

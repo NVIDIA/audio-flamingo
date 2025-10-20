@@ -25,15 +25,7 @@
 import os
 
 from transformers import AutoConfig, PretrainedConfig, PreTrainedModel
-from .whisper_encoder import WhisperSpeechTower
 from .afwhisper_audio_encoder import AFWhisperSoundTower
-
-def build_speech_tower(model_name_or_path: str, config: PretrainedConfig) -> PreTrainedModel:
-    if model_name_or_path is None:
-        return None
-    speech_tower = WhisperSpeechTower(model_name_or_path, config)
-    config.speech_hidden_size = speech_tower.config.hidden_size
-    return speech_tower
 
 def build_sound_tower(model_name_or_path: str, config: PretrainedConfig) -> PreTrainedModel:
     if model_name_or_path is None:

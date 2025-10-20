@@ -38,11 +38,11 @@ from transformers import AutoConfig, GenerationConfig, LogitsProcessor, PreTrain
 from transformers.modeling_utils import ContextManagers, no_init_weights
 
 from llava.constants import DEFAULT_SOUND_TOKEN,DEFAULT_SPEECH_TOKEN, IGNORE_INDEX, NUM_EXTRA_TOKENS
-from llava.mm_utils import process_image, process_images, process_sounds,process_sound_masks
+from llava.mm_utils import process_sounds, process_sound_masks
 from llava.model.configuration_llava import LlavaConfig, ResponseFormat
 from llava.model.language_model.builder import build_llm_and_tokenizer
 from llava.model.multimodal_encoder.builder import build_sound_tower
-from llava.model.multimodal_projector.builder import build_speech_mm_projector, build_sound_mm_projector
+from llava.model.multimodal_projector.builder import build_sound_mm_projector
 from llava.model.utils import get_model_config
 from llava.train.sequence_parallel import get_pg_manager
 from llava.utils import distributed
@@ -68,10 +68,10 @@ class LlavaMetaModel(ABC):
 
         cfgs = get_model_config(config)
         print(cfgs)
-        if len(cfgs) == 7:
-            llm_cfg, vision_tower_cfg, speech_tower_cfg,sound_tower_cfg, mm_projector_cfg, speech_mm_projector_cfg,sound_mm_projector_cfg = cfgs
+        if len(cfgs) == 3:
+            llm_cfg, sound_tower_cfg, sound_mm_projector_cfg = cfgs
         else:
-            raise ValueError("`llm_cfg` `mm_projector_cfg` `speech_mm_projector_cfg` `sound_mm_projector_cfg` `vision_tower_cfg` `speech_tower_cfg` `sound_tower_cfg` not found in the config.")
+            raise ValueError("`llm_cfg` `sound_mm_projector_cfg` `sound_tower_cfg` not found in the config.")
 
         self.llm, self.tokenizer = self._init_llm(llm_cfg, config, *args, **kwargs)
         

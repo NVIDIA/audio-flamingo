@@ -28,24 +28,7 @@ import torch
 from transformers import PretrainedConfig, PreTrainedModel
 
 from .base_projector import MultimodalProjector, MultimodalProjectorConfig
-from .speech_base_projector import SpeechMultimodalProjector, SpeechMultimodalProjectorConfig
 from .sound_base_projector import SoundMultimodalProjector, SoundMultimodalProjectorConfig
-
-
-def build_speech_mm_projector(model_type_or_path: str, config: PretrainedConfig) -> PreTrainedModel:
-    if model_type_or_path is None:
-        return None
-
-    ## load from pretrained model
-    if config.resume_path:
-        assert os.path.exists(model_type_or_path), f"Resume speech mm projector path {model_type_or_path} does not exist!"
-        return SpeechMultimodalProjector.from_pretrained(model_type_or_path, config, torch_dtype=eval(config.model_dtype))
-    ## build from scratch
-    else:
-        print("WARNING: Building speech multimodal projector from scratch!")
-        speech_mm_projector_cfg = SpeechMultimodalProjectorConfig(model_type_or_path)
-        speech_mm_projector = SpeechMultimodalProjector(speech_mm_projector_cfg, config).to(eval(config.model_dtype))
-    return speech_mm_projector
 
 def build_sound_mm_projector(model_type_or_path: str, config: PretrainedConfig) -> PreTrainedModel:
     if model_type_or_path is None:
