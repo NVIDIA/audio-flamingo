@@ -20,7 +20,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-__all__ = ["Media", "File", "Image", "Video", "Speech",  "Sound"]
+__all__ = ["Media", "File", "Sound"]
 
 
 class Media:
@@ -30,18 +30,6 @@ class Media:
 class File(Media):
     def __init__(self, path: str) -> None:
         self.path = path
-
-
-class Image(File):
-    pass
-
-
-class Video(File):
-    pass
-
-
-class Speech(File):
-    pass
 
 class Sound(File):
     pass

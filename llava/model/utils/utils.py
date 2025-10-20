@@ -29,7 +29,7 @@ from transformers import AutoConfig, PretrainedConfig
 
 
 def get_model_config(config):
-    default_keys = ["llm_cfg", "vision_tower_cfg", "speech_tower_cfg","sound_tower_cfg", "mm_projector_cfg", "speech_mm_projector_cfg", "sound_mm_projector_cfg"]
+    default_keys = ["llm_cfg", "sound_tower_cfg", "sound_mm_projector_cfg"]
     if hasattr(config, "_name_or_path") and len(config._name_or_path) >= 2:
         root_path = config._name_or_path
     else:
@@ -60,7 +60,7 @@ def get_model_config(config):
 
 
 def get_model_config_fp8(config):
-    default_keys = ["llm_cfg", "vision_tower_cfg", "speech_tower_cfg","sound_tower_cfg", "mm_projector_cfg", "speech_mm_projector_cfg", "sound_mm_projector_cfg"]
+    default_keys = ["llm_cfg", "sound_tower_cfg", "sound_mm_projector_cfg"]
 
     if hasattr(config, "_name_or_path") and len(config._name_or_path) >= 2:
         root_path = config._name_or_path
@@ -101,7 +101,7 @@ def get_model_config_fp8(config):
 
 
 def get_model_config_fp8(config):
-    default_keys = ["llm_cfg", "vision_tower_cfg", "speech_tower_cfg","sound_tower_cfg", "mm_projector_cfg", "speech_mm_projector_cfg", "sound_mm_projector_cfg"]
+    default_keys = ["llm_cfg", "sound_tower_cfg", "sound_mm_projector_cfg"]
 
     if hasattr(config, "_name_or_path") and len(config._name_or_path) >= 2:
         root_path = config._name_or_path

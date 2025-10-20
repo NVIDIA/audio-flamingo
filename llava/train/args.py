@@ -52,18 +52,10 @@ class ModelArguments:
     version: Optional[str] = field(default="auto")
     chat_template: Optional[str] = field(default=None)
     model_name_or_path: Optional[str] = field(default="facebook/opt-125m")
-    vision_tower: Optional[str] = field(default="google/siglip-so400m-patch14-384")
-    speech_tower: Optional[str] = field(default="openai/whisper-large-v2")
     sound_tower: Optional[str] = field(default="imagebind_huge.pth")
-    mm_projector: Optional[str] = field(default="mlp2x_gelu")
-    speech_mm_projector: Optional[str] = field(default="mlp")
     sound_mm_projector: Optional[str] = field(default="mlp")
     mm_use_im_start_end: bool = field(default=False)
     mm_use_im_patch_token: bool = field(default=False)
-    mm_vision_select_layer: Optional[int] = field(default=-1)  # default to the last layer
-    mm_vision_select_feature: Optional[str] = field(default="patch")
-    vision_resolution: Optional[int] = field(default=-1)
-    interpolate_mode: Optional[str] = field(default="linear")
     drop_path_rate: Optional[float] = field(default=0.0)
     mlp_path: Optional[str] = field(default=None)
     s2: bool = field(default=False)
@@ -74,9 +66,6 @@ class ModelArguments:
     time_token_format: str = field(default="<t{t}>")
     soft_ce_std: float = field(default=1.0)
 
-    image_encoder: str = field(default='{"_target_": "llava.model.encoders.BasicImageEncoder"}')
-    video_encoder: str = field(default='{"_target_": "llava.model.encoders.BasicVideoEncoder"}')
-    speech_encoder: str = field(default='{"_target_": "llava.model.encoders.BasicSpeechEncoder"}')
     sound_encoder: str = field(default='{"_target_": "llava.model.encoders.BasicSoundEncoder"}')
 
     s2_resize_output_to_scale_idx: int = field(default=0)
@@ -222,12 +211,8 @@ class TrainingArguments(transformers.TrainingArguments):
     optim: str = field(default="adamw_torch")
     remove_unused_columns: bool = field(default=False)
     mpt_attn_impl: Optional[str] = field(default="triton")
-    tune_vision_tower: bool = field(default=False)
-    tune_speech_tower: bool = field(default=False)
     tune_sound_tower: bool = field(default=False)
     tune_language_model: bool = field(default=False)
-    tune_mm_projector: bool = field(default=False)
-    tune_speech_mm_projector: bool = field(default=False)
     tune_sound_mm_projector: bool = field(default=False)
     model_dtype: str = field(default="torch.bfloat16")
     model_max_length: int = field(
@@ -252,18 +237,12 @@ class TrainingArguments(transformers.TrainingArguments):
     lora_weight_path: str = ""
     lora_bias: str = "none"
     lora_llm: bool = False
-    lora_vt: bool = False
-    lora_st: bool = False
     lora_sot: bool = False
     dpo: bool = False
     use_one_logger: bool = False
     longvila_sampler: bool = False
     dpo_beta: float = field(default=0.1)
-    mm_projector_lr: Optional[float] = None
-    speech_mm_projector_lr: Optional[float] = None
     sound_mm_projector_lr: Optional[float] = None
-    vision_tower_lr: Optional[float] = None
-    speech_tower_lr: Optional[float] = None
     sound_tower_lr: Optional[float] = None
     group_by_modality_length: bool = field(default=False)
     total_time_limit: int = field(default=-1, metadata={"help": "Timeout limit for this job (in minutes)."})

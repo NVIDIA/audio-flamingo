@@ -5,7 +5,8 @@ MODEL_PATH=$1
 CONV_MODE=$2
 TASK=$3
 THINK_MODE=$4
-MODEL_NAME=$(basename $MODEL_PATH)
+INFER_JSON=$5
+MODEL_NAME="AF3"
 OUTPUT_DIR=${OUTPUT_DIR:-"runs/eval/$MODEL_NAME/audio"}
 
 
@@ -15,6 +16,7 @@ GENERATION_CONFIG='{"max_new_tokens": 128}'
 torchrun --nproc-per-node=$NPROC_PER_NODE \
     llava/eval/eval_audio_bench_batch.py \
     --model-base $MODEL_PATH \
+    --infer-json $INFER_JSON \
     --conv-mode $CONV_MODE \
     --task $TASK \
     --think-mode $THINK_MODE \
