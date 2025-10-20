@@ -182,7 +182,7 @@ def extract_media(
             if isinstance(part, str):
                 for token in MEDIA_TOKENS.values():
                     if token in part:
-                        logger.warning(f"Media token '{token}' found in text: '{part}'. Removed.")
+                        # logger.warning(f"Media token '{token}' found in text: '{part}'. Removed.")
                         part = part.replace(token, "").strip()
                 text += part
             if isinstance(part, Sound):

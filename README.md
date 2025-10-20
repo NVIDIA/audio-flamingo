@@ -91,22 +91,25 @@ Each folder is self-contained and we expect no cross dependencies between these 
 
 ## Minimal Inference Script
 
-To infer stage 3 model on a json file (for example, `static/mmar.json`), run the command below:
+To infer Audio Flamingo 3 on a JSON file (for example, `static/mmar.json`), run the command below:
 
 ```bash
-torchrun --nproc-per-node=$NGPU  llava/cli/infer_batch.py --model-base nvidia/audio-flamingo-3 
+torchrun --nproc-per-node=$NGPU  llava/cli/infer_batch.py --model-base nvidia/audio-flamingo-3 --json-path /path/to/json/ --output-dir /path/to/output/
 ```
-where `$NGPU` is 1 if you want to use a single GPU or 8 if you want to use multiple GPUs for inference. Add the argument `-think-mode` to run in thinking mode. You can also adjust the batch size by adding `--batch-size 1` to the command above. 
+where `$NGPU` is 1 if you want to use a single GPU or 8 if you want to use multiple GPUs for inference. You can also adjust the batch size by adding `--batch-size 1` to the command above.
 
+Add the argument `--think-mode` to run in thinking mode (with Stage 3.5 weights). 
 
-## Single Line Inference
+## Single Turn Inference
 
-To infer stage 3 model directly, run the command below:
+To infer stage 3 model directly on a single audio, run the command below:
+
 ```bash
 python llava/cli/infer_audio.py --model-base nvidia/audio-flamingo-3 --conv-mode auto --text "Please describe the audio in detail" --media static/audio/audio2.wav
 ```
 
 To infer the model in stage 3.5 model (thinking mode), run the command below:
+
 ```bash
 python llava/cli/infer_audio.py --model-base nvidia/audio-flamingo-3 --conv-mode auto --text "What are the two people doing in the audio? Please think and reason about the input audio before you respond." --media static/think/audio1.wav --think-mode
 ```
@@ -133,7 +136,7 @@ Prepare training json data files in the format below:
     "conversations": [
       {
         "from": "human",
-        "value": "<sound>The Question."
+        "value": "<sound>\nThe Question."
       },
       {
         "from": "gpt",
@@ -148,7 +151,7 @@ Prepare training json data files in the format below:
     "conversations": [
       {
         "from": "human",
-        "value": "<sound>The Question."
+        "value": "<sound>\nThe Question."
       },
       {
         "from": "gpt",
@@ -163,21 +166,13 @@ Add the path to these jsons in `llava/data/datasets_mixture.py.`
 
 ## Evaluation Details
 
-To run evaluation on your target benchmark, prepare test/val json files in the format above. Add the path to the test jsons in this file `llava/data/registry/datasets/audio_test.yaml`. 
-
-```bash
-sh scripts/eval.sh
-```
-
-For running `batch evaluation` (on single or multiple GPUs), follow the script below:
+To run evaluation on your target benchmark, prepare test/val json files in the format above. Then run:
 
 ```bash
 sh scripts/eval_batch.sh name_or_model_path /path/to/json
 ```
 
-where your json should follow a format similar to the training json shown above.
-
-Edit command line arguments to the above scripts as needed.
+where `name_or_model_path` can be `nvidia/audio-flamingo-3` or path to your locally downloaded model. The script works similarly to `llava/cli/infer_audio.py` (except the input JSON format the script expects) and can be used interchangeably.
 
 ## References
 

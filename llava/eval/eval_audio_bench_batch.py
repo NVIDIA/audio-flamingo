@@ -231,7 +231,10 @@ def main() -> None:
 
             conversations = row["conversations"]
             question = conversations[0]["value"].strip()
-            prompt = "<sound>\n" + question
+            if not (question.startswith("<sound>\n") or question.endswith("\n<sound>")):
+                prompt = "<sound>\n" + question
+            if args.think_mode:
+                prompt += + "\nPlease think and reason about the input music before you respond."
 
             batch_sounds.append(sound)
             batch_prompts.append(prompt)
