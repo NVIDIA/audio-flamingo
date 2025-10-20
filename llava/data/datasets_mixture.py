@@ -65,17 +65,15 @@ def register_datasets_mixtures():
     ############## ############## ############## ############## ############## ##############
     
     data_mixture_1 = Dataset(
-        dataset_name="mtg-jamendo-MusicCaptioning",
+        dataset_name="data_mixture_1",
         dataset_type="torch",
-        data_path="/lustre/fsw/portfolios/adlr/users/sreyang/iccv/audio_qa_data/mtg-jamendo-MusicCaptioning/train_duration.json",
+        data_path="/path/to/your/data_mixture_1/train.json",
     )
     add_dataset(data_mixture_1)
 
-    # data_mixture_2 = Dataset(
-    #     dataset_name="data_mixture_2",
-    #     dataset_type="torch",
-    #     data_path="/path/to/your/data_mixture_2/train.json",
-    # )
-    # add_dataset(data_mixture_2)
-
-    # Add more data mixtures below
+    data_mixture_2 = Dataset(
+        dataset_name="data_mixture_2",
+        dataset_type="torch",
+        data_path="/path/to/your/data_mixture_2/train.json",
+    )
+    add_dataset(data_mixture_2)

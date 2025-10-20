@@ -19,34 +19,19 @@ if [ "$NNODES" = "1" ] || [ "$NNODES" = "2" ]; then
 fi
     
     
-torchrun --nnodes \$NUM_NODES --nproc_per_node \$SUBMIT_GPUS --master_addr \$MASTER_ADDR --master_port \$MASTER_PORT --node_rank \$NODE_RANK \
+torchrun --nnodes \$NUM_NODES --nproc_per_node \$SUBMIT_GPUS --master_addr \$MASTER_ADDR --master_port $MASTER_PORT --node_rank \$NODE_RANK \
     llava/train/train_mem.py \
     --deepspeed scripts/zero3_gradient_clipping.json \
     --model_name_or_path $STAGE_PATH \
     --chat_template qwen2 \
     --data_mixture $DATA_MIXTURE \
-    --vision_tower Efficient-Large-Model/paligemma-siglip-so400m-patch14-448 \
-    --dynamic_s2 True \
-    --s2_scales "448,896,1344" \
-    --s2_max_split_size 448 \
-    --s2_resize_output_to_scale_idx -1 \
-    --speech_tower openai/whisper-large-v2 \
     --sound_tower openai/whisper-large-v3 \
-    --mm_vision_select_feature cls_patch \
-    --mm_projector mlp_downsample \
-    --speech_mm_projector mlp \
     --sound_mm_projector mlp \
-    --tune_vision_tower False \
-    --tune_speech_tower False \
     --tune_sound_tower True \
-    --tune_mm_projector False \
-    --tune_speech_mm_projector False \
     --tune_sound_mm_projector True \
     --tune_language_model False \
-    --mm_vision_select_layer -2 \
     --mm_use_im_start_end False \
     --mm_use_im_patch_token False \
-    --image_aspect_ratio dynamic_s2 \
     --bf16 True \
     --audio_frames 1 \
     --output_dir runs/train/stage2_af3 \

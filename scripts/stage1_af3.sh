@@ -6,10 +6,10 @@ export TORCH_NCCL_ASYNC_ERROR_HANDLING=1
 export OMP_NUM_THREADS=1
 
 DEFAULT_RUN_NAME="stage1_af3"
-STAGE_PATH=${1:-"/lustre/fsw/portfolios/adlr/users/arushig/video_llm/mllm/Qwen2.5-7B-Instruct"}
+STAGE_PATH=${1:-"/path/to/your/base-llm"}
 
 # data_mixture_1 is the entry of the dataset in llava/data/datasets_mixture.py.
-DATA_MIXTURE=${2:-"mtg-jamendo-MusicCaptioning"}
+DATA_MIXTURE=${2:-"data_mixture_1+data_mixture_2"}
 
 
 if [ "$NNODES" = "1" ] || [ "$NNODES" = "2" ]; then
@@ -17,11 +17,7 @@ if [ "$NNODES" = "1" ] || [ "$NNODES" = "2" ]; then
     PER_DEVICE_TRAIN_BATCH_SIZE=1
 fi
 
-# --master_addr \$MASTER_ADDR --master_port \$MASTER_PORT --node_rank \$NODE_RANK
-export WANDB_BASE_URL="https://api.wandb.ai"
-export WANDB_API_KEY='52f7814a8d686493fde470ee2b3f2cdb9916412a'
-
-torchrun --nnodes 1 --nproc_per_node 8 \
+torchrun --nnodes \$NUM_NODES --nproc_per_node \$SUBMIT_GPUS --master_addr \$MASTER_ADDR --master_port \$MASTER_PORT --node_rank \$NODE_RANK \
     llava/train/train_mem.py \
     --deepspeed scripts/zero3.json \
     --model_name_or_path $STAGE_PATH \
