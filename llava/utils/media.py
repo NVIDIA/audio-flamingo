@@ -20,7 +20,7 @@ from transformers import PretrainedConfig
 from pydub import AudioSegment
 
 from llava.constants import MEDIA_TOKENS
-from llava.media import Image, Video, Speech, Sound
+from llava.media import Sound
 from llava.utils import make_list
 from llava.utils.logging import logger
 import torch
@@ -44,85 +44,6 @@ def float32_to_int16(x):
     return (x * 32767.).astype(np.int16)
 
 
-def _extract_image(image: Union[Image, PIL.Image.Image]) -> PIL.Image.Image:
-    if isinstance(image, Image):
-        if image.path.startswith("http://") or image.path.startswith("https://"):
-            image = PIL.Image.open(requests.get(image.path, stream=True).raw)
-        else:
-            image = PIL.Image.open(image.path)
-    return image
-
-
-def _load_video_bytesio(video_bytesio: BytesIO, *, num_frames: int) -> List[PIL.Image.Image]:
-    with tempfile.NamedTemporaryFile(delete=True, suffix=".mp4") as temp_video:
-        temp_video.write(video_bytesio.read())
-        temp_video_name = temp_video.name
-        return _load_video(temp_video_name, num_frames=num_frames)
-
-
-def _load_video(video_path: str, *, num_frames: int) -> List[PIL.Image.Image]:
-    # Load video frames from a directory
-    if os.path.isdir(video_path):
-        frame_paths = sorted(glob.glob(os.path.join(video_path, "*")))
-        indices = np.round(np.linspace(0, len(frame_paths) - 1, num_frames)).astype(int)
-        return [PIL.Image.open(frame_paths[index]) for index in indices]
-
-    # Load video frames from a video file
-    vidcap = cv2.VideoCapture(video_path)
-
-    # Find the last frame as frame count might not be accurate
-    frame_count = int(vidcap.get(cv2.CAP_PROP_FRAME_COUNT))
-    while frame_count > 0:
-        vidcap.set(cv2.CAP_PROP_POS_FRAMES, frame_count - 1)
-        if vidcap.grab():
-            break
-        frame_count -= 1
-    else:
-        raise ValueError(f"Video '{video_path}' has no frames.")
-
-    # Extract frames uniformly
-    indices = np.round(np.linspace(0, frame_count - 1, num_frames)).astype(int)
-    frames = {}
-    for index in indices:
-        if index in frames:
-            continue
-        vidcap.set(cv2.CAP_PROP_POS_FRAMES, index)
-        success, frame = vidcap.read()
-        if not success:
-            logger.warning(f"Failed to read frame {index} from video '{video_path}'. Skipped.")
-            continue
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        frames[index] = PIL.Image.fromarray(frame)
-    return [frames[index] for index in indices if index in frames]
-
-
-def _extract_video(video: Video, config: PretrainedConfig) -> List[PIL.Image.Image]:
-    num_frames = config.num_video_frames
-    if getattr(config, "fps") != 0:
-        logger.warning("Extracting frames from video with specified FPS is not supported yet. Ignored.")
-    if isinstance(video.path, BytesIO):
-        frames = _load_video_bytesio(video.path, num_frames=num_frames)
-    else:
-        frames = _load_video(video.path, num_frames=num_frames)
-    return frames
-
-def _load_speech(speech_path: str):
-    # Load video frames from a directory
-    if speech_path is None:
-        return None
-    speech_outputs = []
-
-    speech = whisper.load_audio(speech_path)
-    speech = whisper.pad_or_trim(speech)
-    mel = whisper.log_mel_spectrogram(speech)
-    speech_outputs.append(mel.unsqueeze(0))
-    speech_frames = torch.stack(speech_outputs, dim=0)
-    return speech_frames.numpy().tolist()
-
-def _extract_speech(speech: Speech, config: PretrainedConfig):
-    frames = _load_speech(speech.path)
-    return frames
-       
 def _get_num_windows(T, sr):
 
     window_length  = int(30.0 * sr)
@@ -264,24 +185,6 @@ def extract_media(
                         logger.warning(f"Media token '{token}' found in text: '{part}'. Removed.")
                         part = part.replace(token, "").strip()
                 text += part
-            if isinstance(part, (Image, PIL.Image.Image)):
-                if draft:
-                    media["image"].append(part)
-                else:
-                    media["image"].append(_extract_image(part))
-                text += MEDIA_TOKENS["image"]
-            if isinstance(part, Video):
-                if draft:
-                    media["video"].append(part)
-                else:
-                    media["video"].append(_extract_video(part, config))
-                text += MEDIA_TOKENS["video"]
-            if isinstance(part, Speech):
-                if draft:
-                    media["speech"].append(part)
-                else:
-                    media["speech"].append(_extract_speech(part, config))
-                text += MEDIA_TOKENS["speech"]
             if isinstance(part, Sound):
                 if draft:
                     media["sound"].append(part)

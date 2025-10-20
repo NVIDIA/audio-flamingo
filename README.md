@@ -133,8 +133,7 @@ Prepare training json data files in the format below:
     "conversations": [
       {
         "from": "human",
-        "value": "<sound>
-The Question."
+        "value": "<sound>The Question."
       },
       {
         "from": "gpt",
@@ -149,8 +148,7 @@ The Question."
     "conversations": [
       {
         "from": "human",
-        "value": "<sound>
-The Question."
+        "value": "<sound>The Question."
       },
       {
         "from": "gpt",
@@ -171,11 +169,13 @@ To run evaluation on your target benchmark, prepare test/val json files in the f
 sh scripts/eval.sh
 ```
 
-For running `batch evaluation`, follow the script below:
+For running `batch evaluation` (on single or multiple GPUs), follow the script below:
 
 ```bash
-sh scripts/eval_batch.sh
+sh scripts/eval_batch.sh name_or_model_path /path/to/json
 ```
+
+where your json should follow a format similar to the training json shown above.
 
 Edit command line arguments to the above scripts as needed.
 
@@ -192,6 +192,17 @@ The main training and inferencing code within each folder are modified from [NVI
 
 ## Citation
 
+- Audio Flamingo 3
+```
+@inproceedings{ghosh2025audio2,
+  title={Audio Flamingo 3: Advancing Audio Intelligence with Fully Open Large Audio Language Models},
+  author={Ghosh, Sreyan and Goel, Arushi and Kim, Jaehyeon and Kumar, Sonal and Kong, Zhifeng and Lee, Sang-gil and Yang, Chao-Han Huck and Duraiswami, Ramani and Manocha, Dinesh and Valle, Rafael and Catanzaro, Bryan},
+  booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems},
+  year={2025},
+  url={https://openreview.net/forum?id=FjByDpDVIO}
+}
+```
+
 - Audio Flamingo
 ```
 @inproceedings{kong2024audio,
@@ -206,22 +217,11 @@ The main training and inferencing code within each folder are modified from [NVI
 
 - Audio Flamingo 2
 ```
-@inproceedings{
-ghosh2025audio,
+@inproceedings{ghosh2025audio,
   title={Audio Flamingo 2: An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities},
   author={Ghosh, Sreyan and Kong, Zhifeng and Kumar, Sonal and Sakshi, S and Kim, Jaehyeon and Ping, Wei and Valle, Rafael and Manocha, Dinesh and Catanzaro, Bryan},
   booktitle={Forty-second International Conference on Machine Learning},
   year={2025},
   url={https://openreview.net/forum?id=xWu5qpDK6U}
-}
-```
-
-- Audio Flamingo 3
-```
-@article{goel2025audio,
-  title={Audio Flamingo 3: Advancing Audio Intelligence with Fully Open Large Audio Language Models},
-  author={Goel, Arushi and Ghosh, Sreyan and Kim, Jaehyeon and Kumar, Sonal and Kong, Zhifeng and Lee, Sang-gil and Yang, Chao-Han Huck and Duraiswami, Ramani and Manocha, Dinesh and Valle, Rafael and Catanzaro, Bryan},
-  journal={arXiv preprint arXiv:2507.08128},
-  year={2025}
 }
 ```

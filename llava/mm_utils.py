@@ -414,88 +414,6 @@ def dynamic_s2_preprocess(image, s2_scales=[384, 768, 1152], max_num=12, image_s
     return processed_images, (target_aspect_ratio[1], target_aspect_ratio[0])
 
 
-
-def dynamic_s2_process_images_and_prompt(images, data_args, image_folder=None):
-    idx = 0
-    all_images = []
-    all_block_size = []
-    for img in images:
-        processed_images, block_size = process_image(img, data_args, image_folder, enable_dynamic_s2=True)
-        all_images.append(processed_images)
-        all_block_size.append(block_size)
-        idx += 2
-    if all_images:
-        all_images = torch.cat(all_images)
-    else:
-        all_images = None
-    return all_images, all_block_size
-
-
-def process_image(
-    image_file, data_args, image_folder, enable_dynamic_res=False, enable_dynamic_s2=False, max_tiles=None
-):
-    processor = data_args.image_processor
-    if isinstance(image_file, str):
-        if image_folder is not None:
-            image = Image.open(os.path.join(image_folder, image_file)).convert("RGB")
-        else:
-            image = Image.open(image_file).convert("RGB")
-    else:
-        # image is stored in bytearray
-        image = image_file
-    image = image.convert("RGB")
-    if hasattr(data_args.image_processor, "crop_size"):
-        # CLIP vision tower
-        crop_size = data_args.image_processor.crop_size
-    else:
-        # SIGLIP vision tower
-        assert hasattr(data_args.image_processor, "size")
-        crop_size = data_args.image_processor.size
-    if "dynamic_s2" in data_args.image_aspect_ratio and enable_dynamic_s2:
-        assert crop_size["height"] == crop_size["width"]
-        images, block_size = dynamic_s2_preprocess(
-            image, s2_scales=data_args.s2_scales, max_num=data_args.max_tiles, image_size=crop_size["height"]
-        )
-        images = [processor.preprocess(image, return_tensors="pt")["pixel_values"][0] for image in images]
-        return torch.stack(images), block_size
-    if "dynamic" in data_args.image_aspect_ratio and enable_dynamic_res:
-        assert crop_size["height"] == crop_size["width"]
-        if max_tiles is not None:
-            max_num = max_tiles
-        else:
-            max_num = data_args.max_tiles
-        images = dynamic_preprocess(image, min_num=data_args.min_tiles, max_num=max_num, image_size=crop_size["height"])
-        images = [processor.preprocess(image, return_tensors="pt")["pixel_values"][0] for image in images]
-        return torch.stack(images)
-
-    if data_args.image_aspect_ratio == "resize":
-        image = image.resize((crop_size["width"], crop_size["height"]))
-    if data_args.image_aspect_ratio == "pad":
-
-        def expand2square(pil_img, background_color):
-            width, height = pil_img.size
-            if width == height:
-                return pil_img
-            elif width > height:
-                result = Image.new(pil_img.mode, (width, width), background_color)
-                result.paste(pil_img, (0, (width - height) // 2))
-                return result
-            else:
-                result = Image.new(pil_img.mode, (height, height), background_color)
-                result.paste(pil_img, ((height - width) // 2, 0))
-                return result
-
-        image = expand2square(image, tuple(int(x * 255) for x in processor.image_mean))
-        image = processor.preprocess(image, return_tensors="pt")["pixel_values"][0]
-    else:
-        # Using default behavior of the vision encoder
-        # For CLIP, default is central crop
-        # For Radio, default is central crop
-        # For Siglip, default is resize
-        # For InternVIT, default is resize
-        image = processor.preprocess(image, return_tensors="pt")["pixel_values"][0]
-    return image
-
 def get_num_windows(T, sr, max_num_window=5):
 
     window_length  = int(30.0 * sr)
@@ -565,24 +483,6 @@ def load_audio(file_path, target_sr=16000, duration=30.0, start=0.0):
     
     assert len(data.shape) == 1, data.shape
     return data
-
-def process_images(images, image_processor, model_cfg, enable_dynamic_res=False, max_tiles=None):
-    model_cfg.image_processor = image_processor
-    new_images = [
-        process_image(image, model_cfg, None, enable_dynamic_res=enable_dynamic_res, max_tiles=max_tiles)
-        for image in images
-    ]
-
-    if all(x.shape == new_images[0].shape for x in new_images):
-        if len(new_images[0].shape) == 4:
-            new_images = torch.cat(new_images, dim=0)
-        elif len(new_images[0].shape) == 3:
-            new_images = torch.stack(new_images, dim=0)
-        else:
-            raise ValueError(f"new_images rank does not equal to 4, rank: {len(new_images[0].shape)}")
-    else:
-        raise ValueError("The shape of images in new_images is different!")
-    return new_images
 
 def process_sounds(sounds):
     sounds = torch.tensor(sounds)

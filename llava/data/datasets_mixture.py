@@ -77,5 +77,3 @@ def register_datasets_mixtures():
         data_path="/path/to/your/data_mixture_2/train.json",
     )
     add_dataset(data_mixture_2)
-
-    # Add more data mixtures below
