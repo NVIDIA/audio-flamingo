@@ -79,10 +79,12 @@ class SoundTower(nn.Module):
         else:
             # Calculate attention mask
             if len(sounds.shape) == 5:
-                sounds = sounds.squeeze(0).squeeze(1)
+                sounds = sounds.squeeze(1).squeeze(1)
                 mask = mask.squeeze(0)
+                
             audio_feat_lengths, audio_output_lengths = self._get_feat_extract_output_lengths(mask.sum(-1))
             # for cases where only one window is there for the audio_clip
+            
             batch_size, _, max_mel_seq_len = sounds.shape
             max_seq_len = (max_mel_seq_len - 2) // 2 + 1
             seq_range = (

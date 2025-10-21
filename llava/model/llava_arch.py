@@ -282,8 +282,9 @@ class LlavaMetaForCausalLM(ABC):
         media_config: Dict[str, Dict[str, Any]],
         labels: Optional[torch.Tensor],
         attention_mask: Optional[torch.Tensor],
-        media_meta: Dict[str, Dict[str, Any]]= None,
+        media_meta: Dict[str, Dict[str, Any]] = None,
     ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+
         labels = labels if labels is not None else torch.full_like(input_ids, IGNORE_INDEX)
         attention_mask = attention_mask if attention_mask is not None else torch.ones_like(input_ids, dtype=torch.bool)
 
@@ -292,22 +293,48 @@ class LlavaMetaForCausalLM(ABC):
             for name in media:
                 self.encoders[name].end_tokens = None
 
-        # Extract text and media embeddings
+        # ---- text embeds first (used in both paths) ----
         text_embeds = self.llm.model.embed_tokens(input_ids)
+
+        # ---- detect if we actually need to do audio work ----
+        has_audio_token = False
+        if hasattr(self.tokenizer, "media_token_ids") and "sound" in self.tokenizer.media_token_ids:
+            has_audio_token = (input_ids == self.tokenizer.media_token_ids["sound"]).any().item()
+
+        # If there's no <sound> token OR media['sound'] is missing/empty/all-None, just return text-only
+        def _no_usable_audio() -> bool:
+            if not has_audio_token:
+                return True
+            if media is None or "sound" not in media:
+                return True
+            snd = media["sound"]
+            if snd is None or len(snd) == 0:
+                return True
+            # preserve None entries: usable if any non-None exists
+            return not any(s is not None for s in snd)
+
+        if _no_usable_audio():
+            # Text-only fast path: keep shapes as-is, no audio insertion.
+            inputs, out_labels = self.__truncate_sequence(text_embeds, labels)
+            # Return directly; generate() expects (inputs_embeds, _, attention_mask)
+            return inputs, out_labels, attention_mask
+
+        # ---- audio path (unchanged logic except it now only runs when needed) ----
         media_embeds = self.__embed_media_tokens(media, media_config, media_meta)
-        # This is a workaround to make sure the dummy embeddings are consumed
+
+        # consume any dummy embeddings
         while media_embeds.get("dummy"):
             dummy_embed = media_embeds["dummy"].popleft()
             text_embeds += torch.sum(dummy_embed) * 0
-        # Remove padding
+
         batch_size = labels.shape[0]
 
-        # Build inverse mapping from token ID to media name
+        # Build inverse mapping from token ID to media name (kept as-is)
         media_tokens = {}
         for name, token_id in self.tokenizer.media_token_ids.items():
             media_tokens[token_id] = name
 
-        # -------------------------------- #
+        # --- num_audio_tokens (kept as-is) ---
         if isinstance(media_meta["sound_embed_masks"], (list, tuple)) and all(isinstance(x, torch.Tensor) for x in media_meta["sound_embed_masks"]):
             if all(x.shape == media_meta["sound_embed_masks"][0].shape for x in media_meta["sound_embed_masks"]):
                 num_audio_tokens = torch.stack(media_meta["sound_embed_masks"], dim=0).sum(-1)
@@ -315,20 +342,26 @@ class LlavaMetaForCausalLM(ABC):
                 raise ValueError("All tensors in sound_embed_masks must have the same shape to be stacked.")
         else:
             num_audio_tokens = media_meta["sound_embed_masks"].sum(-1)
-        num_audio_tokens = torch.tensor([round(int(x) / 10) * 10 for x in num_audio_tokens])            
-        num_audios = len(media_embeds['sound']) # length of queue is the number of audios we have in total
+        num_audio_tokens = torch.tensor([round(int(x) / 10) * 10 for x in num_audio_tokens])
+
+        # If for some reason masks say zero tokens, fall back to text-only
+        if num_audio_tokens.sum().item() == 0:
+            inputs, out_labels = self.__truncate_sequence(text_embeds, labels)
+            return inputs, out_labels, attention_mask
+
+        # --- proceed with your existing audio insertion code (unchanged) ---
+        num_audios = len(media_embeds['sound'])
         max_audio_tokens, embed_dim = media_embeds['sound'][0].shape
-       
 
         audio_features_mask = torch.arange(max_audio_tokens).expand(num_audios, max_audio_tokens).to(
             num_audio_tokens.device
         ) < num_audio_tokens.unsqueeze(1)
 
         audio_embeds = []
-        while media_embeds['sound']:       
+        while media_embeds['sound']:
             audio_embeds.append(media_embeds['sound'].popleft())
-        audio_embeds = torch.stack(audio_embeds,dim=0)
-        
+        audio_embeds = torch.stack(audio_embeds, dim=0)
+
         masked_audio_features = audio_embeds[audio_features_mask].view(-1, embed_dim)
         batch_size, sequence_length = input_ids.shape
         _left_padding = torch.any(attention_mask[:, 0] == 0)
@@ -341,18 +374,13 @@ class LlavaMetaForCausalLM(ABC):
             elif not _left_padding and _right_padding:
                 left_padding = False
             elif not _left_padding and not _right_padding:
-                # both side is 1, so cannot tell
                 left_padding = self.tokenizer.padding_side == "left"
             else:
-                # invalid attention_mask
                 raise ValueError(f"both side of attention_mask has zero, invalid. {attention_mask}")
 
-        # 1. Create a mask to know where special audio tokens are
-        special_audio_token_mask = input_ids == self.tokenizer.media_token_ids['sound'] #hard coded to just work with 'sound'
+        special_audio_token_mask = input_ids == self.tokenizer.media_token_ids['sound']
         num_special_audio_tokens = torch.sum(special_audio_token_mask, dim=-1)
 
-        # In case the Audio model or the Language model has been offloaded to CPU, we need to manually
-        # set the corresponding tensors into their correct target device.
         target_device = text_embeds.device
         attention_mask = attention_mask.to(target_device)
         input_ids = input_ids.to(target_device)
@@ -361,10 +389,6 @@ class LlavaMetaForCausalLM(ABC):
             (input_ids != self.tokenizer.media_token_ids['sound']) & (attention_mask == 1)
         )
 
-        # 2. Compute the positions where text should be written
-        # Calculate new positions for text tokens in merged audio-text sequence.
-        # `special_audio_token_mask` identifies audio tokens. Each audio token will be replaced by `audio_feat_lengths - 1` text tokens.
-        # `torch.cumsum` computes how each audio token shifts subsequent text token positions.
         token_placeholder_num = torch.zeros_like(input_ids)
         token_placeholder_num[special_audio_token_mask] = num_audio_tokens.long() - 1
         token_placeholder_num = token_placeholder_num + 1
@@ -372,15 +396,14 @@ class LlavaMetaForCausalLM(ABC):
         max_token_num = token_placeholder_num.sum(-1).max()
         nb_audio_pad = max_token_num - 1 - new_token_positions[:, -1]
         if left_padding:
-            new_token_positions += nb_audio_pad[:, None]  # offset for left padding
+            new_token_positions += nb_audio_pad[:, None]
         text_to_overwrite = new_token_positions[batch_indices, non_audio_indices]
         batch_indices, non_audio_indices, text_to_overwrite = (
             batch_indices.to(target_device),
             non_audio_indices.to(target_device),
-            text_to_overwrite.to(target_device),
+            new_token_positions[batch_indices, non_audio_indices].to(target_device),
         )
 
-        # 3. Create the full embedding, already padded to the maximum position
         final_embedding = torch.zeros(
             batch_size, max_token_num, embed_dim, dtype=text_embeds.dtype, device=text_embeds.device
         )
@@ -391,35 +414,29 @@ class LlavaMetaForCausalLM(ABC):
             (batch_size, max_token_num), self.tokenizer.pad_token_id, dtype=input_ids.dtype, device=text_embeds.device
         )
 
-        # 4. Fill the embeddings based on the mask. If we have ["hey" "<audio>", "how", "are"]
-        # we need to index copy on [0, 577, 578, 579] for the text and [1:576] for the audio features
         final_embedding[batch_indices, text_to_overwrite] = text_embeds[batch_indices, non_audio_indices]
         final_attention_mask[batch_indices, text_to_overwrite] = attention_mask[batch_indices, non_audio_indices]
         final_input_ids[batch_indices, text_to_overwrite] = input_ids[batch_indices, non_audio_indices]
+
         final_labels = None
         if labels is not None:
             labels = labels.to(target_device)
-            final_labels = torch.full_like(final_attention_mask, IGNORE_INDEX, dtype=torch.long) #.to(torch.long)
+            final_labels = torch.full_like(final_attention_mask, IGNORE_INDEX, dtype=torch.long)
             final_labels[batch_indices, text_to_overwrite] = labels[batch_indices, non_audio_indices]
 
-        # 5. Fill the embeddings corresponding to the audios. Anything that is still zeros needs filling
         audio_to_overwrite = torch.full(
             (batch_size, max_token_num), True, dtype=torch.bool, device=text_embeds.device
         )
         audio_to_overwrite[batch_indices, text_to_overwrite] = False
-        seq_indices = torch.arange(max_token_num).unsqueeze(0).to(target_device)
-        seq_indices = seq_indices.expand(batch_size, max_token_num)
 
+        seq_indices = torch.arange(max_token_num).unsqueeze(0).to(target_device).expand(batch_size, max_token_num)
         if left_padding:
-            # exclude padding on the left
             max_token_num = max_token_num.to(target_device)
             val = (max_token_num - seq_indices) <= (
                 token_placeholder_num.sum(-1) - (attention_mask == 0).long().sum(-1)
             )[:, None]
         else:
-            # exclude padding on the right
             val = seq_indices < (token_placeholder_num.sum(-1) - (attention_mask == 0).long().sum(-1))[:, None]
-
         audio_to_overwrite &= val
 
         if audio_to_overwrite.sum() != num_audio_tokens.sum():
@@ -432,11 +449,12 @@ class LlavaMetaForCausalLM(ABC):
             masked_audio_features.contiguous().reshape(-1, embed_dim).to(target_device)
         )
         final_attention_mask |= audio_to_overwrite
+
         position_ids = (final_attention_mask.cumsum(-1) - 1).masked_fill_((final_attention_mask == 0), 1)
-        # # Truncate sequences to `model_max_length` as media embeddings are inserted
-        inputs, labels = self.__truncate_sequence(final_embedding, final_labels)
-        return self.__batchify_sequence(inputs, labels)
-      
+
+        inputs, out_labels = self.__truncate_sequence(final_embedding, final_labels)
+        return self.__batchify_sequence(inputs, out_labels)
+
 
     def __embed_media_tokens(
         self,
@@ -875,20 +893,84 @@ class LlavaMetaForCausalLM(ABC):
         # Extract and process media for each conversation (if needed)
      
         responses= []
+
         for conv in conversations:
             media, media_meta = extract_media(conv, self.config)
             media_config = defaultdict(dict)
-            for name in media:
-                if name == "sound":
-                    sounds = process_sounds(media["sound"]).half()
-                    media[name] = [sound for sound in sounds]
-                    sound_feature_masks = process_sound_masks(media_meta["sound_feature_masks"]).half()
-                    media_meta["sound_feature_masks"] = [sound_mask for sound_mask in sound_feature_masks]
-                    sound_embed_masks = process_sound_masks(media_meta["sound_embed_masks"]).half()
-                    media_meta["sound_embed_masks"] = [sound_mask for sound_mask in sound_embed_masks]
-                else:
+
+            if media is None:
+                continue
+
+            for name in list(media.keys()):
+                if name != "sound":
                     raise ValueError(f"Unsupported media type: {name}")
-                # Tokenize the conversation
+
+                sounds_in = media.get("sound", None)
+
+                # If the key is missing or not a list, normalize to an empty list
+                if sounds_in is None:
+                    media["sound"] = []
+                    media_meta["sound_mask"] = torch.tensor([], dtype=torch.bool)
+                    media_meta["sound_feature_masks"] = []
+                    media_meta["sound_embed_masks"] = []
+                    continue
+
+                # Process sounds -> (batch_tensor_or_None, mask[bool])
+                batch_tensor, sound_mask = process_sounds(sounds_in, inference=True)
+
+                # No valid audio in this conversation
+                if batch_tensor is None:
+                    N = len(sounds_in)
+                    media["sound"] = [None] * N
+                    media_meta["sound_mask"] = torch.zeros(N, dtype=torch.bool)
+                    media_meta["sound_feature_masks"] = [None] * N
+                    media_meta["sound_embed_masks"] = [None] * N
+                    continue
+
+                # There is at least one valid audio: split batch back to per-item list
+                # Align with mask so that missing entries stay as None
+                # batch_tensor: [N, ...]; sound_mask: [N]
+                per_item_sounds = [None] * len(sounds_in)
+                # Unbind along batch dim to per-item tensors
+                per_item_tensors = list(torch.unbind(batch_tensor, dim=0))
+                ti = 0
+                for i, has_audio in enumerate(sound_mask.tolist()):
+                    if has_audio:
+                        per_item_sounds[i] = per_item_tensors[ti].half()
+                        ti += 1
+                    else:
+                        per_item_sounds[i] = None
+
+                media["sound"] = per_item_sounds
+                media_meta["sound_mask"] = sound_mask  # keep for later prefix logic
+
+                # Process meta masks only if any audio exists; otherwise return aligned Nones
+                # Assumes process_sound_masks can take a list with some None entries.
+                sfm = process_sound_masks(media_meta.get("sound_feature_masks", [None] * len(sounds_in)))
+                sem = process_sound_masks(media_meta.get("sound_embed_masks",   [None] * len(sounds_in)))
+
+                # Convert to half if tensors, keep None where missing. Ensure lists (per-item).
+                def _to_half_list(x):
+                    if isinstance(x, torch.Tensor):
+                        # Split batch to per-item
+                        items = list(torch.unbind(x, dim=0))
+                        return [t.half() for t in items]
+                    elif isinstance(x, (list, tuple)):
+                        out = []
+                        for v in x:
+                            if isinstance(v, torch.Tensor):
+                                out.append(v.half())
+                            else:
+                                out.append(v)  # None or other passthrough
+                        return out
+                    else:
+                        # Fallback: replicate/align length
+                        return [None] * len(sounds_in)
+
+                media_meta["sound_feature_masks"] = _to_half_list(sfm)
+                media_meta["sound_embed_masks"]   = _to_half_list(sem)
+
+            # Tokenize the conversation
             input_ids = tokenize_conversation(conv, self.tokenizer, add_generation_prompt=True).cuda().unsqueeze(0)
 
             # Set up the generation config
@@ -938,7 +1020,7 @@ class LlavaMetaForCausalLM(ABC):
             prompt = [prompt]
             is_single_input = True
 
-        # Convert response format to logits processor
+        # Structured generation (optional)
         xgr_logits_processor = (
             self.get_xgr_logits_processor(response_format) if response_format else None
         )
@@ -946,32 +1028,87 @@ class LlavaMetaForCausalLM(ABC):
         # Prepare conversations
         conversations = [[{"from": "human", "value": p}] for p in prompt]
 
-        # === Extract media for ALL conversations ===
-        all_media = {}
-        all_media['sound'] = []
-        all_media_meta = {}
-        all_media_meta['sound_feature_masks'] = []
-        all_media_meta['sound_embed_masks'] = []
-
+        # === Per-conversation media preprocessing (preserve None + masks) ===
+        per_conv_media = []
+        per_conv_meta  = []
         for conv in conversations:
             media, media_meta = extract_media(conv, self.config)
-            media_config = defaultdict(dict)
-            for name in media:
-                if name == "sound":
-                    sounds = process_sounds(media["sound"]).half()
-                    media[name] = [sound for sound in sounds]
+            media_config = defaultdict(dict)  # kept, though not used per-conv here
 
-                    sound_feature_masks = process_sound_masks(media_meta["sound_feature_masks"]).half()
-                    media_meta["sound_feature_masks"] = [m for m in sound_feature_masks]
+            # Normalize when no media at all
+            if media is None:
+                media = {}
+                media_meta = {}
 
-                    sound_embed_masks = process_sound_masks(media_meta["sound_embed_masks"]).half()
-                    media_meta["sound_embed_masks"] = [m.unsqueeze(0) for m in sound_embed_masks]
+            # Only "sound" supported (per your pipeline)
+            if any(name != "sound" for name in media.keys()):
+                bad = [n for n in media.keys() if n != "sound"]
+                raise ValueError(f"Unsupported media type(s): {bad}")
+
+            # Ensure key presence
+            sounds_in = media.get("sound", None)
+
+            if sounds_in is None:
+                # No key at all → consistent, empty per-conv containers
+                media["sound"] = []
+                media_meta["sound_mask"] = torch.tensor([], dtype=torch.bool)
+                media_meta["sound_feature_masks"] = []
+                media_meta["sound_embed_masks"] = []
+            else:
+                # Process sounds -> (batch_tensor_or_None, mask[bool])
+                batch_tensor, sound_mask = process_sounds(sounds_in, inference=True)
+
+                if batch_tensor is None:
+                    # All None in this conversation
+                    N = len(sounds_in)
+                    media["sound"] = [None] * N
+                    media_meta["sound_mask"] = torch.zeros(N, dtype=torch.bool)
+                    media_meta["sound_feature_masks"] = [None] * N
+                    media_meta["sound_embed_masks"] = [None] * N
                 else:
-                    raise ValueError(f"Unsupported media type: {name}")
-            all_media['sound'].append(media['sound'])
-            all_media_meta['sound_feature_masks'].append(media_meta["sound_feature_masks"])
-            all_media_meta['sound_embed_masks'].append(media_meta["sound_embed_masks"])
-        # === Tokenize all conversations at once (pad to same length) ===
+                    # Split back per-item (preserving None alignment by mask)
+                    per_item_sounds = [None] * len(sounds_in)
+                    per_item_tensors = list(torch.unbind(batch_tensor, dim=0))
+                    ti = 0
+                    for i, has_audio in enumerate(sound_mask.tolist()):
+                        if has_audio:
+                            per_item_sounds[i] = per_item_tensors[ti].half()
+                            ti += 1
+                        else:
+                            per_item_sounds[i] = None
+                    media["sound"] = per_item_sounds
+                    media_meta["sound_mask"] = sound_mask
+
+                    # Process meta masks; keep per-item lists; half tensors
+                    sfm = process_sound_masks(
+                        media_meta.get("sound_feature_masks", [None] * len(sounds_in))
+                    )
+                    sem = process_sound_masks(
+                        media_meta.get("sound_embed_masks", [None] * len(sounds_in))
+                    )
+
+                    def _to_half_list(x):
+                        if isinstance(x, torch.Tensor):
+                            items = list(torch.unbind(x, dim=0))
+                            return [t.half() for t in items]
+                        elif isinstance(x, (list, tuple)):
+                            out = []
+                            for v in x:
+                                if isinstance(v, torch.Tensor):
+                                    out.append(v.half())
+                                else:
+                                    out.append(v)  # None passthrough
+                            return out
+                        else:
+                            return [None] * len(sounds_in)
+
+                    media_meta["sound_feature_masks"] = _to_half_list(sfm)
+                    media_meta["sound_embed_masks"]   = _to_half_list(sem)
+
+            per_conv_media.append(media)
+            per_conv_meta.append(media_meta)
+
+        # === Tokenize all conversations together (padded) ===
         tokenized = [
             tokenize_conversation(conv, self.tokenizer, add_generation_prompt=True)
             for conv in conversations
@@ -982,13 +1119,39 @@ class LlavaMetaForCausalLM(ABC):
             padding_value=self.tokenizer.pad_token_id,
         )
         attention_mask = input_ids.ne(self.tokenizer.pad_token_id)
-        flattened = [s for group in all_media['sound'] for s in group]
-        all_media['sound'] = torch.cat(flattened, dim=0).squeeze(1).squeeze(2)
-        flattened = [s for group in all_media_meta['sound_feature_masks'] for s in group]
-        all_media_meta['sound_feature_masks'] = torch.cat(flattened, dim=0).squeeze(1)
-        all_sound_embed = [s for sublist in all_media_meta['sound_embed_masks'] for s in sublist]  # flatten nested list
-        all_media_meta['sound_embed_masks'] = torch.stack(all_sound_embed, dim=0).squeeze(1)
-        # Set up the generation config
+
+        # === Build a single batched media dict in batch order ===
+        # We must flatten ONLY actual audios (non-None) in the same order as batch items,
+        # because _embed/__embed_media_tokens expect a single queue of audios matching the
+        # order of <sound> tokens across the batch.
+        all_media = {"sound": []}
+        all_media_meta = {
+            "sound_feature_masks": [],
+            "sound_embed_masks": [],
+        }
+        # (If you also keep a global "sound_mask" list for later use, add it here.)
+        # Flatten in batch order while skipping Nones:
+        for media, meta in zip(per_conv_media, per_conv_meta):
+            snd_list = media.get("sound", [])
+            sfm_list = meta.get("sound_feature_masks", [])
+            sem_list = meta.get("sound_embed_masks", [])
+            for s, sfm, sem in zip(snd_list, sfm_list, sem_list):
+                if s is None:
+                    # No audio: also skip masks here, since the audio deque contains only real audios.
+                    continue
+                all_media["sound"].append(s)
+                if isinstance(sfm, torch.Tensor):
+                    all_media_meta["sound_feature_masks"].append(sfm)
+                if isinstance(sem, torch.Tensor):
+                    all_media_meta["sound_embed_masks"].append(sem)
+
+        # Note: If there are no audios at all, all_media["sound"] is empty → _embed()
+        # will early-exit to text-only path (we added that earlier).
+
+        # Single media_config shared (matches your signature)
+        media_config = defaultdict(dict)
+
+        # === Generation config ===
         generation_config = generation_config or self.default_generation_config
 
         # === Run batched generation ===
@@ -1017,13 +1180,13 @@ class LlavaMetaForCausalLM(ABC):
                 logits_processor=xgr_logits_processor,
             )
 
-        # === Decode each response ===
+        # === Decode per sequence ===
         responses = [
             self.tokenizer.decode(out, skip_special_tokens=True).strip()
             for out in output_ids
         ]
-
         return responses[0] if is_single_input else responses
+
 
     @property
     def default_generation_config(self) -> GenerationConfig:

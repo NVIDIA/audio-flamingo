@@ -183,7 +183,7 @@ def extract_media(
                 for token in MEDIA_TOKENS.values():
                     if token in part:
                         # logger.warning(f"Media token '{token}' found in text: '{part}'. Removed.")
-                        part = part.replace(token, "").strip()
+                        part = part.replace(token, "").strip()                        
                 text += part
             if isinstance(part, Sound):
                 if draft:
@@ -194,6 +194,10 @@ def extract_media(
                     media_meta["sound_feature_masks"].append(audio_feature_masks)
                     media_meta["sound_embed_masks"].append(audio_embed_masks)
                 text += MEDIA_TOKENS["sound"] * len(sound)
+            if part is None:
+                media["sound"].append(None)
+                media_meta["sound_feature_masks"].append(None)
+                media_meta["sound_embed_masks"].append(None)
    
         message["value"] = text
     return media, media_meta
