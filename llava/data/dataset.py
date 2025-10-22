@@ -21,6 +21,7 @@
 
 import base64
 import copy
+import re
 import io
 import json
 import os
@@ -49,7 +50,6 @@ from llava.mm_utils import (
     get_num_windows,
     tokenizer_image_token,
 )
-from torchvision import transforms
 from llava.train.args import DataArguments, TrainingArguments
 from llava.train.sequence_parallel import (
     extract_local_from_list,
@@ -249,28 +249,12 @@ class LazySupervisedDataset(Dataset):
 
         return torch.stack(sound_outputs, dim=0), torch.stack(audio_feature_masks, dim=0), torch.stack(audio_embed_masks, dim=0)
 
-    @staticmethod
-    def _load_speech(speech_path,sample_rate=16000):
-        if speech_path is None:
-            return None
-
-        speech_outputs = []
-        try:
-            speech = whisper.load_audio(speech_path)
-            speech = whisper.pad_or_trim(speech)
-            mel = whisper.log_mel_spectrogram(speech)
-            speech_outputs.append(mel.unsqueeze(0))
-        except:
-            speech_outputs.append(torch.zeros(1,80,3000))
-        return torch.stack(speech_outputs, dim=0)
-
     def __getitem__(self, i) -> Dict[str, torch.Tensor]:
         sources = self.list_data_dict[i]
         if isinstance(i, int):
             sources = [sources]
         assert len(sources) == 1, "Don't know why it is wrapped to a list"  # FIXME
         
-        import re
         if "sound" in self.list_data_dict[i]:
             # chat data loading 
             if isinstance(self.list_data_dict[i]["sound"],list):
@@ -328,7 +312,8 @@ class LazySupervisedDataset(Dataset):
                 sound_tensor = torch.cat(sound_tensor, dim=0)
                 audio_feature_masks = torch.cat(audio_feature_masks, dim=0)
                 audio_embed_masks = torch.cat(audio_embed_masks, dim=0)
-            else:
+            # single turn loading
+            elif isinstance(self.list_data_dict[i]["sound"],str):
                 sound_file = self.list_data_dict[i]["sound"]
                 question = str(self.list_data_dict[i]["conversations"][0]["value"].rstrip())
                 answer = str(self.list_data_dict[i]["conversations"][1]["value"]).rstrip()
@@ -344,7 +329,18 @@ class LazySupervisedDataset(Dataset):
                     {"from": "gpt", "value": answer},
                 ]
 
-                sources = [conversation]    
+                sources = [conversation] 
+            # text-only data loading 
+            else:
+                question = str(self.list_data_dict[i]["conversations"][0]["value"].rstrip())
+                answer = str(self.list_data_dict[i]["conversations"][1]["value"]).rstrip()
+                conversation = [
+                    {"from": "human", "value": question},
+                    {"from": "gpt", "value": answer},
+                ]
+
+                sources = [conversation]
+
         data_dict = preprocess(
             sources,
             self.tokenizer,
@@ -359,8 +355,10 @@ class LazySupervisedDataset(Dataset):
             data_dict["sound"] = sound_tensor
             data_dict["sound_feature_masks"] = audio_feature_masks
             data_dict["sound_embed_masks"] = audio_embed_masks
-        if "speech" in self.list_data_dict[i]:
-            data_dict["speech"] = speech_tensor
+        else:
+            data_dict["sound"] = None
+            data_dict["sound_feature_masks"] = None
+            data_dict["sound_embed_masks"] = None
       
         return data_dict
 

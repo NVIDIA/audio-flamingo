@@ -484,9 +484,39 @@ def load_audio(file_path, target_sr=16000, duration=30.0, start=0.0):
     assert len(data.shape) == 1, data.shape
     return data
 
-def process_sounds(sounds):
-    sounds = torch.tensor(sounds)
-    return sounds
+# def process_sounds(sounds):
+#     sounds = torch.tensor(sounds)
+#     return sounds
+
+def process_sounds(sounds, inference=False):
+    """
+    Converts list of sound arrays (some may be None) into:
+      - `tensors`: list of tensors (or zero-filled for None)
+      - `mask`: boolean tensor, True where valid sound exists
+    """
+    if inference == False:
+        sounds = torch.tensor(sounds)
+        return sounds
+
+    if not isinstance(sounds, (list, tuple)):
+        raise TypeError("Expected a list/tuple of sounds")
+
+    # Build mask: True = valid sound
+    mask = torch.tensor([s is not None for s in sounds], dtype=torch.bool)
+
+    # If there’s at least one valid example, determine shape
+    valid = [torch.as_tensor(s) for s in sounds if s is not None]
+    if valid:
+        ref_shape = valid[0].shape
+        tensors = [
+            torch.as_tensor(s) if s is not None else torch.zeros(ref_shape)
+            for s in sounds
+        ]
+        stacked = torch.stack(tensors)
+    else:
+        stacked = None
+
+    return stacked, mask
 
 def process_sound_masks(masks):
     masks = torch.tensor(masks[0])

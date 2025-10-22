@@ -5,6 +5,8 @@ import argparse
 import itertools
 import json
 import os
+import random
+import string
 import socket, contextlib, time
 from typing import Tuple, Sequence
 
@@ -26,6 +28,10 @@ from peft import PeftModel
 
 
 # -------------------- utils --------------------
+
+def random_string(length=12):
+    chars = string.ascii_letters + string.digits
+    return ''.join(random.choice(chars) for _ in range(length))
 
 def str2bool(v):
     if isinstance(v, bool):
@@ -219,16 +225,25 @@ def main() -> None:
             if nid in processed_ids:
                 continue
 
-            try:
-                sound = llava.Sound(sound_path)
-            except Exception as e:
-                logger.warning(f"Failed to load sound for {sound_path}: {e}")
-                continue
-
-            if args.think_mode:
-                prompt = "<sound>\n" + rec["prompt"] + "\nPlease think and reason about the input music before you respond."
+            if os.path.isfile(sound_path):
+                try:
+                    sound = llava.Sound(sound_path)
+                except Exception as e:
+                    logger.warning(f"Failed to load sound for {sound_path}: {e}")
+                    continue
             else:
-                prompt = "<sound>\n" + rec["prompt"]
+                # if text only question, in this case, the ID is arbitary
+                sound = None
+
+            
+            if sound is not None:
+                if not (rec["prompt"].startswith("<sound>\n") or rec["prompt"].endswith("\n<sound>")):
+                    if args.think_mode:
+                        prompt = "<sound>\n" + rec["prompt"] + "\nPlease think and reason about the input music before you respond."
+                    else:
+                        prompt = "<sound>\n" + rec["prompt"]
+            else:
+                prompt = rec["prompt"]
 
             batch_sounds.append(sound)
             batch_prompts.append(prompt)
@@ -251,7 +266,7 @@ def main() -> None:
                 steps_since_save = 0
             continue
 
-        responses = model.generate_content_batch(
+        responses = model.generate_content_batched(
             [[s, p] for s, p in zip(batch_sounds, batch_prompts)],
             generation_config=generation_config,
         )
