@@ -235,11 +235,13 @@ def main() -> None:
                 # if text only question, in this case, the ID is arbitary
                 sound = None
 
+            
             if sound is not None:
-                if args.think_mode:
-                    prompt = "<sound>\n" + rec["prompt"] + "\nPlease think and reason about the input music before you respond."
-                else:
-                    prompt = "<sound>\n" + rec["prompt"]
+                if not (rec["prompt"].startswith("<sound>\n") or rec["prompt"].endswith("\n<sound>")):
+                    if args.think_mode:
+                        prompt = "<sound>\n" + rec["prompt"] + "\nPlease think and reason about the input music before you respond."
+                    else:
+                        prompt = "<sound>\n" + rec["prompt"]
             else:
                 prompt = rec["prompt"]
 
@@ -264,7 +266,7 @@ def main() -> None:
                 steps_since_save = 0
             continue
 
-        responses = model.generate_content_batch(
+        responses = model.generate_content_batched(
             [[s, p] for s, p in zip(batch_sounds, batch_prompts)],
             generation_config=generation_config,
         )
