@@ -26,6 +26,7 @@ import base64
 import os
 import tempfile
 from io import BytesIO
+from typing import Any, List, Optional
 
 import numpy as np
 import torch
@@ -484,43 +485,99 @@ def load_audio(file_path, target_sr=16000, duration=30.0, start=0.0):
     assert len(data.shape) == 1, data.shape
     return data
 
-# def process_sounds(sounds):
-#     sounds = torch.tensor(sounds)
-#     return sounds
-
 def process_sounds(sounds, inference=False):
     """
     Converts list of sound arrays (some may be None) into:
-      - `tensors`: list of tensors (or zero-filled for None)
-      - `mask`: boolean tensor, True where valid sound exists
+      - stacked tensor (batched) and a boolean mask
+    Handles both [1, 1, 128, 3000] and [W, 1, 128, 3000] by splitting on dim 0
+    while preserving the dim (i.e., each segment remains [1, 1, 128, 3000]).
     """
-    if inference == False:
-        sounds = torch.tensor(sounds)
-        return sounds
+    if not inference:
+        # Original training path
+        t = torch.tensor(sounds)
+        return t
 
     if not isinstance(sounds, (list, tuple)):
         raise TypeError("Expected a list/tuple of sounds")
 
-    # Build mask: True = valid sound
-    mask = torch.tensor([s is not None for s in sounds], dtype=torch.bool)
+    # Original per-item mask (not used after flattening, but kept for compatibility if you need it)
+    item_mask = torch.tensor([s is not None for s in sounds], dtype=torch.bool)
 
-    # If there’s at least one valid example, determine shape
-    valid = [torch.as_tensor(s) for s in sounds if s is not None]
-    if valid:
-        ref_shape = valid[0].shape
-        tensors = [
-            torch.as_tensor(s) if s is not None else torch.zeros(ref_shape)
-            for s in sounds
-        ]
-        stacked = torch.stack(tensors)
-    else:
-        stacked = None
+    # --- Flatten multi-window entries but preserve the leading window dim ---
+    expanded = []  # list of tensors, each [1, 1, 128, 3000]
+    for s in sounds:
+        if s is None:
+            continue
+        t = torch.as_tensor(s) if not isinstance(s, torch.Tensor) else s
+        if t.dim() != 4:
+            raise ValueError(f"Expected 4D tensor [W, 1, 128, 3000], got shape {tuple(t.shape)}")
 
-    return stacked, mask
+        W = t.size(0)
+        if W == 1:
+            expanded.append(t)                 # [1, 1, 128, 3000]
+        else:
+            # Keeps the window dim by slicing chunks of size 1 on dim 0
+            expanded.extend(t.split(1, dim=0)) # W × [1, 1, 128, 3000]
 
-def process_sound_masks(masks):
-    masks = torch.tensor(masks[0])
-    return masks
+    if not expanded:
+        # All None
+        return None, item_mask
+
+    # All tensors in `expanded` now have identical shape [1, 1, 128, 3000].
+    # Concatenate along dim 0 to get [M, 1, 1, 128, 3000] (NOT stack; stack would add an extra dim).
+    stacked = torch.stack(expanded, dim=0)        # [M, 1, 1, 128, 3000]
+    seg_mask = torch.ones(stacked.size(0), dtype=torch.bool)  # one True per segment
+
+    return stacked, seg_mask
+
+try:
+    import numpy as np
+    _HAS_NUMPY = True
+except Exception:
+    _HAS_NUMPY = False
+
+def process_sound_masks(masks: Any) -> List[Optional[torch.Tensor]]:
+    """
+    Normalize sound masks into a *flat list* of per-chunk masks.
+
+    Returns: List[torch.Tensor | None], one entry per audio chunk.
+      - If given a Tensor -> returns [tensor] (no extra dims added)
+      - If given List/Tuple -> recursively flattens; keeps Tensors as-is; Nones stay None
+      - If given numpy arrays -> convert to torch.Tensor
+      - If given scalars/array-likes -> best-effort torch.as_tensor; else None
+
+    IMPORTANT:
+    - No stacking or dtype/device casting here.
+    - Keep masks bool/int where possible. The encoder will normalize to [B, T].
+    """
+    out: List[Optional[torch.Tensor]] = []
+
+    def _push(x: Any):
+        if x is None:
+            out.append(None)
+            return
+
+        if isinstance(x, torch.Tensor):
+            out.append(x)  # keep dtype/shape as-is
+            return
+
+        if _HAS_NUMPY and isinstance(x, np.ndarray):
+            out.append(torch.from_numpy(x))
+            return
+
+        if isinstance(x, (list, tuple)):
+            for y in x:
+                _push(y)
+            return
+
+        # scalar / generic array-like
+        try:
+            out.append(torch.as_tensor(x))
+        except Exception:
+            out.append(None)
+
+    _push(masks)
+    return out
 
 def tokenizer_image_token(prompt, tokenizer, return_tensors=None):
     return tokenizer(prompt, return_tensors=return_tensors).input_ids[0]

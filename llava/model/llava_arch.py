@@ -1060,6 +1060,8 @@ class LlavaMetaForCausalLM(ABC):
             else:
                 # Convert possibly-None list into (stack_or_None, mask)
                 batch_tensor, sound_mask = process_sounds(sounds_in, inference=True)
+                if batch_tensor is not None:
+                    LEN_SOUNDS =  int(batch_tensor.shape[0])
 
                 if batch_tensor is None:
                     # All entries were None
@@ -1070,7 +1072,7 @@ class LlavaMetaForCausalLM(ABC):
                     media_meta["sound_embed_masks"] = [None] * N
                 else:
                     # Split back to per-item in original order, keep None where missing
-                    per_item_sounds = [None] * len(sounds_in)
+                    per_item_sounds = [None] * int(LEN_SOUNDS) # len(sounds_in)
                     per_item_tensors = list(torch.unbind(batch_tensor, dim=0))
                     ti = 0
                     for i, has_audio in enumerate(sound_mask.tolist()):
@@ -1083,8 +1085,8 @@ class LlavaMetaForCausalLM(ABC):
                     media_meta["sound_mask"] = sound_mask
 
                     # Process meta masks to per-item lists; preserve None
-                    sfm = process_sound_masks(media_meta.get("sound_feature_masks", [None] * len(sounds_in)))
-                    sem = process_sound_masks(media_meta.get("sound_embed_masks",   [None] * len(sounds_in)))
+                    sfm = process_sound_masks(media_meta.get("sound_feature_masks", [None] * LEN_SOUNDS))
+                    sem = process_sound_masks(media_meta.get("sound_embed_masks",   [None] * LEN_SOUNDS))
 
                     def _to_half_list(x):
                         if isinstance(x, torch.Tensor):
@@ -1093,15 +1095,31 @@ class LlavaMetaForCausalLM(ABC):
                         elif isinstance(x, (list, tuple)):
                             out = []
                             for v in x:
-                                out.append(v.half() if isinstance(v, torch.Tensor) else v)
+                                if isinstance(v, torch.Tensor):
+                                    items = list(torch.unbind(v, dim=0))
+                                    out.extend([v.half() for v in items])
+                                else:
+                                    out.append(v)
                             return out
                         else:
                             return [None] * len(sounds_in)
 
                     media_meta["sound_feature_masks"] = _to_half_list(sfm)
                     media_meta["sound_embed_masks"]   = _to_half_list(sem)
+                    # sfm_list = process_sound_masks(media_meta.get("sound_feature_masks", [None] * len(sounds_in)))
+                    # sem_list = process_sound_masks(media_meta.get("sound_embed_masks",   [None] * len(sounds_in)))
 
-            # Strip <sound> if this convo has no usable audio (prevents random answers)
+                    # # Ensure per-item lengths match sounds_in; pad/truncate with None if needed
+                    # def _fit_len(lst, N):
+                    #     lst = list(lst)
+                    #     if len(lst) < N:
+                    #         lst += [None] * (N - len(lst))
+                    #     return lst[:N]
+
+                    # media_meta["sound_feature_masks"] = _fit_len(sfm_list, len(sounds_in))
+                    # media_meta["sound_embed_masks"]   = _fit_len(sem_list, len(sounds_in))
+
+            # Strip <sound> if this convo has no usable audio
             _strip_sound_tokens_if_no_audio(conv, media)
 
             per_conv_media.append(media)

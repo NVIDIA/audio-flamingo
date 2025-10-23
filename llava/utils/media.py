@@ -4,6 +4,7 @@
 # Adapted from https://github.com/NVlabs/VILA/tree/main under the Apache 2.0 license.
 # LICENSE is in incl_licenses directory.
 
+import re
 import glob
 import os
 import tempfile
@@ -32,6 +33,8 @@ import math
 from pytorchvideo.data.clip_sampling import ConstantClipsPerVideoSampler, UniformClipSampler
 import kaldiio
 wav_processor = AutoFeatureExtractor.from_pretrained('Qwen/Qwen2-Audio-7B')
+
+SOUND_TAG_RE = re.compile(r"<sound(?:-(\d+))?>", flags=re.IGNORECASE)
 
 __all__ = ["extract_media"]
 
@@ -165,6 +168,51 @@ def _extract_sound_mask(sound: Sound, config: PretrainedConfig):
     frames, audio_feature_masks, audio_embed_masks = _load_sound_mask(sound.path)
     return frames, audio_feature_masks, audio_embed_masks
 
+# def extract_media(
+#     messages: List[Dict[str, Any]],
+#     config: Optional[PretrainedConfig] = None,
+#     draft: bool = False,
+# ) -> Dict[str, List[Any]]:
+#     media = defaultdict(list)
+#     media_meta = defaultdict(list)
+#     for message in messages:
+#         text = ""
+#         for part in make_list(message["value"]):
+#             if isinstance(part, list) and not isinstance(part[0], Sound):
+#                 part = part[0]
+#             else:
+#                 part = part
+#             if isinstance(part, str):
+#                 for token in MEDIA_TOKENS.values():
+#                     if token in part:
+#                         # logger.warning(f"Media token '{token}' found in text: '{part}'. Removed.")
+#                         part = part.replace(token, "").strip()                        
+#                 text += part
+#             if isinstance(part, Sound):
+#                 if draft:
+#                     media["sound"].append(part)
+#                 else:
+#                     sound, audio_feature_masks,audio_embed_masks = _extract_sound_mask(part, config)
+#                     media["sound"].append(sound)
+#                     media_meta["sound_feature_masks"].append(audio_feature_masks)
+#                     media_meta["sound_embed_masks"].append(audio_embed_masks)
+#                 text += MEDIA_TOKENS["sound"] * len(sound)
+#             if isinstance(part, list):
+#                 for item in part:
+#                     if isinstance(item, Sound):
+#                         sound, audio_feature_masks,audio_embed_masks = _extract_sound_mask(part, config)
+#                         media["sound"].append(sound)
+#                         media_meta["sound_feature_masks"].append(audio_feature_masks)
+#                         media_meta["sound_embed_masks"].append(audio_embed_masks)
+#             if part is None:
+#                 media["sound"].append(None)
+#                 media_meta["sound_feature_masks"].append(None)
+#                 media_meta["sound_embed_masks"].append(None)
+   
+#         message["value"] = text
+#     return media, media_meta
+
+
 def extract_media(
     messages: List[Dict[str, Any]],
     config: Optional[PretrainedConfig] = None,
@@ -172,32 +220,128 @@ def extract_media(
 ) -> Dict[str, List[Any]]:
     media = defaultdict(list)
     media_meta = defaultdict(list)
+
     for message in messages:
-        text = ""
-        for part in make_list(message["value"]):
-            if isinstance(part, list):
-                part = part[0]
+        parts = make_list(message["value"])
+
+        has_placeholder = any(
+            isinstance(p, str) and SOUND_TAG_RE.search(p) is not None
+            for p in parts
+        )
+
+        local_sound_lengths: Dict[int, int] = {}
+        next_local_idx = 1
+
+        def _register_sound(snd_obj):
+            nonlocal next_local_idx
+            if draft:
+                snd, sfm, sem = snd_obj, None, None
             else:
-                part = part
-            if isinstance(part, str):
-                for token in MEDIA_TOKENS.values():
-                    if token in part:
-                        # logger.warning(f"Media token '{token}' found in text: '{part}'. Removed.")
-                        part = part.replace(token, "").strip()                        
-                text += part
+                snd, sfm, sem = _extract_sound_mask(snd_obj, config)
+
+            media["sound"].append(snd)
+            media_meta["sound_feature_masks"].append(sfm)
+            media_meta["sound_embed_masks"].append(sem)
+
+            idx = next_local_idx
+            next_local_idx += 1
+            try:
+                local_sound_lengths[idx] = len(snd) # len(snd) is num windows
+            except Exception:
+                local_sound_lengths[idx] = 1
+            return idx
+
+        # Collect sounds (and mirror None) but don’t write text yet
+        for part in parts:
+            if isinstance(part, list) and part and not isinstance(part[0], Sound):
+                part = part[0]
+
             if isinstance(part, Sound):
-                if draft:
-                    media["sound"].append(part)
-                else:
-                    sound, audio_feature_masks,audio_embed_masks = _extract_sound_mask(part, config)
-                    media["sound"].append(sound)
-                    media_meta["sound_feature_masks"].append(audio_feature_masks)
-                    media_meta["sound_embed_masks"].append(audio_embed_masks)
-                text += MEDIA_TOKENS["sound"] * len(sound)
-            if part is None:
+                _register_sound(part)
+            elif isinstance(part, list):
+                for item in part:
+                    if isinstance(item, Sound):
+                        _register_sound(item)
+            elif part is None:
                 media["sound"].append(None)
                 media_meta["sound_feature_masks"].append(None)
                 media_meta["sound_embed_masks"].append(None)
-   
-        message["value"] = text
+
+        text_out: List[str] = []
+
+        def _strip_literal_media_tokens(s: str) -> str:
+            # keep this ONLY for legacy mode
+            for tok in MEDIA_TOKENS.values():
+                if tok in s:
+                    s = s.replace(tok, "")
+            return s
+
+        if has_placeholder:
+            # --- PLACEHOLDER MODE: DO NOT STRIP; directly replace placeholders ---
+            consumed = set()
+            next_implicit = 1
+
+            def _consume_next_unconsumed():
+                nonlocal next_implicit
+                while next_implicit in consumed or next_implicit not in local_sound_lengths:
+                    next_implicit += 1
+                    if next_implicit >= next_local_idx:
+                        return None
+                consumed.add(next_implicit)
+                ret = next_implicit
+                next_implicit += 1
+                return ret
+
+            def _replace_placeholders(s: str) -> str:
+                # IMPORTANT: no stripping here, we need the literal <sound> tags
+                def _sub_fn(m: re.Match) -> str:
+                    g = m.group(1)
+                    if g is not None:
+                        k = int(g)
+                        n = local_sound_lengths.get(k, 0)
+                        if n <= 0:  # unknown index → drop placeholder
+                            return ""
+                        consumed.add(k)
+                        return MEDIA_TOKENS["sound"] * n
+                    else:
+                        k = _consume_next_unconsumed()
+                        if k is None:
+                            return ""  # nothing to bind
+                        n = local_sound_lengths.get(k, 0)
+                        return MEDIA_TOKENS["sound"] * n
+
+                return SOUND_TAG_RE.sub(_sub_fn, s)
+
+            for part in parts:
+                if isinstance(part, list) and part and not isinstance(part[0], Sound):
+                    part = part[0]
+                if isinstance(part, str):
+                    text_out.append(_replace_placeholders(part))
+                # Sounds/None/lists contribute via placeholders only in this mode
+
+        else:
+            # --- LEGACY MODE: strip literals from strings; insert tokens when encountering Sound ---
+            i_sound = 0
+            for part in parts:
+                if isinstance(part, list) and part and not isinstance(part[0], Sound):
+                    part = part[0]
+
+                if isinstance(part, str):
+                    text_out.append(_strip_literal_media_tokens(part))
+                elif isinstance(part, Sound):
+                    i_sound += 1
+                    n = local_sound_lengths.get(i_sound, 0)
+                    if n > 0:
+                        text_out.append(MEDIA_TOKENS["sound"] * n)
+                elif isinstance(part, list):
+                    for item in part:
+                        if isinstance(item, Sound):
+                            i_sound += 1
+                            n = local_sound_lengths.get(i_sound, 0)
+                            if n > 0:
+                                text_out.append(MEDIA_TOKENS["sound"] * n)
+                # None adds no text
+
+        message["value"] = "".join(text_out)
+
     return media, media_meta
