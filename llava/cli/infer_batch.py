@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import re
 import argparse
 import itertools
 import json
@@ -26,8 +27,9 @@ from llava.utils.logging import logger
 from huggingface_hub import snapshot_download
 from peft import PeftModel
 
-
 # -------------------- utils --------------------
+
+sound_tag_re = re.compile(r"<sound(?:-\d+)?>")
 
 def random_string(length=12):
     chars = string.ascii_letters + string.digits
@@ -84,7 +86,7 @@ def _autodetect_dist_env() -> Tuple[int, int, int, int, str, str]:
     e = os.environ
     world_size = int(e.get("WORLD_SIZE") or e.get("SLURM_NTASKS") or "1")
     rank = int(e.get("RANK") or e.get("SLURM_PROCID") or "0")
-    local_rank = int(e.get("LOCAL_RANK") or e.get("SLURM_LOCALID") or "0")
+    local_rank = int(29502) #e.get("LOCAL_RANK") or e.get("SLURM_LOCALID") or "0"
     local_world_size = int(e.get("LOCAL_WORLD_SIZE") or e.get("SLURM_NTASKS_PER_NODE") or "1")
     master_addr = e.get("MASTER_ADDR") or "127.0.0.1"
     master_port = e.get("MASTER_PORT") or ""
@@ -219,29 +221,46 @@ def main() -> None:
         batch_sounds, batch_prompts, batch_ids, batch_gt_answers = [], [], [], []
 
         for key in batch_keys:
+
             rec = instances[key]
-            sound_path = os.path.join(data_dir, rec["name"])
-            nid = _norm(sound_path)
+            if isinstance(rec["name"], list):
+                sound_path = [os.path.join(data_dir, item) for item in rec["name"]]
+                nid = _norm("-".join(sound_path))
+            else:
+                sound_path = os.path.join(data_dir, rec["name"])
+                nid = _norm(sound_path)
+
             if nid in processed_ids:
                 continue
 
-            if os.path.isfile(sound_path):
-                try:
-                    sound = llava.Sound(sound_path)
-                except Exception as e:
-                    logger.warning(f"Failed to load sound for {sound_path}: {e}")
-                    continue
-            else:
-                # if text only question, in this case, the ID is arbitary
-                sound = None
+            if isinstance(sound_path, str):
+                if os.path.isfile(sound_path):
+                    try:
+                        sound = llava.Sound(sound_path)
+                    except Exception as e:
+                        logger.warning(f"Failed to load sound for {sound_path}: {e}")
+                        continue
+                else:
+                    # if text only question, in this case, the ID is arbitary
+                    sound = None
+            elif isinstance(sound_path, list):
+                sound = []
+                for sp in sound_path:
+                    try:
+                        sound.append(llava.Sound(sp))
+                    except Exception as e:
+                        logger.warning(f"Failed to load sound for {sp}: {e}")
+                        continue
 
-            
             if sound is not None:
-                if not (rec["prompt"].startswith("<sound>\n") or rec["prompt"].endswith("\n<sound>")):
+                # Check if neither <sound> nor <sound-*> is present anywhere in the prompt
+                if not sound_tag_re.search(rec["prompt"]):
                     if args.think_mode:
                         prompt = "<sound>\n" + rec["prompt"] + "\nPlease think and reason about the input music before you respond."
                     else:
                         prompt = "<sound>\n" + rec["prompt"]
+                else:
+                    prompt = rec["prompt"]
             else:
                 prompt = rec["prompt"]
 

@@ -94,6 +94,9 @@ class SoundTower(nn.Module):
                 )
             if len(audio_feat_lengths.shape) == 1:
                 audio_feat_lengths = audio_feat_lengths.unsqueeze(1)
+            elif len(audio_feat_lengths.shape) == 3: # hard-coded, check logic
+                audio_feat_lengths = audio_feat_lengths.squeeze(-1)
+
             lengths_expand = audio_feat_lengths.expand(batch_size, max_seq_len)
             padding_mask = seq_range >= lengths_expand
             audio_attention_mask_ = padding_mask.view(batch_size, 1, 1, max_seq_len).expand(
