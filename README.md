@@ -83,6 +83,8 @@ Audio Flamingo 3 can take up to 10 minutes of audio inputs.
 ./environment_setup.sh af3
 ```
 
+If you prefer using Docker, the `docker/` folder has the files needed for it.
+
 ## Code Structure
 
 - The folder ```scripts``` contains the training and inference scripts of Audio Flamingo 3. 
@@ -100,7 +102,7 @@ where `$NGPU` is 1 if you want to use a single GPU or 8 if you want to use multi
 
 Add the argument `--think-mode` to run in thinking mode (with Stage 3.5 weights). 
 
-## Single Turn Inference
+## Single Audio Inference
 
 To infer stage 3 model directly on a single audio, run the command below:
 

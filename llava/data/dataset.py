@@ -250,68 +250,82 @@ class LazySupervisedDataset(Dataset):
         return torch.stack(sound_outputs, dim=0), torch.stack(audio_feature_masks, dim=0), torch.stack(audio_embed_masks, dim=0)
 
     def __getitem__(self, i) -> Dict[str, torch.Tensor]:
+
         sources = self.list_data_dict[i]
         if isinstance(i, int):
             sources = [sources]
         assert len(sources) == 1, "Don't know why it is wrapped to a list"  # FIXME
+
+        entry = self.list_data_dict[i]
         
-        if "sound" in self.list_data_dict[i]:
-            # chat data loading 
-            if isinstance(self.list_data_dict[i]["sound"],list):
-                sound_files = self.list_data_dict[i]["sound"]
-                conversations_raw = self.list_data_dict[i]["conversations"]
+        if "sound" in entry:
+            
+            sound_files = entry["sound"]                   # e.g. ["a.wav","b.wav",...]
+            conversations_raw = entry["conversations"]     # list of {"from","value"}
 
-                # Step 1: Extract <sound-X> tags in order of appearance
-                sound_tag_pattern = re.compile(r"<sound-(\d+)>")
-                ordered_sound_tags = []
-
+            if isinstance(entry["sound"], list):
+                # 1) Collect tag occurrences in textual order (e.g., <sound-1>, <sound-2>, …)
+                tag_re = re.compile(r"<sound-(\d+)>")
+                ordered_tags = []   # e.g., ["<sound-2>", "<sound-1>", "<sound-2>", ...]
                 for turn in conversations_raw:
-                    tags = sound_tag_pattern.findall(turn["value"])
-                    ordered_sound_tags.extend([f"<sound-{tag}>" for tag in tags])
+                    for m in tag_re.findall(turn["value"]):
+                        ordered_tags.append(f"<sound-{m}>")
 
-                # Step 2: Load sound tensors in the order of tags
-                sound_tensor = []
-                audio_feature_masks = []
-                audio_embed_masks = []
-                sound_token_map = {}
+                # 2) Load each referenced file once; cache by index k (1-based tag)
+                #    Assumption: sound_files[k-1] corresponds to <sound-k>
+                cache = {}  # k -> (windows_tensor [W, ...], feat_mask [W,...], embed_mask [W,...])
+                def _get_cached(k: int):
+                    if k in cache:
+                        return cache[k]
+                    if k < 1 or k > len(sound_files):
+                        raise ValueError(f"Tag <sound-{k}> refers to missing sound file at index {k-1}.")
+                    snd_path = sound_files[k-1]
+                    # your loader returns (windows, feat_mask, embed_mask); windows is often [W, 1, 750, 2048] or [W, 750, 2048]
+                    win, af_mask, ae_mask = self._load_sound(snd_path, self.wav_processor,
+                                                            max_num_window=self.data_args.audio_frames)
+                    # match your single-audio behavior: squeeze the extra batch dim if present
+                    # (keeps shape [W, 750, 2048] or [W, 1, 750, 2048] depending on your SoundTower path)
+                    win = win.squeeze(1)
+                    cache[k] = (win, af_mask, ae_mask)
+                    return cache[k]
 
-                for tag in ordered_sound_tags:
-                    idx = int(tag.split('-')[1][:-1])
-                    if tag not in sound_token_map:
-                        this_sound_tensor, af_mask, ae_mask = self._load_sound(sound_file, self.wav_processor, max_num_window=self.data_args.audio_frames)
-                        this_sound_tensor = this_sound_tensor.squeeze(1)  # (windows x 750 x 2048)
-                        sound_token_map[tag] = ("<sound>\n" * this_sound_tensor.shape[0]).rstrip()
-                        sound_tensor.append(this_sound_tensor)
-                        audio_feature_masks.append(af_mask)
-                        audio_embed_masks.append(ae_mask)
-                    else:
-                        # If already loaded, still append to match sequence
-                        this_sound_tensor, af_mask, ae_mask = self._load_sound(sound_file, self.wav_processor, max_num_window=self.data_args.audio_frames)
-                        this_sound_tensor = this_sound_tensor.squeeze(1)
-                        sound_tensor.append(this_sound_tensor)
-                        audio_feature_masks.append(af_mask)
-                        audio_embed_masks.append(ae_mask)
-                   
+                # 3) Build replacement strings and flatten windows/masks in the exact tag order
+                sound_tensors = []         # list of [Wk, ...] to be cat later
+                sound_feat_masks = []      # list of [Wk, ...]
+                sound_embed_masks = []     # list of [Wk, ...]
+                token_map = {}             # "<sound-k>" -> "<sound>\n" * Wk  (for replacement)
+                for tag in ordered_tags:
+                    k = int(tag.split("-")[1][:-1])  # "<sound-12>" -> 12
+                    win, af_mask, ae_mask = _get_cached(k)
+                    # append these windows for this *occurrence* of the tag
+                    sound_tensors.append(win)                   # [Wk, ...]
+                    sound_feat_masks.append(af_mask)            # [Wk, ...]
+                    sound_embed_masks.append(ae_mask)           # [Wk, ...]
+                    # remember replacement string for this tag (<sound> repeated Wk times, newline after each)
+                    if tag not in token_map:
+                        Wk = win.shape[0]
+                        token_map[tag] = ("<sound>\n" * Wk).rstrip()
 
-                # Process conversations and inject sound markers
+                # 4) Replace <sound-k> with repeated "<sound>\n" in the conversation
                 conversation = []
                 for turn in conversations_raw:
-                    role = turn["from"]
-                    value = turn["value"]
+                    role, value = turn["from"], turn["value"]
+                    for tag, marker in token_map.items():
+                        value = value.replace(tag, marker)
+                    conversation.append({"from": role, "value": value.rstrip()})
 
-                    # Replace any <sound-X> tag with corresponding repeated <sound>\n
-                    for tag, sound_token in sound_token_map.items():
-                        value = value.replace(tag, sound_token)
-
-                    conversation.append({
-                        "from": role,
-                        "value": value.rstrip()
-                    })
-
+                # 5) Finalize sources (chat) + stack media
                 sources = [conversation]
-                sound_tensor = torch.cat(sound_tensor, dim=0)
-                audio_feature_masks = torch.cat(audio_feature_masks, dim=0)
-                audio_embed_masks = torch.cat(audio_embed_masks, dim=0)
+                # If no tags were present, fall back to text-only like below.
+                if len(sound_tensors) > 0:
+                    sound_tensor = torch.cat(sound_tensors, dim=0)
+                    audio_feature_masks = torch.cat(sound_feat_masks, dim=0)
+                    audio_embed_masks = torch.cat(sound_embed_masks, dim=0)
+                else:
+                    sound_tensor = None
+                    audio_feature_masks = None
+                    audio_embed_masks = None
+
             # single turn loading
             elif isinstance(self.list_data_dict[i]["sound"],str):
                 sound_file = self.list_data_dict[i]["sound"]
@@ -323,13 +337,13 @@ class LazySupervisedDataset(Dataset):
                 question = question.replace("<eng><asr>\n", "").replace("\n<eng><asr>", "").replace("<eng><asr>", "")
                 sound_tensor, audio_feature_masks, audio_embed_masks = self._load_sound(sound_file, self.wav_processor, max_num_window=self.data_args.audio_frames)
                 sound_tensor=sound_tensor.squeeze(1) # squeeze the irrelevant dimension which was caused due to processor getting 1 batch for processing --> (windows x 750 x 2048)
-                question = "<sound>\n" * sound_tensor.shape[0] + question
+                question = "<sound>" * sound_tensor.shape[0] + "\n" + question
                 conversation = [
                     {"from": "human", "value": question},
                     {"from": "gpt", "value": answer},
                 ]
 
-                sources = [conversation] 
+                sources = [conversation]
             # text-only data loading 
             else:
                 question = str(self.list_data_dict[i]["conversations"][0]["value"].rstrip())

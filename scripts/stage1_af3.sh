@@ -17,7 +17,7 @@ if [ "$NNODES" = "1" ] || [ "$NNODES" = "2" ]; then
     PER_DEVICE_TRAIN_BATCH_SIZE=1
 fi
 
-torchrun --nnodes \$NUM_NODES --nproc_per_node \$SUBMIT_GPUS --master_addr \$MASTER_ADDR --master_port \$MASTER_PORT --node_rank \$NODE_RANK \
+torchrun --nnodes \$NUM_NODES --nproc_per_node \$SUBMIT_GPUS --master_addr \$MASTER_ADDR --master_port $MASTER_PORT --node_rank \$NODE_RANK \
     llava/train/train_mem.py \
     --deepspeed scripts/zero3.json \
     --model_name_or_path $STAGE_PATH \
