@@ -1,9 +1,15 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import re
 import argparse
 import itertools
 import json
 import os
+import random
+import string
 import socket, contextlib, time
-from typing import Tuple, Sequence
+from typing import Tuple, Sequence, Any
 
 # ---- BEFORE importing torch.distributed, set NCCL safety (even if we use gloo) ----
 os.environ.setdefault("NCCL_IB_DISABLE", "1")
@@ -16,7 +22,7 @@ import torch.distributed as tdist
 from tqdm import tqdm
 
 import llava
-# We'll use llava.utils.distributed, but prevent it from re-initing later
+# Prevent llava.utils.distributed from re-initing later
 from llava.utils import distributed as llava_dist
 from llava.data.builder import DATASETS
 from llava.utils import io
@@ -24,8 +30,13 @@ from llava.utils.logging import logger
 from huggingface_hub import snapshot_download
 from peft import PeftModel
 
-
 # -------------------- utils --------------------
+
+sound_tag_re = re.compile(r"<sound(?:-\d+)?>")
+
+def random_string(length=12):
+    chars = string.ascii_letters + string.digits
+    return ''.join(random.choice(chars) for _ in range(length))
 
 def str2bool(v):
     if isinstance(v, bool):
@@ -45,7 +56,7 @@ def load_existing_ids(output_file):
     if not os.path.exists(output_file):
         return set(), []
     try:
-        with open(output_file, "r") as f:
+        with open(output_file, "r", encoding="utf-8") as f:
             outputs = [json.loads(line) for line in f if line.strip()]
         processed_ids = {item.get("id") for item in outputs if "id" in item}
         return set(_norm(p) for p in processed_ids if p is not None), outputs
@@ -137,26 +148,85 @@ def _init_process_group_gloo():
         except Exception:
             pass
 
+# ---------- schema helpers ----------
+
+def _load_instances_and_datadir(obj: Any):
+    """
+    Supports:
+      1) MMAR-style: {"split_path": "...", "data": {...}}
+      2) Direct dict/list of rows (conversations-style or similar).
+    Returns: (instances, data_dir)
+    """
+    data_dir = ""
+    instances = obj
+    if isinstance(obj, dict) and "split_path" in obj and "data" in obj:
+        data_dir = obj.get("split_path") or ""
+        instances = obj.get("data") or {}
+    return instances, data_dir
+
+def _extract_record_fields(row: Any, data_dir: str):
+    """
+    Normalizes fields from either schema into:
+      - sound_path: str | list[str] | None
+      - prompt: str
+      - gt_answer: str
+      - id_hint: str  (for stable dedup id; may be file path(s) or random)
+    """
+    if isinstance(row, dict) and "name" in row and "prompt" in row:
+        name = row["name"]
+        if isinstance(name, list):
+            paths = [os.path.join(data_dir, p) for p in name]
+            sound_path = paths
+            id_hint = "-".join(paths)
+        else:
+            p = os.path.join(data_dir, name)
+            sound_path = p
+            id_hint = p
+        prompt = row["prompt"]
+        gt_answer = row.get("output", "")
+        return sound_path, prompt, gt_answer, id_hint
+
+    # conversations-style
+    if isinstance(row, dict) and "conversations" in row:
+        sound_path = row.get("sound", None)
+        if isinstance(sound_path, list):
+            id_hint = "-".join(sound_path)
+        else:
+            id_hint = sound_path if isinstance(sound_path, str) else random_string()
+        convs = row["conversations"]
+        question = (convs[0]["value"] if len(convs) > 0 else "").strip()
+        gt_answer = (convs[1]["value"] if len(convs) > 1 else "")
+        prompt = question
+        return sound_path, prompt, gt_answer, id_hint
+
+    # Fallback: treat as text-only row if possible
+    prompt = row.get("prompt", "") if isinstance(row, dict) else ""
+    gt_answer = row.get("output", "") if isinstance(row, dict) else ""
+    return None, prompt, gt_answer, random_string()
+
 # -------------------- main --------------------
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--model-base", "-m", type=str, required=True)
     parser.add_argument("--task", type=str, default="Clotho-AQA-AQA")
-    parser.add_argument("--infer-json", type=str, default=None)
+    parser.add_argument("--infer-json", type=str, default=None,
+                        help="If provided, load this JSON/JSONL; else fallback to DATASETS[task].")
     parser.add_argument("--conv-mode", "-c", type=str, default="auto")
     parser.add_argument("--think-mode", type=str2bool, default=False)
     parser.add_argument("--generation-config", type=json.loads)
     parser.add_argument("--output-dir", type=str, default="outputs/")
     parser.add_argument("--overwrite", action="store_true")
-    parser.add_argument("--save-every", type=int, default=5, help="Append to output after every N steps (rank 0 only).")
+    parser.add_argument("--save-every", type=int, default=5,
+                        help="Append to output after every N steps (rank 0 only).")
+    parser.add_argument("--batch-size", type=int, default=8)
     args = parser.parse_args()
 
     # Dist env & init (GLOO)
     world_size, rank, local_world_size, local_rank = _prepare_dist_env(args.output_dir)
     _init_process_group_gloo()
 
-    # Device
+    # Device mapping
     num_cuda = torch.cuda.device_count()
     if num_cuda == 0:
         raise RuntimeError("No CUDA devices visible.")
@@ -174,37 +244,48 @@ def main() -> None:
 
     model = llava.load(model_path, devices=devices)
     if args.think_mode:
-        model = PeftModel.from_pretrained(model, model_think, device_map="auto", torch_dtype=torch.float16)
+        model = PeftModel.from_pretrained(
+            model,
+            model_think,
+            device_map="auto",
+            torch_dtype=torch.float16,
+        )
     model = model.to("cuda")
 
     generation_config = getattr(model, "default_generation_config", {})
     if args.generation_config:
         generation_config.update(**args.generation_config)
 
-    # Data
-    # json_file = DATASETS[args.task]["data_path"]
-    # instances = io.load(json_file)
+    # ---- Data loading (supports both schemas) ----
     if args.infer_json is not None:
-        instances = io.load(args.infer_json)
+        raw = io.load(args.infer_json)
     else:
         json_file = DATASETS[args.task]["data_path"]
-        instances = io.load(json_file)
+        raw = io.load(json_file)
+
+    instances, data_dir = _load_instances_and_datadir(raw)
 
     if isinstance(instances, dict):
         all_keys = list(instances.keys())
+        get_row = lambda k: instances[k]
+        out_suffix = args.task
     else:
         all_keys = list(range(len(instances)))
+        get_row = lambda k: instances[k]
+        out_suffix = args.task if args.infer_json is None else os.path.splitext(os.path.basename(args.infer_json))[0]
+
     sharded_keys = all_keys[rank::world_size]
 
+    # ---- Outputs ----
     os.makedirs(args.output_dir, exist_ok=True)
-    output_path = os.path.join(args.output_dir, f"outputs_{args.task}.jsonl")
+    output_path = os.path.join(args.output_dir, f"outputs_{out_suffix}.jsonl")
 
     if args.overwrite:
         processed_ids, outputs = set(), []
     else:
         processed_ids, outputs = load_existing_ids(output_path)
 
-    BATCH_SIZE = 8
+    BATCH_SIZE = args.batch_size
     new_outputs = []
     steps_since_save = 0
 
@@ -217,37 +298,63 @@ def main() -> None:
         batch_sounds, batch_prompts, batch_ids, batch_gt_answers = [], [], [], []
 
         for key in batch_keys:
-            row = instances[key] if isinstance(instances, dict) else instances[key]  # type: ignore[index]
-            sound_path = row["sound"]
-            nid = _norm(sound_path)
+            row = get_row(key)
+            sound_path, prompt_in, gt_answer, id_hint = _extract_record_fields(row, data_dir)
+
+            # Normalize ID
+            if isinstance(id_hint, str):
+                nid = _norm(id_hint)
+            else:
+                nid = _norm(random_string())
             if nid in processed_ids:
                 continue
 
-            try:
-                sound = llava.Sound(sound_path)
-            except Exception as e:
-                logger.warning(f"Failed to load sound for {sound_path}: {e}")
-                continue
+            # Build llava.Sound (single, list, or None)
+            sound = None
+            if isinstance(sound_path, str):
+                if os.path.isfile(sound_path):
+                    try:
+                        sound = llava.Sound(sound_path)
+                    except Exception as e:
+                        logger.warning(f"Failed to load sound for {sound_path}: {e}")
+                        # leave sound=None (text-only)
+                else:
+                    # text-only: keep sound=None
+                    pass
+            elif isinstance(sound_path, list):
+                tmp_list = []
+                for sp in sound_path:
+                    try:
+                        if os.path.isfile(sp):
+                            tmp_list.append(llava.Sound(sp))
+                        else:
+                            logger.warning(f"Sound path does not exist: {sp}")
+                    except Exception as e:
+                        logger.warning(f"Failed to load sound for {sp}: {e}")
+                # if none succeeded, keep sound as [] to signal multi-audio expected but missing
+                sound = tmp_list if len(tmp_list) > 0 else []
 
-            conversations = row["conversations"]
-            question = conversations[0]["value"].strip()
-            if not (question.startswith("<sound>\n") or question.endswith("\n<sound>")):
-                prompt = "<sound>\n" + question
-            if args.think_mode:
-                prompt += + "\nPlease think and reason about the input music before you respond."
+            # Prompt construction with proper sound-tag handling
+            prompt = prompt_in
+            if sound is not None and (isinstance(sound, llava.Sound) or isinstance(sound, list)):
+                # Only add <sound> if no <sound> or <sound-*> tag appears anywhere
+                if not sound_tag_re.search(prompt):
+                    if args.think_mode:
+                        prompt = "<sound>\n" + prompt + "\nPlease think and reason about the input music before you respond."
+                    else:
+                        prompt = "<sound>\n" + prompt
+            # If sound is None (text-only), leave prompt as-is (even if no tag)
 
             batch_sounds.append(sound)
             batch_prompts.append(prompt)
             batch_ids.append(nid)
-            batch_gt_answers.append(conversations[1]["value"])
+            batch_gt_answers.append(gt_answer)
 
+        # If nothing to do in this step, still handle periodic save
         if not batch_sounds:
             steps_since_save += 1
-            # still allow periodic save if some ranks accumulate
             if steps_since_save >= args.save_every:
-                # periodic save with whatever we've buffered so far
                 if world_size > 1:
-                    # gather lists to rank 0 via gloo
                     gathered = [None for _ in range(world_size)] if rank == 0 else None
                     tdist.gather_object(new_outputs, object_gather_list=gathered, dst=0)
                     if rank == 0:
@@ -260,7 +367,8 @@ def main() -> None:
                 steps_since_save = 0
             continue
 
-        responses = model.generate_content_batch(
+        # ---- Batched generation: input is exactly [[sound, prompt], ...] ----
+        responses = model.generate_content_batched(
             [[s, p] for s, p in zip(batch_sounds, batch_prompts)],
             generation_config=generation_config,
         )
@@ -268,18 +376,18 @@ def main() -> None:
             responses = [responses]
 
         for idx, response in enumerate(responses):
-            rec = {
+            rec_out = {
                 "id": batch_ids[idx],
                 "question": batch_prompts[idx],
                 "gt_answer": batch_gt_answers[idx],
                 "pred": response,
             }
-            new_outputs.append(rec)
+            new_outputs.append(rec_out)
             processed_ids.add(batch_ids[idx])
 
         steps_since_save += 1
 
-        # ---- Periodic APPEND: rank 0 only, after every N steps ----
+        # ---- Periodic APPEND ----
         if steps_since_save >= args.save_every:
             if world_size > 1:
                 gathered = [None for _ in range(world_size)] if rank == 0 else None
@@ -287,7 +395,6 @@ def main() -> None:
                 if rank == 0:
                     merged = list(itertools.chain.from_iterable(g for g in gathered if g))
                     append_jsonl(output_path, merged)
-                # Everyone clears their local buffer after a gather to avoid dupes
                 new_outputs.clear()
             else:
                 append_jsonl(output_path, new_outputs)
@@ -295,7 +402,6 @@ def main() -> None:
             steps_since_save = 0
 
     # ---- Final save & exit ----
-    # flush any remaining buffered records
     if world_size > 1:
         gathered = [None for _ in range(world_size)] if rank == 0 else None
         tdist.gather_object(new_outputs, object_gather_list=gathered, dst=0)
@@ -305,7 +411,6 @@ def main() -> None:
     else:
         append_jsonl(output_path, new_outputs)
 
-    # Simple barrier to make sure all ranks finished I/O
     tdist.barrier()
     if rank == 0:
         print(f"[DONE] Appended results to {output_path}", flush=True)

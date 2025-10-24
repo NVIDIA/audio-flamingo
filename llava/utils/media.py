@@ -212,7 +212,6 @@ def _extract_sound_mask(sound: Sound, config: PretrainedConfig):
 #         message["value"] = text
 #     return media, media_meta
 
-
 def extract_media(
     messages: List[Dict[str, Any]],
     config: Optional[PretrainedConfig] = None,
@@ -220,6 +219,48 @@ def extract_media(
 ) -> Dict[str, List[Any]]:
     media = defaultdict(list)
     media_meta = defaultdict(list)
+
+    def _wrap_sound_runs(s: str) -> str:
+        tok = MEDIA_TOKENS["sound"]
+        if not tok:
+            return s
+        etok = re.escape(tok)
+        pattern = re.compile(f'(?:{etok})+')  # any-length run of <sound>
+
+        out = []
+        last = 0
+        n = len(s)
+        for m in pattern.finditer(s):
+            i, j = m.span()
+            # copy preceding text
+            chunk = s[last:i]
+            out.append(chunk)
+
+            if i > 0 and s[i-1] != '\n':
+                if out and out[-1]:
+                    out[-1] = out[-1].rstrip()  # remove spaces before the newline
+                out.append('\n')
+
+            # emit the run itself (no internal newlines)
+            out.append(m.group(0))
+
+            # newline AFTER the run (not at end) — we’ll normalize spaces around newlines later
+            if j < n and s[j:j+1] != '\n':
+                out.append('\n')
+
+            last = j
+
+        out.append(s[last:])
+        s2 = ''.join(out)
+
+        # --- NEW: global cleanup so there are NO spaces touching a newline ---
+        # " \n" -> "\n" and "\n " -> "\n"
+        s2 = re.sub(r'[ \t]*\n[ \t]*', '\n', s2)
+
+        # Never end with a newline
+        s2 = s2.rstrip('\n')
+
+        return s2
 
     for message in messages:
         parts = make_list(message["value"])
@@ -246,7 +287,7 @@ def extract_media(
             idx = next_local_idx
             next_local_idx += 1
             try:
-                local_sound_lengths[idx] = len(snd) # len(snd) is num windows
+                local_sound_lengths[idx] = len(snd)  # number of windows for this sound occurrence
             except Exception:
                 local_sound_lengths[idx] = 1
             return idx
@@ -270,14 +311,14 @@ def extract_media(
         text_out: List[str] = []
 
         def _strip_literal_media_tokens(s: str) -> str:
-            # keep this ONLY for legacy mode
+            # used only in legacy mode (no placeholders)
             for tok in MEDIA_TOKENS.values():
                 if tok in s:
                     s = s.replace(tok, "")
             return s
 
         if has_placeholder:
-            # --- PLACEHOLDER MODE: DO NOT STRIP; directly replace placeholders ---
+            # PLACEHOLDER MODE: replace <sound> / <sound-k> with repeated tokens (no stripping)
             consumed = set()
             next_implicit = 1
 
@@ -293,23 +334,21 @@ def extract_media(
                 return ret
 
             def _replace_placeholders(s: str) -> str:
-                # IMPORTANT: no stripping here, we need the literal <sound> tags
                 def _sub_fn(m: re.Match) -> str:
                     g = m.group(1)
                     if g is not None:
                         k = int(g)
                         n = local_sound_lengths.get(k, 0)
-                        if n <= 0:  # unknown index → drop placeholder
+                        if n <= 0:
                             return ""
                         consumed.add(k)
                         return MEDIA_TOKENS["sound"] * n
                     else:
                         k = _consume_next_unconsumed()
                         if k is None:
-                            return ""  # nothing to bind
+                            return ""
                         n = local_sound_lengths.get(k, 0)
                         return MEDIA_TOKENS["sound"] * n
-
                 return SOUND_TAG_RE.sub(_sub_fn, s)
 
             for part in parts:
@@ -317,10 +356,10 @@ def extract_media(
                     part = part[0]
                 if isinstance(part, str):
                     text_out.append(_replace_placeholders(part))
-                # Sounds/None/lists contribute via placeholders only in this mode
+                # sounds/None/lists contribute via placeholders only in this mode
 
         else:
-            # --- LEGACY MODE: strip literals from strings; insert tokens when encountering Sound ---
+            # LEGACY MODE: strip literals in strings; inject tokens when encountering Sound objects
             i_sound = 0
             for part in parts:
                 if isinstance(part, list) and part and not isinstance(part[0], Sound):
@@ -330,18 +369,18 @@ def extract_media(
                     text_out.append(_strip_literal_media_tokens(part))
                 elif isinstance(part, Sound):
                     i_sound += 1
-                    n = local_sound_lengths.get(i_sound, 0)
-                    if n > 0:
-                        text_out.append(MEDIA_TOKENS["sound"] * n)
+                    nrep = local_sound_lengths.get(i_sound, 0)
+                    if nrep > 0:
+                        text_out.append(MEDIA_TOKENS["sound"] * nrep)
                 elif isinstance(part, list):
                     for item in part:
                         if isinstance(item, Sound):
                             i_sound += 1
-                            n = local_sound_lengths.get(i_sound, 0)
-                            if n > 0:
-                                text_out.append(MEDIA_TOKENS["sound"] * n)
+                            nrep = local_sound_lengths.get(i_sound, 0)
+                            if nrep > 0:
+                                text_out.append(MEDIA_TOKENS["sound"] * nrep)
                 # None adds no text
 
-        message["value"] = "".join(text_out)
+        message["value"] = _wrap_sound_runs("".join(text_out))
 
     return media, media_meta

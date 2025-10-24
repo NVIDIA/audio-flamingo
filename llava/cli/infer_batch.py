@@ -86,7 +86,7 @@ def _autodetect_dist_env() -> Tuple[int, int, int, int, str, str]:
     e = os.environ
     world_size = int(e.get("WORLD_SIZE") or e.get("SLURM_NTASKS") or "1")
     rank = int(e.get("RANK") or e.get("SLURM_PROCID") or "0")
-    local_rank = int(29502) #e.get("LOCAL_RANK") or e.get("SLURM_LOCALID") or "0"
+    local_rank = int(e.get("LOCAL_RANK") or e.get("SLURM_LOCALID") or "0")
     local_world_size = int(e.get("LOCAL_WORLD_SIZE") or e.get("SLURM_NTASKS_PER_NODE") or "1")
     master_addr = e.get("MASTER_ADDR") or "127.0.0.1"
     master_port = e.get("MASTER_PORT") or ""

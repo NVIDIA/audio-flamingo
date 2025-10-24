@@ -454,7 +454,7 @@ class LlavaMetaForCausalLM(ABC):
 
         final_embedding[audio_to_overwrite] = (
             masked_audio_features.contiguous().reshape(-1, embed_dim).to(target_device)
-        )
+        )        
         final_attention_mask |= audio_to_overwrite
 
         position_ids = (final_attention_mask.cumsum(-1) - 1).masked_fill_((final_attention_mask == 0), 1)
@@ -1106,18 +1106,6 @@ class LlavaMetaForCausalLM(ABC):
 
                     media_meta["sound_feature_masks"] = _to_half_list(sfm)
                     media_meta["sound_embed_masks"]   = _to_half_list(sem)
-                    # sfm_list = process_sound_masks(media_meta.get("sound_feature_masks", [None] * len(sounds_in)))
-                    # sem_list = process_sound_masks(media_meta.get("sound_embed_masks",   [None] * len(sounds_in)))
-
-                    # # Ensure per-item lengths match sounds_in; pad/truncate with None if needed
-                    # def _fit_len(lst, N):
-                    #     lst = list(lst)
-                    #     if len(lst) < N:
-                    #         lst += [None] * (N - len(lst))
-                    #     return lst[:N]
-
-                    # media_meta["sound_feature_masks"] = _fit_len(sfm_list, len(sounds_in))
-                    # media_meta["sound_embed_masks"]   = _fit_len(sem_list, len(sounds_in))
 
             # Strip <sound> if this convo has no usable audio
             _strip_sound_tokens_if_no_audio(conv, media)
