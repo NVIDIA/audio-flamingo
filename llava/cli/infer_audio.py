@@ -14,7 +14,7 @@ from termcolor import colored
 
 import llava
 from llava import conversation as clib
-from llava.media import Image, Video, Sound
+from llava.media import Sound
 from llava.model.configuration_llava import JsonSchemaResponseFormat, ResponseFormat
 from peft import PeftModel
 import torch

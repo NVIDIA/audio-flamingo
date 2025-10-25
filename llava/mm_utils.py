@@ -517,14 +517,13 @@ def process_sounds(sounds, inference=False):
             expanded.append(t)                 # [1, 1, 128, 3000]
         else:
             # Keeps the window dim by slicing chunks of size 1 on dim 0
-            expanded.extend(t.split(1, dim=0)) # W × [1, 1, 128, 3000]
+            expanded.extend(t.split(1, dim=0)) # [W × [1, 1, 128, 3000]]
 
     if not expanded:
         # All None
         return None, item_mask
 
     # All tensors in `expanded` now have identical shape [1, 1, 128, 3000].
-    # Concatenate along dim 0 to get [M, 1, 1, 128, 3000] (NOT stack; stack would add an extra dim).
     stacked = torch.stack(expanded, dim=0)        # [M, 1, 1, 128, 3000]
     seg_mask = torch.ones(stacked.size(0), dtype=torch.bool)  # one True per segment
 
