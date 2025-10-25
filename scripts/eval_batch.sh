@@ -13,6 +13,7 @@ export VILA_DATASETS=audio_test
 MODEL_PATH=$1
 INFER_JSON=$2
 YAML_FILE="llava/eval/registry_audio.yaml"
+BATCH_SIZE=8
 THINK_MODE=false  # set to true if you want to enable think mode
 
 # ------------------- Helper -------------------
@@ -24,7 +25,7 @@ get_tasks_from_yaml() {
 if [[ -n "$INFER_JSON" && -f "$INFER_JSON" ]]; then
     echo "Running single evaluation with infer_json: $INFER_JSON"
     TASK=$(basename "$INFER_JSON" .json)
-    sh scripts/eval/eval_audio_batch.sh "$MODEL_PATH" auto "$TASK" "$THINK_MODE" "$INFER_JSON"
+    sh scripts/eval/eval_audio_batch.sh "$MODEL_PATH" auto "$TASK" "$THINK_MODE" "$INFER_JSON" "$BATCH_SIZE"
 else
     echo "No infer_json provided. Running all tasks from: $YAML_FILE"
     for TASK in $(get_tasks_from_yaml); do

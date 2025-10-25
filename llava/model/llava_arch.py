@@ -814,41 +814,65 @@ class LlavaMetaForCausalLM(ABC):
         generation_config: Optional[GenerationConfig] = None,
         response_format: Optional[ResponseFormat] = None,
     ) -> str:
-        # TODO(zhijianl): Support directly taking conversation as input
+        # Single conversation
         conversation = [{"from": "human", "value": prompt}]
 
-        # Convert response format to logits processor
-        if response_format:
-            xgr_logits_processor = self.get_xgr_logits_processor(response_format)
-        else:
-            xgr_logits_processor = None
+        # Optional structured gen
+        xgr_logits_processor = self.get_xgr_logits_processor(response_format) if response_format else None
 
-        # Extract media from the conversation
-
-        # TODO (extract and preprocess should be done together, as the preprocess of image and video can be different, i.e. when dynamic res is used)
+        # Extract media (+ meta)
         media, media_meta = extract_media(conversation, self.config)
 
-        # Process media
-        media_config = defaultdict(dict)
-        for name in media:
-            if name == "sound":
-                sounds = process_sounds(media["sound"]).half()         
-                media[name] = [sound for sound in sounds]
-                sound_feature_masks = process_sound_masks(media_meta["sound_feature_masks"]).half()   
-                media_meta["sound_feature_masks"] = [sound_mask for sound_mask in sound_feature_masks]
-                sound_embed_masks = process_sound_masks(media_meta["sound_embed_masks"]).half()   
-                media_meta["sound_embed_masks"] = [sound_mask for sound_mask in sound_embed_masks]
+        # ---- helpers ----
+        def _to_half_list(x):
+            if isinstance(x, torch.Tensor):
+                items = list(torch.unbind(x, dim=0))
+                return [t.half() for t in items]
+            elif isinstance(x, (list, tuple)):
+                out = []
+                for v in x:
+                    if isinstance(v, torch.Tensor):
+                        items = list(torch.unbind(v, dim=0))
+                        out.extend([v.half() for v in items])
+                    else:
+                        out.append(v)
+                return out
             else:
-                raise ValueError(f"Unsupported media type: {name}")
-           
+                return [None] * len(sounds_in)
 
-        # Tokenize the conversation
-        input_ids = tokenize_conversation(conversation, self.tokenizer, add_generation_prompt=True).cuda().unsqueeze(0)
+        # ---- process media (single-audio only) ----
+        media_config = defaultdict(dict)
+        if "sound" not in media:
+            raise ValueError("Expected a sound input for single-audio inference.")
 
-        # Set up the generation config
+        # media["sound"] is a list (possibly length 1 containing the Sound that was chunked upstream)
+        sounds_in = media["sound"]
+
+        batch_tensor, sound_mask = process_sounds(sounds_in, inference=True)
+
+        if batch_tensor is None or batch_tensor.shape[0] == 0:
+            raise ValueError("No valid audio windows found for inference.")
+
+        # Convert stacked [N, ...] -> list of N tensors (half)
+        media["sound"] = _to_half_list(batch_tensor)
+
+        # Feature/embed masks -> ensure list-of-tensors (half) aligned to N
+        N = batch_tensor.shape[0]
+        sfm_raw = process_sound_masks(media_meta.get("sound_feature_masks", [None] * N))
+        sem_raw = process_sound_masks(media_meta.get("sound_embed_masks",   [None] * N))
+
+        media_meta["sound_feature_masks"] = _to_half_list(sfm_raw)
+        media_meta["sound_embed_masks"]   = _to_half_list(sem_raw)
+
+        # Tokenize (left as-is)
+        input_ids = tokenize_conversation(
+            conversation, self.tokenizer, add_generation_prompt=True
+        ).cuda().unsqueeze(0)
+
+        # Generation config
         generation_config = generation_config or self.default_generation_config
 
-        # Generate the response
+        # Generate
         try:
             output_ids = self.generate(
                 input_ids=input_ids,
@@ -856,12 +880,11 @@ class LlavaMetaForCausalLM(ABC):
                 media_config=media_config,
                 media_meta=media_meta,
                 generation_config=generation_config,
-                logits_processor=xgr_logits_processor,  # structured generation
+                logits_processor=xgr_logits_processor,
             )
         except ValueError:
             if not generation_config.do_sample:
                 raise
-            # FIXME(zhijianl): This is a temporary workaround for the sampling issue
             logging.warning("Generation failed with sampling, retrying with greedy decoding.")
             generation_config.do_sample = False
             output_ids = self.generate(
@@ -873,147 +896,9 @@ class LlavaMetaForCausalLM(ABC):
                 logits_processor=xgr_logits_processor,
             )
 
-        # Decode the response
+        # Decode
         response = self.tokenizer.decode(output_ids[0], skip_special_tokens=True).strip()
         return response
-
-    @torch.inference_mode()
-    def generate_content_batch(
-        self,
-        prompt: Union[str, List[str]],
-        generation_config: Optional[GenerationConfig] = None,
-        response_format: Optional[ResponseFormat] = None,
-    ) -> Union[str, List[str]]:
-        # Normalize input to list
-        is_single_input = False
-        if isinstance(prompt, str):
-            prompt = [prompt]
-            is_single_input = True
-
-        # Convert response format to logits processor
-        xgr_logits_processor = (
-            self.get_xgr_logits_processor(response_format) if response_format else None
-        )
-
-        # Prepare conversations
-        conversations = [[{"from": "human", "value": p}] for p in prompt]
-
-        # Extract and process media for each conversation (if needed)
-     
-        responses= []
-
-        for conv in conversations:
-            media, media_meta = extract_media(conv, self.config)
-            media_config = defaultdict(dict)
-
-            if media is None:
-                continue
-
-            for name in list(media.keys()):
-                if name != "sound":
-                    raise ValueError(f"Unsupported media type: {name}")
-
-                sounds_in = media.get("sound", None)
-
-                # If the key is missing or not a list, normalize to an empty list
-                if sounds_in is None:
-                    media["sound"] = []
-                    media_meta["sound_mask"] = torch.tensor([], dtype=torch.bool)
-                    media_meta["sound_feature_masks"] = []
-                    media_meta["sound_embed_masks"] = []
-                    continue
-
-                # Process sounds -> (batch_tensor_or_None, mask[bool])
-                batch_tensor, sound_mask = process_sounds(sounds_in, inference=True)
-
-                # No valid audio in this conversation
-                if batch_tensor is None:
-                    N = len(sounds_in)
-                    media["sound"] = [None] * N
-                    media_meta["sound_mask"] = torch.zeros(N, dtype=torch.bool)
-                    media_meta["sound_feature_masks"] = [None] * N
-                    media_meta["sound_embed_masks"] = [None] * N
-                    continue
-
-                # There is at least one valid audio: split batch back to per-item list
-                # Align with mask so that missing entries stay as None
-                # batch_tensor: [N, ...]; sound_mask: [N]
-                per_item_sounds = [None] * len(sounds_in)
-                # Unbind along batch dim to per-item tensors
-                per_item_tensors = list(torch.unbind(batch_tensor, dim=0))
-                ti = 0
-                for i, has_audio in enumerate(sound_mask.tolist()):
-                    if has_audio:
-                        per_item_sounds[i] = per_item_tensors[ti].half()
-                        ti += 1
-                    else:
-                        per_item_sounds[i] = None
-
-                media["sound"] = per_item_sounds
-                media_meta["sound_mask"] = sound_mask  # keep for later prefix logic
-
-                # Process meta masks only if any audio exists; otherwise return aligned Nones
-                # Assumes process_sound_masks can take a list with some None entries.
-                sfm = process_sound_masks(media_meta.get("sound_feature_masks", [None] * len(sounds_in)))
-                sem = process_sound_masks(media_meta.get("sound_embed_masks",   [None] * len(sounds_in)))
-
-                # Convert to half if tensors, keep None where missing. Ensure lists (per-item).
-                def _to_half_list(x):
-                    if isinstance(x, torch.Tensor):
-                        # Split batch to per-item
-                        items = list(torch.unbind(x, dim=0))
-                        return [t.half() for t in items]
-                    elif isinstance(x, (list, tuple)):
-                        out = []
-                        for v in x:
-                            if isinstance(v, torch.Tensor):
-                                out.append(v.half())
-                            else:
-                                out.append(v)  # None or other passthrough
-                        return out
-                    else:
-                        # Fallback: replicate/align length
-                        return [None] * len(sounds_in)
-
-                media_meta["sound_feature_masks"] = _to_half_list(sfm)
-                media_meta["sound_embed_masks"]   = _to_half_list(sem)
-
-            # Tokenize the conversation
-            input_ids = tokenize_conversation(conv, self.tokenizer, add_generation_prompt=True).cuda().unsqueeze(0)
-
-            # Set up the generation config
-            generation_config = generation_config or self.default_generation_config
-
-            # Generate the response
-            try:
-                output_ids = self.generate(
-                    input_ids=input_ids,
-                    media=media,
-                    media_config=media_config,
-                    media_meta=media_meta,
-                    generation_config=generation_config,
-                    logits_processor=xgr_logits_processor,  # structured generation
-                )
-            except ValueError:
-                if not generation_config.do_sample:
-                    raise
-                # FIXME(zhijianl): This is a temporary workaround for the sampling issue
-                logging.warning("Generation failed with sampling, retrying with greedy decoding.")
-                generation_config.do_sample = False
-                output_ids = self.generate(
-                    input_ids=input_ids,
-                    media=media,
-                    media_config=media_config,
-                    media_meta=media_meta,
-                    generation_config=generation_config,
-                    logits_processor=xgr_logits_processor,
-                )
-
-            # Decode the response
-            response = self.tokenizer.decode(output_ids[0], skip_special_tokens=True).strip()
-            responses.append(response)
-        
-        return responses[0] if is_single_input else responses
 
     @torch.inference_mode()
     def generate_content_batched(

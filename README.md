@@ -93,14 +93,19 @@ Each folder is self-contained and we expect no cross dependencies between these 
 
 ## Minimal Inference Script
 
-To infer Audio Flamingo 3 on a JSON file (for example, `static/mmar.json`), run the command below:
+To infer Audio Flamingo 3 on a JSON file (example below in the Training Details section), run the command below:
+
+```bash
+sh scripts/eval_batch.sh /path/to/model/ /path/to/json/
+```
+The script will automatically detect the number of GPUs in your system and parallelize generation across all GPUs available. The default batch size is 8. If you want to change that or say run the model in `thinking mode`, modify the variables in `scripts/eval_batch.sh`. The scripts take more fine-grained arguments which can be modified as well.
+
+In case the above does not work for you, feel free to fall back to our legacy inference pipeline. Create your JSON in the format of `static/mmar.json` and run the command below:
 
 ```bash
 torchrun --nproc-per-node=$NGPU  llava/cli/infer_batch.py --model-base nvidia/audio-flamingo-3 --json-path /path/to/json/ --output-dir /path/to/output/
 ```
-where `$NGPU` is 1 if you want to use a single GPU or 8 if you want to use multiple GPUs for inference. You can also adjust the batch size by adding `--batch-size 1` to the command above.
-
-Add the argument `--think-mode` to run in thinking mode (with Stage 3.5 weights). 
+where `$NGPU` is 1 if you want to use a single GPU or 8 if you want to use multiple GPUs for inference. You can also adjust the batch size by adding `--batch-size 1` to the command above. Add the argument `--think-mode` to run in thinking mode (with Stage 3.5 weights).
 
 ## Single Audio Inference
 
@@ -128,7 +133,7 @@ python llava/eval/app.py
 ## Training Details
 
 Scripts for different stages of training are in the `scripts/stagex_af3.sh` folder. Replace the LLM pre-trained checkpoint with `Qwen-2.5-7B-Instruct` or your previoulsy trained `stagex` checkpoint (line 9), paths to data mixture (line 12) and path to the sound tower `AF-Whisper` (line 32) in the respective bash files.
-Prepare training json data files in the format below:
+Prepare training json data files in the format below (examples for single audio, multi-audio and text-only instances respectively):
 ```json
 [
   {
@@ -148,12 +153,25 @@ Prepare training json data files in the format below:
   },
   {
     "id": "ID2",
-    "sound": "Path to the wav file.",
+    "sound": ["Path to the wav file 1.", "Path to the wav file 2."],
     "duration": "The duration in floating point.",
     "conversations": [
       {
         "from": "human",
-        "value": "<sound>\nThe Question."
+        "value": "How is <sound-1> different from <sound-2>?"
+      },
+      {
+        "from": "gpt",
+        "value": "The Answer."
+      }
+    ]
+  },
+  {
+    "id": "ID3",
+    "conversations": [
+      {
+        "from": "human",
+        "value": "How many countries are there in the world?"
       },
       {
         "from": "gpt",
