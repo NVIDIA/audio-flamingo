@@ -326,9 +326,6 @@ def train():
     ## extra configurations
     prepare_config_for_training(config, model_args, training_args, data_args)
 
-    if training_args.use_one_logger:
-        one_logger_callback_utils.on_model_init_start()
-
     model = model_cls(
         config=config,
         attn_implementation="flash_attention_2",
@@ -337,8 +334,6 @@ def train():
         **bnb_model_from_pretrained_args,
     )
 
-    if training_args.use_one_logger:
-        one_logger_callback_utils.on_model_init_end()
 
     if not resume_path or training_args.lora_enable:
         if model_args.mlp_path is not None:
@@ -588,15 +583,9 @@ def train():
             data_collator=data_collator,
         )
     else:
-        if training_args.use_one_logger:
-            newLLaVATrainer = hook_trainer_cls(LLaVATrainer, one_logger_callback_utils=one_logger_callback_utils)
-            trainer = newLLaVATrainer(
-                model=model, tokenizer=tokenizer, args=training_args, callbacks=callbacks, **data_module
-            )
-        else:
-            trainer = LLaVATrainer(
-                model=model, tokenizer=tokenizer, args=training_args, callbacks=callbacks, **data_module
-            )
+        trainer = LLaVATrainer(
+            model=model, tokenizer=tokenizer, args=training_args, callbacks=callbacks, **data_module
+        )
 
         if model_args.quantize_model in ["fp8Activation_qwen2", "fp8ActivationResidual_qwen2"]:
             from llava.model.coat.fp8_trainer import CoatFP8Trainer
@@ -628,8 +617,6 @@ def train():
     model.config.resume_path = model.config._name_or_path = training_args.output_dir
     ## TODO handle lora for new initialization
     if training_args.lora_enable:
-        if training_args.use_one_logger:
-            one_logger_callback_utils.on_save_checkpoint_start(global_step=trainer.state.global_step)
         state_dict = get_peft_state_maybe_zero_3(model.named_parameters(), training_args.lora_bias)
         non_lora_state_dict = get_peft_state_non_lora_maybe_zero_3(model.named_parameters())
         if training_args.local_rank == 0 or training_args.local_rank == -1:
@@ -639,14 +626,8 @@ def train():
                 non_lora_state_dict,
                 os.path.join(training_args.output_dir, "non_lora_trainables.bin"),
             )
-        if training_args.use_one_logger:
-            one_logger_callback_utils.on_save_checkpoint_success(global_step=trainer.state.global_step)
-            one_logger_callback_utils.on_save_checkpoint_end(global_step=trainer.state.global_step)
     else:
         safe_save_model_for_hf_trainer(trainer=trainer, output_dir=training_args.output_dir)
-
-    if training_args.use_one_logger:
-        one_logger_callback_utils.on_app_end()
 
 
 if __name__ == "__main__":
