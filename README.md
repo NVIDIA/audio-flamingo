@@ -105,17 +105,19 @@ In case the above does not work for you, feel free to fall back to our legacy in
 ```bash
 torchrun --nproc-per-node=$NGPU  llava/cli/infer_batch.py --model-base nvidia/audio-flamingo-3 --json-path /path/to/json/ --output-dir /path/to/output/
 ```
-where `$NGPU` is 1 if you want to use a single GPU or 8 if you want to use multiple GPUs for inference. You can also adjust the batch size by adding `--batch-size 1` to the command above. Add the argument `--think-mode` to run in thinking mode (with Stage 3.5 weights).
+where `$NGPU` is 1 if you want to use a single GPU or 8 if you want to use multiple GPUs for inference. You can also adjust the batch size by adding `--batch-size 1` to the command above. Add the argument `--think-mode` to run in thinking mode (with Stage 3.5 weights) or if you want to infer the model on long audios.
+
+Note that to activate thinking mode for QAs you need to append `\nPlease think and reason about the input audio before you respond."` as a suffix to your prompt (when in `--think-mode`). This is not needed if you are just captioning long audios or do not want additional thinking before a response.
 
 ## Single Audio Inference
 
-To infer stage 3 model directly on a single audio, run the command below:
+To infer stage 3 model directly on a single (short) audio, run the command below:
 
 ```bash
 python llava/cli/infer_audio.py --model-base nvidia/audio-flamingo-3 --conv-mode auto --text "Please describe the audio in detail" --media static/audio/audio2.wav
 ```
 
-To infer the model in stage 3.5 model (thinking mode), run the command below:
+To infer the model with stage 3.5 weights (for thinking mode or for long audio inference), run the command below:
 
 ```bash
 python llava/cli/infer_audio.py --model-base nvidia/audio-flamingo-3 --conv-mode auto --text "What are the two people doing in the audio? Please think and reason about the input audio before you respond." --media static/think/audio1.wav --think-mode

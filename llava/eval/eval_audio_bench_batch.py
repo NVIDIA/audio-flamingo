@@ -348,10 +348,7 @@ def main() -> None:
             if sound is not None and (isinstance(sound, llava.Sound) or isinstance(sound, list)):
                 # Only add <sound> if no <sound> or <sound-*> tag appears anywhere
                 if not sound_tag_re.search(prompt):
-                    if args.think_mode:
-                        prompt = "<sound>\n" + prompt + "\nPlease think and reason about the input music before you respond."
-                    else:
-                        prompt = "<sound>\n" + prompt
+                    prompt = "<sound>\n" + prompt 
             # If sound is None (text-only), leave prompt as-is (even if no tag)
 
             batch_sounds.append(sound)

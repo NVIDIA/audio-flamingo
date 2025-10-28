@@ -264,10 +264,7 @@ def main() -> None:
             if sound is not None:
                 # Check if neither <sound> nor <sound-*> is present anywhere in the prompt
                 if not sound_tag_re.search(rec["prompt"]):
-                    if args.think_mode:
-                        prompt = "<sound>\n" + rec["prompt"] + "\nPlease think and reason about the input music before you respond."
-                    else:
-                        prompt = "<sound>\n" + rec["prompt"]
+                    prompt = "<sound>\n" + rec["prompt"]
                 else:
                     prompt = rec["prompt"]
             else:
