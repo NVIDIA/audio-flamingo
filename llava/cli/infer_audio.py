@@ -65,6 +65,15 @@ def main() -> None:
 
     model = llava.load(model_path, device_map=None)
     if args.think_mode:
+        if os.path.exists(os.path.join(model_think, "non_lora_trainables.bin")):
+            non_lora_trainables = torch.load(
+                os.path.join(model_think, "non_lora_trainables.bin"),
+                map_location="cpu",
+            )
+            non_lora_trainables = {
+                    (k[6:] if k.startswith("model.") else k): v for k, v in non_lora_trainables.items()
+                }
+            model.load_state_dict(non_lora_trainables, strict=False)
         model = PeftModel.from_pretrained(
             model,
             model_think,
