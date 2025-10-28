@@ -186,6 +186,15 @@ def main() -> None:
 
     model = llava.load(model_path, devices=devices)
     if args.think_mode:
+        if os.path.exists(os.path.join(model_think, "non_lora_trainables.bin")):
+            non_lora_trainables = torch.load(
+                os.path.join(model_think, "non_lora_trainables.bin"),
+                map_location="cpu",
+            )
+            non_lora_trainables = {
+                    (k[6:] if k.startswith("model.") else k): v for k, v in non_lora_trainables.items()
+                }
+            model.load_state_dict(non_lora_trainables, strict=False)
         model = PeftModel.from_pretrained(
             model,
             model_think,
@@ -255,10 +264,7 @@ def main() -> None:
             if sound is not None:
                 # Check if neither <sound> nor <sound-*> is present anywhere in the prompt
                 if not sound_tag_re.search(rec["prompt"]):
-                    if args.think_mode:
-                        prompt = "<sound>\n" + rec["prompt"] + "\nPlease think and reason about the input music before you respond."
-                    else:
-                        prompt = "<sound>\n" + rec["prompt"]
+                    prompt = "<sound>\n" + rec["prompt"]
                 else:
                     prompt = rec["prompt"]
             else:

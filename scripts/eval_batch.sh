@@ -14,7 +14,7 @@ MODEL_PATH=$1
 INFER_JSON=$2
 YAML_FILE="llava/eval/registry_audio.yaml"
 BATCH_SIZE=8
-THINK_MODE=false  # set to true if you want to enable think mode
+THINK_MODE=true  # set to true if you want to enable think mode
 
 # ------------------- Helper -------------------
 get_tasks_from_yaml() {

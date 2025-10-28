@@ -239,7 +239,6 @@ class TrainingArguments(transformers.TrainingArguments):
     lora_llm: bool = False
     lora_sot: bool = False
     dpo: bool = False
-    use_one_logger: bool = False
     longvila_sampler: bool = False
     dpo_beta: float = field(default=0.1)
     sound_mm_projector_lr: Optional[float] = None
