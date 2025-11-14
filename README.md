@@ -14,7 +14,8 @@
 In this repo, we present the **Audio Flamingo** series of advanced audio understanding Language models:
 - [Audio Flamingo: A Novel Audio Language Model with Few-Shot Learning and Dialogue Abilities](https://arxiv.org/abs/2402.01831) (ICML 2024)
 - [Audio Flamingo 2: An Audio-Language Model with Long-Audio Understanding and Expert Reasoning Abilities](https://arxiv.org/abs/2503.03983) (ICML 2025)
-- [Audio Flamingo 3: Advancing Audio Intelligence with Fully Open Large Audio Language Models](https://arxiv.org/abs/2507.08128) (arxiv)
+- [Audio Flamingo 3: Advancing Audio Intelligence with Fully Open Large Audio Language Models](https://arxiv.org/abs/2507.08128) (NeurIPS 2025, Spotlight)
+- [Music Flamingo: Scaling Music Understaning in Audio Language Models]() (arxiv)
 
 ## Audio Flamingo
 
@@ -162,6 +163,37 @@ Audio Flamingo Sound-CoT has significant improvements on the chain-of-thought (C
 
 We introduce AF-Reasoning-Eval, a sound reasoning benchmark targeting common-sense reasoning and the ability to discriminate among closely related choices. We also introduce AF-CoT-Train that contains about 1M CoT reasoning traces to advance the field of audio understanding.
 
+## Music Flamingo
+
+<div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
+  <a href=""><img src="https://img.shields.io/badge/arXiv-2503.03983-AD1C18" style="margin-right: 5px;"></a>
+  <a href="https://research.nvidia.com/labs/adlr/MF/"><img src="https://img.shields.io/badge/Demo page-228B22" style="margin-right: 5px;"></a>
+  <a href="https://github.com/NVIDIA/audio-flamingo/tree/music_flamingo"><img src='https://img.shields.io/badge/Github-Music--Flamingo-9C276A' style="margin-right: 5px;"></a>
+  <a href="https://github.com/NVIDIA/audio-flamingo/stargazers"><img src="https://img.shields.io/github/stars/NVIDIA/audio-flamingo.svg?style=social"></a>
+</div>
+
+<div align="center" style="display: flex; justify-content: center; margin-top: 10px; flex-wrap: wrap; gap: 5px;">
+  <a href="https://huggingface.co/nvidia/music-flamingo">
+    <img src="https://img.shields.io/badge/🤗-Checkpoints-ED5A22.svg">
+  </a>
+  <a href="https://huggingface.co/datasets/nvidia/MF-Skills">
+    <img src="https://img.shields.io/badge/🤗-Dataset: MF--Skills-ED5A22.svg">
+  </a>
+</div>
+
+<div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
+<a href="https://huggingface.co/spaces/nvidia/music-flamingo"><img src="https://img.shields.io/badge/🤗-Gradio Demo (7B)-5F9EA0.svg" style="margin-right: 5px;"></a>
+</div>
+
+Music Flamingo (MF) is a fully open, state-of-the-art Large Audio-Language Model (LALM) built on Audio Flamingo 3 backbone, designed to advance music (including song) understanding in foundational audio models. MF brings together innovations in:
+
+- Deep music understanding across songs and instrumentals.
+- Rich, theory-aware captions and question answering (harmony, structure, timbre, lyrics, cultural context).
+- Reasoning-centric training using chain-of-thought + reinforcement learning with custom rewards for step-by-step reasoning.
+- Long-form song reasoning over full-length, multicultural audio (extended context).
+
+Extensive evaluations confirm Music Flamingo's effectiveness, setting new benchmarks on over 10+ public music understanding and reasoning tasks.
+
 
 ## Code Structure
 
@@ -170,8 +202,11 @@ Each branch includes the individual code to train and inference Audio Flamingo.
 <div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
 <a href="https://github.com/NVIDIA/audio-flamingo/tree/legacy_audio_flamingo_1"><img src='https://img.shields.io/badge/Github-Audio Flamingo 1-9C276A' style="margin-right: 5px;"></a>
 <a href="https://github.com/NVIDIA/audio-flamingo/tree/audio_flamingo_2"><img src='https://img.shields.io/badge/Github-Audio Flamingo 2-9C276A' style="margin-right: 5px;"></a>
-<a href="https://github.com/NVIDIA/audio-flamingo/tree/audio_flamingo_3"><img src='https://img.shields.io/badge/Github-Audio Flamingo 3-9C276A' style="margin-right: 5px;"></a>
 <a href="https://github.com/NVIDIA/audio-flamingo/tree/soundCoT"><img src='https://img.shields.io/badge/Github-Audio Flamingo SoundCoT-9C276A' style="margin-right: 5px;"></a>
+</div>
+<div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
+<a href="https://github.com/NVIDIA/audio-flamingo/tree/audio_flamingo_3"><img src='https://img.shields.io/badge/Github-Audio Flamingo 3-9C276A' style="margin-right: 5px;"></a>
+<a href="https://github.com/NVIDIA/audio-flamingo/tree/music_flamingo"><img src='https://img.shields.io/badge/Github-Music Flamingo-9C276A' style="margin-right: 5px;"></a>
 </div>
 
 
@@ -225,6 +260,16 @@ Each branch includes the individual code to train and inference Audio Flamingo.
   title={Audio Flamingo Sound-CoT Technical Report: Improving Chain-of-Thought Reasoning in Sound Understanding},
   author={Kong, Zhifeng and Goel, Arushi and Santos, Joao Felipe and Ghosh, Sreyan and Valle, Rafael and Ping, Wei and Catanzaro, Bryan},
   journal={arXiv preprint arXiv:2508.11818},
+  year={2025}
+}
+```
+
+- Music Flamingo
+```
+@article{ghosh2025music,
+  title={Music Flamingo: Scaling Music Understanding in Audio Language Models},
+  author={Ghosh, Sreyan and Goel, Arushi and Koroshinadze, Lasha and Lee, Sang-gil and Kong, Zhifeng and Santos, Joao Felipe and Duraiswami, Ramani and Manocha, Dinesh and Ping, Wei and Shoeybi, Mohammad and Catanzaro, Bryan},
+  journal={arXiv preprint arXiv},
   year={2025}
 }
 ```
