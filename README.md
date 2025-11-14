@@ -10,7 +10,7 @@
 </div>
 
 <div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
-  <a href=""><img src="https://img.shields.io/badge/arXiv-2503.03983-AD1C18" style="margin-right: 5px;"></a>
+  <a href="https://arxiv.org/abs/2511.10289"><img src="https://img.shields.io/badge/arXiv-2511.10289-AD1C18" style="margin-right: 5px;"></a>
   <a href="https://research.nvidia.com/labs/adlr/MF/"><img src="https://img.shields.io/badge/Demo page-228B22" style="margin-right: 5px;"></a>
   <a href="https://github.com/NVIDIA/audio-flamingo"><img src='https://img.shields.io/badge/Github-Music Flamingo-9C276A' style="margin-right: 5px;"></a>
   <a href="https://github.com/NVIDIA/audio-flamingo/stargazers"><img src="https://img.shields.io/github/stars/NVIDIA/audio-flamingo.svg?style=social"></a>
