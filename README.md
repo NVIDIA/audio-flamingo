@@ -48,6 +48,22 @@ Music Flamingo (MF) is a fully open, state-of-the-art Large Audio-Language Model
 
 Extensive evaluations confirm Music Flamingo's effectiveness, setting new benchmarks on over 10+ public music understanding and reasoning tasks.
 
+<div align="center">
+  <img class="img-full" src="static/MF-comparison.png" width="800">
+</div>
+
+<div align="center">
+  <img class="img-full" src="static/MF-architecture.png" width="800">
+</div>
+
+<div align="center">
+  <img class="img-full" src="static/MF-donut_chart.png" width="400">
+</div>
+
+<div align="center">
+  <img class="img-full" src="static/MF-benchmarks.png" width="600">
+</div>
+
 
 
 ## Audio Flamingo 3 (NeurIPS 2025)
