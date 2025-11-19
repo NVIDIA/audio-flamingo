@@ -27,7 +27,7 @@ In this repo, we present the **Audio Flamingo** series of advanced audio underst
 </div>
 
 <div align="center" style="display: flex; justify-content: center; margin-top: 10px; flex-wrap: wrap; gap: 5px;">
-  <a href="https://huggingface.co/nvidia/music-flamingo">
+  <a href="https://huggingface.co/nvidia/music-flamingo-hf">
     <img src="https://img.shields.io/badge/🤗-Checkpoints-ED5A22.svg">
   </a>
   <a href="https://huggingface.co/datasets/nvidia/MF-Skills">
@@ -66,7 +66,7 @@ Extensive evaluations confirm Music Flamingo's effectiveness, setting new benchm
 
 
 
-## Audio Flamingo 3 (NeurIPS 2025)
+## Audio Flamingo 3 (NeurIPS 2025 Spotlight)
 
 <div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
   <a href="https://arxiv.org/abs/2507.08128"><img src="https://img.shields.io/badge/arXiv-2507.08128-AD1C18" style="margin-right: 5px;"></a>
@@ -268,11 +268,13 @@ Each branch includes the individual code to train and inference Audio Flamingo.
 
 - Audio Flamingo 3
 ```
-@article{goel2025audio,
+@inproceedings{
+  ghosh2025audio,
   title={Audio Flamingo 3: Advancing Audio Intelligence with Fully Open Large Audio Language Models},
-  author={Goel, Arushi and Ghosh, Sreyan and Kim, Jaehyeon and Kumar, Sonal and Kong, Zhifeng and Lee, Sang-gil and Yang, Chao-Han Huck and Duraiswami, Ramani and Manocha, Dinesh and Valle, Rafael and Catanzaro, Bryan},
-  journal={arXiv preprint arXiv:2507.08128},
-  year={2025}
+  author={Sreyan Ghosh and Arushi Goel and Jaehyeon Kim and Sonal Kumar and Zhifeng Kong and Sang-gil Lee and Chao-Han Huck Yang and Ramani Duraiswami and Dinesh Manocha and Rafael Valle and Bryan Catanzaro},
+  booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems},
+  year={2025},
+  url={https://openreview.net/forum?id=FjByDpDVIO}
 }
 ```
 
