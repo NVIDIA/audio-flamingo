@@ -61,4 +61,9 @@ The main training and inferencing code within each folder (```foundation/```, ``
   journal={arXiv preprint arXiv:2402.01831},
   year={2024}
 }
-```
+```@article{kong2024audio,
+  title={Audio Flamingo: A Novel Audio Language Model with Few-Shot Learning and Dialogue Abilities},
+  author={Kong, Zhifeng and Goel, Arushi and Badlani, Rohan and Ping, Wei and Valle, Rafael and Catanzaro, Bryan},
+  journal={arXiv preprint arXiv:2402.01831},
+  year={2024}
+}
