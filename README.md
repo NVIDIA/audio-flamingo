@@ -18,7 +18,7 @@
 </div>
 
 <div align="center" style="display: flex; justify-content: center; margin-top: 10px; flex-wrap: wrap; gap: 5px;">
-  <a href="https://huggingface.co/nvidia/audio-flamingo-3">
+  <a href="https://huggingface.co/nvidia/audio-flamingo-3-hf">
     <img src="https://img.shields.io/badge/🤗-Checkpoints-ED5A22.svg">
   </a>
   <a href="https://huggingface.co/nvidia/audio-flamingo-3-chat">
